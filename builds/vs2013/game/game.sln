@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2013 for Windows Desktop
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sudoku", "sudoku\sudoku.vcxproj", "{1BAE0AE4-895B-44F2-9E87-C3A36AF66636}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libzks", "..\..\..\..\libzks\builds\vs2013\libzks\libzks\libzks.vcxproj", "{54301B76-09E7-4952-9EC7-8B5535016CC7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Card", "Card\Card.vcxproj", "{AF4AB5E4-4F1A-4ADD-9BCD-7162B6C197CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BAE0AE4-895B-44F2-9E87-C3A36AF66636}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1BAE0AE4-895B-44F2-9E87-C3A36AF66636}.Debug|Win32.Build.0 = Debug|Win32
+		{1BAE0AE4-895B-44F2-9E87-C3A36AF66636}.Release|Win32.ActiveCfg = Release|Win32
+		{1BAE0AE4-895B-44F2-9E87-C3A36AF66636}.Release|Win32.Build.0 = Release|Win32
+		{54301B76-09E7-4952-9EC7-8B5535016CC7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{54301B76-09E7-4952-9EC7-8B5535016CC7}.Debug|Win32.Build.0 = Debug|Win32
+		{54301B76-09E7-4952-9EC7-8B5535016CC7}.Release|Win32.ActiveCfg = Release|Win32
+		{54301B76-09E7-4952-9EC7-8B5535016CC7}.Release|Win32.Build.0 = Release|Win32
+		{AF4AB5E4-4F1A-4ADD-9BCD-7162B6C197CE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AF4AB5E4-4F1A-4ADD-9BCD-7162B6C197CE}.Debug|Win32.Build.0 = Debug|Win32
+		{AF4AB5E4-4F1A-4ADD-9BCD-7162B6C197CE}.Release|Win32.ActiveCfg = Release|Win32
+		{AF4AB5E4-4F1A-4ADD-9BCD-7162B6C197CE}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

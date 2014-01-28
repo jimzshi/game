@@ -84,6 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\..\src\sudoku\game.txt" />
+    <Text Include="..\..\..\..\src\sudoku\game_test.txt" />
+    <Text Include="..\..\..\..\src\sudoku\game_top10.txt" />
+    <Text Include="..\..\..\..\src\sudoku\hard.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -22,15 +22,29 @@ namespace game {
 	}
 
 	std::string to_string(Sudoku::oppor_t const& o) {
-		std::string ret;
-		ret.reserve(512);
-		int i = 0;
-		for (auto g : o) {
-			ret += "(" + std::to_string(i++) + ")";
-			ret += to_string(g);
-			ret += ", ";
+		zks::u8string ret;
+		ret.reserve(2048);
+		ret += "\n";
+		for (int y = 0; y < 9; ++y) {
+			for (int x = 0; x < 9; ++x) {
+				ret.append(13, "%9s,", to_string(o[y * 9 + x]).c_str());
+			}
+			ret.append("\n");
 		}
-		return ret;
+		return ret.str();
+	}
+
+	Sudoku::Sudoku(std::string const& s) {
+		reset();
+		int cnt = 0;
+		for (auto c : s) {
+			if (c<'0' || c>'9') continue;
+			board_[cnt] = c;
+			if (++cnt == 81) break;
+		}
+		if (cnt != 81) {
+			ZKS_WARN(g_logger, "ctor", "read only %d char < 81", cnt);
+		}
 	}
 
 	Sudoku::grids_t Sudoku::set_diff(grids_t const& lh, grids_t const& rh) const {
@@ -91,25 +105,49 @@ namespace game {
 		//ZKS_TRACE(g_logger, "solver", "traverse_r_(%d)(%d,%d):%s", i, x0, y0, to_string(ret).c_str());
 		return ret;
 	}
-
-	int Sudoku::find_opportunites(int from, int to) {
-		size_t mins{ 10 };
-		int mini{ -1 };
-		bool finish_all{ true };
-		for (int i = from; i < to; ++i) {
-			opportunities_[i].clear();
-			if (board_[i] == '0') {
-				opportunities_[i] = left_digits(i);
-				finish_all = false;
-			}
-			if (opportunities_[i].size() > 0) {
-				if (opportunities_[i].size() < mins) {
-					mins = opportunities_[i].size();
-					mini = i;
-				}
+	std::set<int> Sudoku::traverse(int i) {
+		std::set<int> ret;
+		int y{ i2y_(i) }, x{ i2x_(i) }, x0{ i2x_(i) / 3 * 3 }, y0{ i2y_(i) / 3 * 3 };
+		for (int p = 0; p < 9; ++p) {
+			ret.insert(xy2i_(p, y));
+			ret.insert(xy2i_(x, p));
+		}
+		for (int dx = 0; dx < 3; ++dx) {
+			for (int dy = 0; dy < 3; ++dy) {
+				ret.insert(xy2i_(x0+dx, y0+dy));
 			}
 		}
-		return finish_all ? -2 : mini;
+		ret.erase(i);
+		return ret;
+	}
+
+	int Sudoku::rank(digit_t d, int i) {
+		int ret{ 0 };
+		auto conn = traverse(i);
+		for (auto i : conn) {
+			if (opportunities_[i].find(d) != opportunities_[i].end())  {
+				++ret;
+			}
+		}
+		return ret;
+	}
+	Sudoku::digit_t Sudoku::pop_top(grids_t& g, int i) {
+		digit_t ret;
+		if (g.size() == 1) {
+			ret = *g.begin();
+			g.clear();
+			return ret;
+		}
+		int max_rank{ -1 };
+		for (auto d : g) {
+			int r = rank(d, i);
+			if (r > max_rank) {
+				ret = d;
+				max_rank = r;
+			}
+		}
+		g.erase(ret);
+		return ret;
 	}
 
 	bool Sudoku::read(std::istream& in) {
@@ -146,11 +184,100 @@ namespace game {
 		return ret;
 	}
 
-	bool Sudoku::solve() {
+	int Sudoku::find_oppor_impl1(int from, int to) {
+		size_t mins{ 10 };
+		int mini{ -1 };
+		bool finish_all{ true };
+		for (int i = from; i < to; ++i) {
+			opportunities_[i].clear();
+			if (board_[i] == '0') {
+				opportunities_[i] = left_digits(i);
+				finish_all = false;
+			}
+			if (opportunities_[i].size() > 0) {
+				if (opportunities_[i].size() < mins) {
+					mins = opportunities_[i].size();
+					mini = i;
+				}
+			}
+		}
+		return finish_all ? -2 : mini;
+	}
+	int Sudoku::find_oppor_impl2(int from, int to) {
+		for (int i = from; i < to; ++i) {
+			opportunities_[i].clear();
+			if (board_[i] == '0') {
+				opportunities_[i] = left_digits(i);
+				if (opportunities_[i].size() == 0) {
+					return -1;
+				}
+				return i;
+			}
+		}
+		return -2;
+	}
+
+	int Sudoku::find_oppor_impl3(int from, int to) {
+		size_t mins{ 10 };
+		int mini{ -1 };
+		bool finish_all{ true };
+		std::array<int, 81> index;
+		std::array<size_t, 81> oppor_size;
+
+		for (int i = from; i < to; ++i) {
+			opportunities_[i].clear();
+			index[i] = i;
+			oppor_size[i] = 0;
+			if (board_[i] == '0') {
+				opportunities_[i] = left_digits(i);
+				oppor_size[i] = opportunities_[i].size();
+				finish_all = false;
+			}
+			if (oppor_size[i] > 0) {
+				if (oppor_size[i] < mins) {
+					mins = oppor_size[i];
+					mini = i;
+				}
+			}
+		}
+		if (finish_all) {
+			return -2;
+		}
+		if (mini < 0) {
+			return -1;
+		}
+		std::sort(index.begin(), index.end(), [&](int i, int j){
+			return oppor_size[i] < oppor_size[j];
+		});
+		auto begin = std::find_if(index.begin(), index.end(), [&](int i){
+			return oppor_size[i] > 0;
+		});
+		auto end = std::find_if(begin, index.end(), [&](int i){
+			return oppor_size[i] > mins;
+		});
+		if (std::distance(begin, end) == 1) {
+			return *(begin);
+		}
+		for (auto iter = begin; iter != end; ++iter) {
+			if (std::any_of(iter + 1, end, [&](int idx){return opportunities_[idx] == opportunities_[*iter]; })) {
+				return *iter;
+			}
+		}
+		//for (auto iter = begin; iter != end; ++iter) {
+		//	auto conn = traverse(*iter);
+		//	if (std::any_of(iter + 1, end, [&](int idx){return opportunities_[idx] == opportunities_[*iter]; })) {
+		//		return *iter;
+		//	}
+		//}
+		return *begin;
+	}
+
+	bool Sudoku::solve_impl1() {
 		LocalBackup<oppor_t> Here(opportunities_);
 		int next = find_opportunites(0, 81);
-		//ZKS_DEBUG(g_logger, "solver", "opportunites:%s", to_string(opportunities_).c_str());
-		//ZKS_DEBUG(g_logger, "solver", "next=%d, next_x=%d, next_y=%d", next, i2x_(next), i2y_(next));
+		ZKS_DEBUG(g_logger, "solver", "\nBoard:%s", str().c_str());
+		ZKS_DEBUG(g_logger, "solver", "opportunites:%s", to_string(opportunities_).c_str());
+		ZKS_DEBUG(g_logger, "solver", "next=%d, next_x=%d, next_y=%d", next, i2x_(next), i2y_(next));
 		if (next == -1) { 
 			return false;
 		}
@@ -158,14 +285,67 @@ namespace game {
 			return true;
 		}
 		for (auto t : opportunities_[next]) {
-			//ZKS_INFO(g_logger, "solver", "choose %c for (%d, %d)", t, i2x_(next), i2y_(next));
+			ZKS_INFO(g_logger, "solver", "choose %c for (%d, %d)", t, i2x_(next), i2y_(next));
 			board_[next] = t;
-			if (solve() == true) {
-				//ZKS_INFO(g_logger, "solver", "%c solve it!", t);
+			if (solve_impl1() == true) {
+				ZKS_INFO(g_logger, "solver", "%c solve it!", t);
 				return true;
 			}
-			//ZKS_INFO(g_logger, "solver", "%c failed", t);
+			ZKS_INFO(g_logger, "solver", "%c failed", t);
 		}
+		board_[next] = '0';
+		return false;
+	}
+	bool Sudoku::solve_impl2(int start) {
+		if (start<0 || start >80) {
+			return false;
+		}
+		int next = find_opportunites(start, 81);
+		ZKS_DEBUG(g_logger, "solver", "opportunites:%s", to_string(opportunities_).c_str());
+		ZKS_DEBUG(g_logger, "solver", "next=%d, next_x=%d, next_y=%d", next, i2x_(next), i2y_(next));
+		if (next == -1) {
+			return false;
+		}
+		else if (next == -2) {
+			return true;
+		}
+		for (auto t : opportunities_[next]) {
+			ZKS_INFO(g_logger, "solver", "choose %c for (%d, %d)", t, i2x_(next), i2y_(next));
+			board_[next] = t;
+			if (solve_impl2(next+1) == true) {
+				ZKS_INFO(g_logger, "solver", "%c solve it!", t);
+				return true;
+			}
+			ZKS_INFO(g_logger, "solver", "%c failed", t);
+		}
+		board_[next] = '0';
+		return false;
+	}
+
+	bool Sudoku::solve_impl3() {
+		LocalBackup<oppor_t> Here(opportunities_);
+		int next = find_opportunites(0, 81);
+		//ZKS_DEBUG(g_logger, "solver", "\nBoard:%s", str().c_str());
+		//ZKS_DEBUG(g_logger, "solver", "opportunites:%s", to_string(opportunities_).c_str());
+		//ZKS_DEBUG(g_logger, "solver", "next=%d, next_x=%d, next_y=%d", next, i2x_(next), i2y_(next));
+		if (next == -1) {
+			return false;
+		}
+		else if (next == -2) {
+			return true;
+		}
+
+		while (opportunities_[next].size()) {
+			digit_t d = pop_top(opportunities_[next], next);
+			//ZKS_INFO(g_logger, "solver", "choose %c for (%d, %d)", d, i2x_(next), i2y_(next));
+			board_[next] = d;
+			if (solve_impl3() == true) {
+				//ZKS_INFO(g_logger, "solver", "%c solve it!", d);
+				return true;
+			}
+			//ZKS_INFO(g_logger, "solver", "%c failed", d);
+		}
+
 		board_[next] = '0';
 		return false;
 	}

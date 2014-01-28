@@ -36,5 +36,14 @@
     <Text Include="..\..\..\..\src\sudoku\game.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="..\..\..\..\src\sudoku\game_top10.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="..\..\..\..\src\sudoku\game_test.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="..\..\..\..\src\sudoku\hard.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

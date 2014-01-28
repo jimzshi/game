@@ -46,10 +46,23 @@ namespace game {
 							set_union(traverse_x_(i), set_union(traverse_y_(i), traverse_r_(i)))
 							);
 		}
-		int find_opportunites(int from, int to);
+
+		std::set<int> traverse(int i);
+		int rank(digit_t d, int i);
+		digit_t pop_top(grids_t& g, int i);
+
+
+		int find_oppor_impl1(int from, int to);
+		int find_oppor_impl2(int from, int to);
+		int find_oppor_impl3(int from, int to);
+
+		bool solve_impl1();
+		bool solve_impl2(int start);
+		bool solve_impl3();
 
 	public:
 		Sudoku() { reset(); }
+		Sudoku(std::string const& s);
 		~Sudoku() {}
 
 		bool read(std::istream& in);
@@ -72,7 +85,12 @@ namespace game {
 		}
 		std::string str() const;
 
-		bool solve();
+		int find_opportunites(int from, int to) {
+			return find_oppor_impl3(from, to);
+		}
+		bool solve() {
+			return solve_impl3();
+		}
 	};
 
 

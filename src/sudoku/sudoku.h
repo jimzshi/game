@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <string>
 #include <set>
+#include <array>
 
 namespace zks {
 namespace game {
@@ -13,15 +14,21 @@ namespace game {
 	public:
 		typedef char digit_t;
 		typedef std::set<digit_t> grids_t;
+		typedef std::array<digit_t, 81> board_t;
+		typedef std::array<grids_t, 81> oppor_t;
 		static const std::string valid_chars;
 		static const grids_t full_set;
 
 	private:
-		digit_t board_[81];
+		board_t board_;
+		oppor_t opportunities_;
+
 		int xy2i_(int x, int y) const { return y % 9 * 9 + x % 9; }
 		int i2x_(int i) const { return i % 9; }
 		int i2y_(int i) const { return i / 9; }
 		grids_t set_diff(grids_t const& lh, grids_t const& rh) const;
+		grids_t set_inter(grids_t const& lh, grids_t const& rh) const;
+		grids_t set_union(grids_t const& lh, grids_t const& rh) const;
 		grids_t traverse_x_(int i) const ;
 		grids_t traverse_y_(int i) const ;
 		grids_t traverse_r_(int i) const ;
@@ -34,6 +41,12 @@ namespace game {
 		grids_t left_digits_r_(int i) const {
 			return set_diff(full_set, traverse_r_(i));
 		}
+		grids_t left_digits(int i) const {
+			return set_diff(full_set, 
+							set_union(traverse_x_(i), set_union(traverse_y_(i), traverse_r_(i)))
+							);
+		}
+		int find_opportunites(int from, int to);
 
 	public:
 		Sudoku() { reset(); }
@@ -58,6 +71,8 @@ namespace game {
 			return true;
 		}
 		std::string str() const;
+
+		bool solve();
 	};
 
 

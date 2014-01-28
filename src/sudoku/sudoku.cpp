@@ -13,11 +13,44 @@ namespace game {
 	const std::string Sudoku::valid_chars{ "0123456789" };
 	const Sudoku::grids_t Sudoku::full_set{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
+	std::string to_string(Sudoku::grids_t const& g) {
+		std::string ret;
+		for (auto c : g) {
+			ret += c;
+		}
+		return ret;
+	}
+
+	std::string to_string(Sudoku::oppor_t const& o) {
+		std::string ret;
+		ret.reserve(512);
+		int i = 0;
+		for (auto g : o) {
+			ret += "(" + std::to_string(i++) + ")";
+			ret += to_string(g);
+			ret += ", ";
+		}
+		return ret;
+	}
+
 	Sudoku::grids_t Sudoku::set_diff(grids_t const& lh, grids_t const& rh) const {
 		grids_t ret;
 		std::set_difference(lh.cbegin(), lh.cend(),
-			rh.cbegin(), rh.cend(), ret.begin(), 
-			std::inserter(ret, ret.begin()));
+			rh.cbegin(), rh.cend(), std::inserter(ret, ret.begin()));
+		return ret;
+	}
+
+	Sudoku::grids_t Sudoku::set_inter(grids_t const& lh, grids_t const& rh) const {
+		grids_t ret;
+		std::set_intersection(lh.cbegin(), lh.cend(),
+			rh.cbegin(), rh.cend(), std::inserter(ret, ret.begin()));
+		return ret;
+	}
+
+	Sudoku::grids_t Sudoku::set_union(grids_t const& lh, grids_t const& rh) const {
+		grids_t ret;
+		std::set_union(lh.cbegin(), lh.cend(),
+			rh.cbegin(), rh.cend(), std::inserter(ret, ret.begin()));
 		return ret;
 	}
 
@@ -25,20 +58,22 @@ namespace game {
 		grids_t ret;
 		digit_t d;
 		int y = i2y_(i);
-		for (int i = 0; i < 9; ++i) {
-			d = cgrid(i, y);
+		for (int p = 0; p < 9; ++p) {
+			d = cgrid(p, y);
 			ret.insert(d);
 		}
+		//ZKS_TRACE(g_logger, "solver", "traverse_x_(%d)(%d,%d):%s", i, i2x_(i), y, to_string(ret).c_str());
 		return ret;
 	}
 	Sudoku::grids_t Sudoku::traverse_y_(int i) const {
 		grids_t ret;
 		digit_t d;
 		int x = i2x_(i);
-		for (int i = 0; i < 9; ++i) {
-			d = cgrid(x, i);
+		for (int p = 0; p < 9; ++p) {
+			d = cgrid(x, p);
 			ret.insert(d);
 		}
+		//ZKS_TRACE(g_logger, "solver", "traverse_y_(%d)(%d,%d):%s", i, x, i2y_(i), to_string(ret).c_str());
 		return ret;
 	}
 
@@ -53,7 +88,28 @@ namespace game {
 				ret.insert(d);
 			}
 		}
+		//ZKS_TRACE(g_logger, "solver", "traverse_r_(%d)(%d,%d):%s", i, x0, y0, to_string(ret).c_str());
 		return ret;
+	}
+
+	int Sudoku::find_opportunites(int from, int to) {
+		size_t mins{ 10 };
+		int mini{ -1 };
+		bool finish_all{ true };
+		for (int i = from; i < to; ++i) {
+			opportunities_[i].clear();
+			if (board_[i] == '0') {
+				opportunities_[i] = left_digits(i);
+				finish_all = false;
+			}
+			if (opportunities_[i].size() > 0) {
+				if (opportunities_[i].size() < mins) {
+					mins = opportunities_[i].size();
+					mini = i;
+				}
+			}
+		}
+		return finish_all ? -2 : mini;
 	}
 
 	bool Sudoku::read(std::istream& in) {
@@ -90,6 +146,29 @@ namespace game {
 		return ret;
 	}
 
+	bool Sudoku::solve() {
+		LocalBackup<oppor_t> Here(opportunities_);
+		int next = find_opportunites(0, 81);
+		//ZKS_DEBUG(g_logger, "solver", "opportunites:%s", to_string(opportunities_).c_str());
+		//ZKS_DEBUG(g_logger, "solver", "next=%d, next_x=%d, next_y=%d", next, i2x_(next), i2y_(next));
+		if (next == -1) { 
+			return false;
+		}
+		else if (next == -2) {
+			return true;
+		}
+		for (auto t : opportunities_[next]) {
+			//ZKS_INFO(g_logger, "solver", "choose %c for (%d, %d)", t, i2x_(next), i2y_(next));
+			board_[next] = t;
+			if (solve() == true) {
+				//ZKS_INFO(g_logger, "solver", "%c solve it!", t);
+				return true;
+			}
+			//ZKS_INFO(g_logger, "solver", "%c failed", t);
+		}
+		board_[next] = '0';
+		return false;
+	}
 
 }
 }

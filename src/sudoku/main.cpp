@@ -1,4 +1,4 @@
-#include "sudoku.h"
+#include "Solver.h"
 
 #include "libzks.h"
 
@@ -12,8 +12,8 @@ using namespace std;
 zks::simlog g_logger;
 
 int solver_thread(std::string line, int i) {
-	zks::game::Sudoku s{ line };
-	ZKS_INFO(g_logger, "game", "\nGame(%d):\n%s\n", i, s.str().c_str());
+	zks::game::sudoku::BalanceSolver s{ line };
+	ZKS_INFO(g_logger, "game", "\nGame(%d):\n%s\n", i, s.board_str().c_str());
 	zks::StopWatch sw;
 	zks::u8string buff;
 	buff.format(128, "game(%d) start", i);
@@ -21,7 +21,7 @@ int solver_thread(std::string line, int i) {
 	bool ret = s.solve();
 	buff.format(128, "game(%d) finished", i);
 	sw.tick(buff);
-	ZKS_INFO(g_logger, "game", "\nSolution(%d):\n%s\n", i, s.str().c_str());
+	ZKS_INFO(g_logger, "game", "\nSolution(%d):\n%s\n", i, s.board_str().c_str());
 	ZKS_INFO(g_logger, "stat", "%s", sw.u8str().data());
 	return ret;
 }

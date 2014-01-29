@@ -61,14 +61,15 @@ namespace sudoku{
 	template<int GRADE_ = 3>
 	Selection traverse_index(Index idx) {
 		Selection ret;
-		Index y{ i2y(idx) }, x{ i2x(idx) }, x0{ i2x(idx) / GRADE_ * GRADE_ }, y0{ i2y(idx) / GRADE_ * GRADE_ };
+		Index y{ i2y<GRADE_>(idx) }, x{ i2x<GRADE_>(idx) };
+		Index x0{ i2x<GRADE_>(idx) / GRADE_ * GRADE_ }, y0{ i2y<GRADE_>(idx) / GRADE_ * GRADE_ };
 		for (int p = 0; p < GridLength<GRADE_>::v; ++p) {
-			ret.insert(xy2i(p, y));
-			ret.insert(xy2i(x, p));
+			ret.insert(xy2i<GRADE_>(p, y));
+			ret.insert(xy2i<GRADE_>(x, p));
 		}
 		for (int dx = 0; dx < GRADE_; ++dx) {
 			for (int dy = 0; dy < GRADE_; ++dy) {
-				ret.insert(xy2i(x0 + dx, y0 + dy));
+				ret.insert(xy2i<GRADE_>(x0 + dx, y0 + dy));
 			}
 		}
 		//ret.erase(idx);
@@ -81,14 +82,14 @@ namespace sudoku{
 
 		Set<value_type> traverse(Index idx) const {
 			Set<value_type> ret;
-			for (auto idx : traverse_index(idx)){
+			for (auto idx : traverse_index<GRADE_>(idx)){
 				ret.insert(at(idx));
 			}
 			return ret;
 		}
 
-		value_type & grid(Index x, Index y) { return at(xy2i(x, y)); }
-		value_type const& grid(Index x, Index y) const { return at(xy2i(x, y)); }
+		value_type & grid(Index x, Index y) { return at(xy2i<GRADE_>(x, y)); }
+		value_type const& grid(Index x, Index y) const { return at(xy2i<GRADE_>(x, y)); }
 	};
 
 	template<typename _Tp, int GRADE_>

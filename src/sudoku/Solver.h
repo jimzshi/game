@@ -45,7 +45,7 @@ namespace sudoku {
 		BrutalSolver() : ISolver() {}
 		BrutalSolver(std::string const& s) : ISolver(s) {}
 		virtual ~BrutalSolver() {}
-
+	protected:
 		virtual int find_oppor_impl(index_t from, index_t to);
 		virtual bool solve_impl(index_t start);
 	};
@@ -55,7 +55,7 @@ namespace sudoku {
 		GreedySolver() : ISolver() {}
 		GreedySolver(std::string const& s) : ISolver(s) {}
 		virtual ~GreedySolver() {}
-
+	protected:
 		virtual int find_oppor_impl(index_t from, index_t to);
 		virtual bool solve_impl(index_t start);
 	};
@@ -65,7 +65,7 @@ namespace sudoku {
 		BalanceSolver() : ISolver() {}
 		BalanceSolver(std::string const& s) : ISolver(s) {}
 		virtual ~BalanceSolver() {}
-
+	protected:
 		virtual int find_oppor_impl(index_t from, index_t to);
 		virtual bool solve_impl(index_t start);
 	};

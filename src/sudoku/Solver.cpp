@@ -12,14 +12,9 @@ namespace game {
 namespace sudoku {
 
 	int ISolver::rank(digit_t d, index_t i) {
-		int ret{ 0 };
 		auto conn = traverse_index(i);
-		for (auto i : conn) {
-			if (opportunities_[i].find(d) != opportunities_[i].end())  {
-				++ret;
-			}
-		}
-		return ret;
+		return (int)std::count_if(conn.cbegin(), conn.cend(),
+			[&](index_t idx) { return opportunities_[idx].find(d) != opportunities_[idx].end(); });
 	}
 	ISolver::digit_t ISolver::pop_top(choice_t& g, index_t i) {
 		digit_t ret;
@@ -28,14 +23,10 @@ namespace sudoku {
 			g.clear();
 			return ret;
 		}
-		int max_rank{ -1 };
-		for (auto d : g) {
-			int r = rank(d, i);
-			if (r > max_rank) {
-				ret = d;
-				max_rank = r;
-			}
-		}
+		
+		ret = *std::max_element(g.begin(), g.end(),
+					[&](digit_t lh, digit_t rh){ return rank(lh, i) < rank(rh, i); });
+
 		g.erase(ret);
 		return ret;
 	}
@@ -184,9 +175,9 @@ namespace sudoku {
 	bool BalanceSolver::solve_impl(int start) {
 		LocalBackup<oppor_t> Here(opportunities_);
 		int next = find_opportunites(0, 81);
-		ZKS_DEBUG(g_logger, "solver", "\nBoard:%s", board_str().c_str());
-		ZKS_DEBUG(g_logger, "solver", "opportunites:%s", oppor_str().c_str());
-		ZKS_DEBUG(g_logger, "solver", "next=%d, next_x=%d, next_y=%d", next, i2x(next), i2y(next));
+		//ZKS_DEBUG(g_logger, "solver", "\nBoard:%s", board_str().c_str());
+		//ZKS_DEBUG(g_logger, "solver", "opportunites:%s", oppor_str().c_str());
+		//ZKS_DEBUG(g_logger, "solver", "next=%d, next_x=%d, next_y=%d", next, i2x(next), i2y(next));
 		if (next == -1) {
 			return false;
 		}
@@ -196,13 +187,13 @@ namespace sudoku {
 
 		while (opportunities_[next].size()) {
 			digit_t d = pop_top(opportunities_[next], next);
-			ZKS_DEBUG(g_logger, "solver", "choose %c for (%d, %d)", d, i2x(next), i2y(next));
+			//ZKS_DEBUG(g_logger, "solver", "choose %c for (%d, %d)", d, i2x(next), i2y(next));
 			board_[next] = d;
 			if (solve_impl(next + 1) == true) {
-				ZKS_DEBUG(g_logger, "solver", "%c solve it!", d);
+				//ZKS_DEBUG(g_logger, "solver", "%c solve it!", d);
 				return true;
 			}
-			ZKS_DEBUG(g_logger, "solver", "%c failed", d);
+			//ZKS_DEBUG(g_logger, "solver", "%c failed", d);
 		}
 
 		board_[next] = '0';

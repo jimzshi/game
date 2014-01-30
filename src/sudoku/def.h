@@ -15,8 +15,8 @@ namespace sudoku{
 
 	using std::to_string;
 
-	template<typename Tp_>
-	using Set = std::set<Tp_>;
+	template<typename _Tp>
+	using Set = std::set<_Tp>;
 
 	template<typename _Tp>
 	inline Set<_Tp> set_diff(Set<_Tp> const& lh, Set<_Tp> const& rh) {

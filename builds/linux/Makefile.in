@@ -1,0 +1,30 @@
+CXX=clang++ -std=c++1y -stdlib=libc++
+CXXFLAG=-g -O2 -fPIC -finline-functions -Wall -W -Wshadow -Wpointer-arith \
+	   -Wcast-qual -Wwrite-strings -Werror -Wno-unused-parameter \
+	   -Wno-unused-function -Woverloaded-virtual
+AR=ar
+LD=$(CXX)
+LDFLAG=
+RM=rm -rf
+MKDIR=mkdir -p
+
+
+GIT_ROOT=../../..
+
+LIBZKS_ROOT=$(GIT_ROOT)/libzks
+LIBZKS_BUILD=$(LIBZKS_ROOT)/builds/linux/output
+LIBZKS_INC=$(LIBZKS_BUILD)/include
+LIBZKS_LIB=$(LIBZKS_BUILD)/lib
+LIBZKS_CXXFLAG=-I$(LIBZKS_INC)
+LIBZKS_LDFLAG=-L$(LIBZKS_LIB) -lzks -lpthread
+
+ROOT=$(GIT_ROOT)/game
+ROOT_SRC=$(ROOT)/src
+TEST_DIR=$(ROOT)/unittest
+OUTPUT_DIR=output
+OUTPUT_INC=$(OUTPUT_DIR)/include
+OUTPUT_LIB=$(OUTPUT_DIR)/lib
+OUTPUT_ETC=$(OUTPUT_DIR)/etc
+OUTPUT_BIN=$(OUTPUT_DIR)/bin
+OUTPUT_DOC=$(OUTPUT_DIR)/doc
+BUILD_DIR=build

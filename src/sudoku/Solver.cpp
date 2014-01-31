@@ -11,9 +11,9 @@ namespace zks {
 namespace game {
 namespace sudoku {
 
-	int ISolver::rank(digit_t d, index_t i) {
+	int ISolver::rank(digit_t d, index_t idx) {
 		int ret{ 0 };
-		auto conn = traverse_index(i);
+		auto conn = traverse_index(idx);
 		for (auto i : conn) {
 			if (opportunities_[i].find(d) != opportunities_[i].end())  {
 				++ret;
@@ -62,7 +62,7 @@ namespace sudoku {
 
 
 	bool BrutalSolver::solve_impl(int start) {
-		start;
+		++start;
 		LocalBackup<oppor_t> Here(opportunities_);
 		int next = find_opportunites(0, 81);
 		ZKS_DEBUG(g_logger, "solver", "\nBoard:%s", board_str().c_str());

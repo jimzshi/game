@@ -20,10 +20,11 @@ namespace sudoku {
 		return ret;
 	}
 
-	ISudoku::ISudoku(std::string const& s) {
-		reset();
+	void ISudoku::reset() { 
+		for (auto& c : board_) 
+			c = '0';
 		int cnt = 0;
-		for (auto c : s) {
+		for (auto c : puzzle_) {
 			if (c<'0' || c>'9') continue;
 			board_[cnt] = c;
 			if (++cnt == 81) break;
@@ -33,7 +34,6 @@ namespace sudoku {
 		}
 	}
 
-	void ISudoku::reset() { for (auto& c : board_) c = '0'; }
 	bool ISudoku::read(std::istream& in) {
 		size_t cnt{ 0 };
 		char c;

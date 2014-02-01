@@ -38,6 +38,8 @@ namespace sudoku {
 		}
 		using ISudoku::board_str;
 		using ISudoku::oppor_str;
+		using ISudoku::puzzle_str;
+		using ISudoku::solution_str;
 	};
 
 	class BrutalSolver : public ISolver {
@@ -68,6 +70,19 @@ namespace sudoku {
 	protected:
 		virtual int find_oppor_impl(index_t from, index_t to);
 		virtual bool solve_impl(index_t start);
+	};
+
+	class CountSolver : public BalanceSolver {
+	public:
+		CountSolver() : CountSolver("") {}
+		CountSolver(std::string const& s) : BalanceSolver(s), count_(0) {}
+		virtual ~CountSolver() {}
+
+		int count_solve() { solve_impl(0); return count_; }
+		int count() const { return count_; }
+	protected:
+		virtual bool solve_impl(index_t start);
+		int count_;
 	};
 
 }

@@ -200,7 +200,31 @@ namespace sudoku {
 		return false;
 	}
 
+	bool CountSolver::solve_impl(int start) {
+		LocalBackup<oppor_t> Here(opportunities_);
+		int next = find_opportunites(0, 81);
+		//ZKS_DEBUG(g_logger, "solver", "\nBoard:%s", board_str().c_str());
+		//ZKS_DEBUG(g_logger, "solver", "opportunites:%s", oppor_str().c_str());
+		//ZKS_DEBUG(g_logger, "solver", "next=%d, next_x=%d, next_y=%d", next, i2x(next), i2y(next));
+		if (next == -1) {
+			return false;
+		}
+		else if (next == -2) {
+			++count_;
+			ZKS_DEBUG(g_logger, "solver", "solution(%d): %s", count_, board_str().c_str());
+			return false;
+		}
 
+		while (opportunities_[next].size()) {
+			digit_t d = pop_top(opportunities_[next], next);
+			//ZKS_DEBUG(g_logger, "solver", "choose %c for (%d, %d)", d, i2x(next), i2y(next));
+			board_[next] = d;
+			solve_impl(next + 1);
+		}
+		board_[next] = '0';
+
+		return false;
+	}
 
 }
 }

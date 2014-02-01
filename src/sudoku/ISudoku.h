@@ -22,14 +22,15 @@ namespace sudoku {
 
 		static const choice_t full_set;
 
+		std::string puzzle_;
 		board_t board_;
 		oppor_t opportunities_;
 
 	public:
-		ISudoku() { reset(); }
-		ISudoku(std::string const& s);
+		ISudoku() : ISudoku("") {}
+		ISudoku(std::string const& s) : puzzle_(s) { reset(); }
 		virtual ~ISudoku() {}
-		void reset();
+		virtual void reset();
 
 		bool read(std::istream& in);
 		bool write(std::ostream& out) const;
@@ -37,6 +38,10 @@ namespace sudoku {
 		digit_t const& cell(int x, int y) const { return board_.grid(x, y); }
 		std::string board_str() const;
 		std::string oppor_str() const;
+		std::string const& puzzle_str() const { return puzzle_;  }
+		std::string solution_str() const {
+			return std::string{ board_.begin(), board_.end() };
+		}
 	};
 
 

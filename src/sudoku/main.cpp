@@ -13,7 +13,7 @@ zks::simlog g_logger;
 
 int solver_thread(std::string line, int i) {
 	zks::game::sudoku::BalanceSolver s{ line };
-	ZKS_INFO(g_logger, "game", "\nGame(%d):%s\n", i, s.board_str().c_str());
+	ZKS_INFO(g_logger, "game", "\nGame(%d):%s", i, s.puzzle_str().c_str());
 	zks::StopWatch sw;
 	zks::u8string buff;
 	buff.format(128, "game(%d) start", i);
@@ -26,24 +26,32 @@ int solver_thread(std::string line, int i) {
 	return ret;
 }
 
-int main(int argc, char* argv[]) {
-	if (argc < 3) {
-		cerr << argv[0] << " log.ini game-file" << endl;
-		return 0;
-	}
-	g_logger.configure(argv[1]);
-	g_logger.reset();
+int count_thread(std::string line, int i) {
+	zks::game::sudoku::CountSolver s{ line };
+	ZKS_INFO(g_logger, "game", "Game(%d):%s", i, s.puzzle_str().c_str());
+	zks::StopWatch sw;
+	zks::u8string buff;
+	buff.format(128, "game(%d) start", i);
+	sw.start(buff);
+	int ret = s.count_solve();
+	buff.format(128, "game(%d) finished", i);
+	sw.tick(buff);
+	ZKS_INFO(g_logger, "game", "Solution number of game(%d): %d", i, ret);
+	ZKS_INFO(g_logger, "stat", "%s", sw.u8str().data());
+	return ret;
+}
 
-	const int MAX_THREADS = 7;
+
+template<typename TASK_, int MAX_THREADS_=7>
+int sudoku_execute(TASK_ task, char* file) {
 	std::vector<std::future<int>> res_vec;
-	//std::vector<zks::game::Sudoku> sudoku_vec;
-	
-	ifstream ifs(argv[2]);
+
+	ifstream ifs(file);
 	std::string line;
 	int lno = 0;
-	for (; lno < MAX_THREADS; ++lno) {
+	for (; lno < MAX_THREADS_; ++lno) {
 		if (std::getline(ifs, line)) {
-			res_vec.push_back(std::async(launch::async, solver_thread, line, lno));
+			res_vec.push_back(std::async(launch::async, task, line, lno));
 		}
 	}
 	g_logger.flush();
@@ -59,7 +67,7 @@ int main(int argc, char* argv[]) {
 				if (status == std::future_status::ready) {
 					t.get();
 					if (std::getline(ifs, line)) {
-						t = std::async(launch::async, solver_thread, line, lno++);
+						t = std::async(launch::async, task, line, lno++);
 					}
 				}
 			}
@@ -73,4 +81,15 @@ int main(int argc, char* argv[]) {
 	}
 
 	return 0;
+}
+
+int main(int argc, char* argv[]) {
+	if (argc < 3) {
+		cerr << argv[0] << " log.ini game-file" << endl;
+		return 0;
+	}
+	g_logger.configure(argv[1]);
+	g_logger.reset();
+
+	return sudoku_execute(count_thread, argv[2]);
 }

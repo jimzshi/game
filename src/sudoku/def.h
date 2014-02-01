@@ -79,24 +79,26 @@ namespace sudoku{
 	template<typename Tp_, int GRADE_ = 3>
 	struct Grid : public std::array<Tp_, GRADE_*GRADE_*GRADE_*GRADE_> {
 		static const int LEN = GridLength<GRADE_>::v;
+		using base_type = std::array<Tp_, GRADE_*GRADE_*GRADE_*GRADE_>;
+		using value_type = typename base_type::value_type;
 
 		Set<value_type> traverse(Index idx) const {
 			Set<value_type> ret;
-			for (auto idx : traverse_index<GRADE_>(idx)){
-				ret.insert(at(idx));
+			for (auto i : traverse_index<GRADE_>(idx)){
+				ret.insert(this->at(i));
 			}
 			return ret;
 		}
 
-		value_type & grid(Index x, Index y) { return at(xy2i<GRADE_>(x, y)); }
-		value_type const& grid(Index x, Index y) const { return at(xy2i<GRADE_>(x, y)); }
+		value_type & grid(Index x, Index y) { return this->at(xy2i<GRADE_>(x, y)); }
+		value_type const& grid(Index x, Index y) const { return this->at(xy2i<GRADE_>(x, y)); }
 	};
 
 	template<typename _Tp, int GRADE_>
 	std::string to_string(Grid<_Tp, GRADE_> const& g) {
 		u8string ret;
 		for (size_t i = 0; i < g.size(); ++i) {
-			ret += ret.append(GRADE_*GRADE_+13, "(%d)%s", i, to_string(g[i]))
+			ret += ret.append(GRADE_*GRADE_+13, "(%d)%s", i, to_string(g[i]));
 		}
 	}
 

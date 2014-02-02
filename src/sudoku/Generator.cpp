@@ -76,7 +76,7 @@ namespace sudoku {
 				choices.erase(choice_iter);
 				continue;
 			}
-			ZKS_DEBUG(g_logger, "generator", "too many solutions, generate recursively.");
+			ZKS_DEBUG(g_logger, "generator", "%s", "too many solutions, generate recursively.");
 			auto next_iter = left_cells_.begin();
 			std::advance(next_iter, rand_() % left_cells_.size());
 			if (generate(*next_iter) == 1) {

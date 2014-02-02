@@ -98,8 +98,9 @@ namespace sudoku{
 	std::string to_string(Grid<_Tp, GRADE_> const& g) {
 		u8string ret;
 		for (size_t i = 0; i < g.size(); ++i) {
-			ret += ret.append(GRADE_*GRADE_+13, "(%d)%s", i, to_string(g[i]));
+			ret += ret.append(GRADE_*GRADE_+13, "(%d)%s", i, to_string(g[i]).c_str());
 		}
+		return std::move(ret.str());
 	}
 
 	template<>

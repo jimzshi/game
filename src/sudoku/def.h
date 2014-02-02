@@ -102,6 +102,31 @@ namespace sudoku{
 		}
 	}
 
+	template<>
+	inline std::string to_string<>(Grid<Digit> const& g) {
+		static const std::string line{ "+-----+-----+-----+\n" };
+		std::string ret;
+		ret.reserve(line.size() * 16);
+		ret += "\n" + line;
+		for (int y = 0; y < 9; ++y) {
+			ret += "|";
+			for (int x = 0; x < 9; ++x) {
+				ret += g.grid(x, y);
+				if (x == 2 || x == 5 || x == 8) {
+					ret += "|";
+				}
+				else {
+					ret += " ";
+				}
+			}
+			ret += "\n";
+			if (y == 2 || y == 5 || y == 8) {
+				ret += line;
+			}
+		}
+		return ret;
+	}
+
 }
 }
 }

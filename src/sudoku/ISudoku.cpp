@@ -9,17 +9,6 @@ namespace sudoku {
 
 	const ISudoku::choice_t ISudoku::full_set{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
-	std::string to_string(ISudoku::choice_t const& g) {
-		std::string ret;
-		for (auto c : g) {
-			ret += c;
-		}
-		if (ret.empty()) {
-			ret = "NULL";
-		}
-		return ret;
-	}
-
 	void ISudoku::reset() { 
 		for (auto& c : board_) 
 			c = '0';
@@ -30,7 +19,7 @@ namespace sudoku {
 			if (++cnt == 81) break;
 		}
 		if (cnt != 81) {
-			ZKS_WARN(g_logger, "ctor", "read only %d char < 81", cnt);
+			ZKS_DEBUG(g_logger, "WARN", "read only %d char < 81", cnt);
 		}
 	}
 
@@ -44,36 +33,24 @@ namespace sudoku {
 		}
 		return cnt == 81 ? true : false;
 	}
-	bool ISudoku::write(std::ostream& out) const {
-		for (auto c : board_) {
-			out << c;
-		}
-		return true;
+
+	std::string ISudoku::puzzle_str_ex() const {
+		board_t tmp;
+		std::copy(puzzle_.begin(), puzzle_.end(), tmp.begin());
+		return to_string(tmp);
 	}
-	std::string ISudoku::board_str() const {
-		static const std::string line{ "+-----+-----+-----+\n" };
+
+	std::string to_string(ISudoku::choice_t const& g) {
 		std::string ret;
-		ret.reserve(line.size() * 16);
-		ret += "\n" + line;
-		for (int y = 0; y < 9; ++y) {
-			ret += "|";
-			for (int x = 0; x < 9; ++x) {
-				ret += board_.grid(x, y);
-				if (x == 2 || x == 5 || x == 8) {
-					ret += "|";
-				}
-				else {
-					ret += " ";
-				}
-			}
-			ret += "\n";
-			if (y == 2 || y == 5 || y == 8) {
-				ret += line;
-			}
+		for (auto c : g) {
+			ret += c;
+		}
+		if (ret.empty()) {
+			ret = "NULL";
 		}
 		return ret;
 	}
-	std::string ISudoku::oppor_str() const {
+	std::string ISudoku::oppor_str_ex() const {
 		static const u8string dash(29, '-');
 		static const u8string header{ "+" + dash + '+' + dash + '+' + dash + "+\n" };
 		u8string ret;
@@ -97,7 +74,6 @@ namespace sudoku {
 		}
 		return std::move(ret.str());
 	}
-
 
 }
 }

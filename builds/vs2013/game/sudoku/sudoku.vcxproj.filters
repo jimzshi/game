@@ -24,6 +24,9 @@
     <ClInclude Include="..\..\..\..\src\sudoku\ISudoku.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\src\sudoku\Generator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\sudoku\main.cpp">
@@ -33,6 +36,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\src\sudoku\ISudoku.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\sudoku\Generator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

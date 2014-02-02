@@ -69,10 +69,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\src\sudoku\def.h" />
+    <ClInclude Include="..\..\..\..\src\sudoku\Generator.h" />
     <ClInclude Include="..\..\..\..\src\sudoku\ISudoku.h" />
     <ClInclude Include="..\..\..\..\src\sudoku\Solver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\sudoku\Generator.cpp" />
     <ClCompile Include="..\..\..\..\src\sudoku\ISudoku.cpp" />
     <ClCompile Include="..\..\..\..\src\sudoku\main.cpp" />
     <ClCompile Include="..\..\..\..\src\sudoku\Solver.cpp" />

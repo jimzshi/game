@@ -31,17 +31,32 @@ namespace sudoku {
 		ISudoku(std::string const& s) : puzzle_(s) { reset(); }
 		virtual ~ISudoku() {}
 		virtual void reset();
-
+		void reset(std::string const& s) { puzzle_ = s; reset(); }
 		bool read(std::istream& in);
-		bool write(std::ostream& out) const;
-		digit_t      & cell(int x, int y) { return board_.grid(x, y); }
-		digit_t const& cell(int x, int y) const { return board_.grid(x, y); }
-		std::string board_str() const;
-		std::string oppor_str() const;
-		std::string const& puzzle_str() const { return puzzle_;  }
-		std::string solution_str() const {
+		std::ostream& write(std::ostream& out) const { 
+			out << board_str();
+			return out;
+		}
+		digit_t      & cell(index_t x, index_t y) { return board_.grid(x, y); }
+		digit_t const& cell(index_t x, index_t y) const { return board_.grid(x, y); }
+		digit_t const& operator[](index_t idx) const { return board_[idx]; }
+		digit_t      & at(index_t idx) { return board_.at(idx); }
+
+		std::string board_str() const {
 			return std::string{ board_.begin(), board_.end() };
 		}
+		std::string oppor_str() const {
+			return to_string(opportunities_);
+		}
+		std::string const& puzzle_str() const { return puzzle_; }
+
+
+		std::string board_str_ex() const {
+			return to_string(board_);
+		}
+		std::string oppor_str_ex() const;
+		std::string puzzle_str_ex() const;
+
 	};
 
 

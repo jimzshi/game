@@ -134,16 +134,23 @@ int sudoku_generate(TASK_ task, int num) {
 
 
 int main(int argc, char* argv[]) {
-	if (argc < 3) {
-		cerr << argv[0] << " log.ini game-file" << endl;
+	if (argc < 4) {
+		cerr << argv[0] << " [solve|generate|count] log.ini game-file" << endl;
 		return 0;
 	}
-	g_logger.configure(argv[1]);
+	g_logger.configure(argv[2]);
 	g_logger.reset();
 
-	//sudoku_execute(count_thread, argv[2]);
-
-	sudoku_generate(generate_thread, 10);
+	zks::u8string cmd{argv[1]};
+	cmd = cmd.tolower();
+	ZKS_INFO(g_logger, "main", "read in command: %s %s %s %s", argv[0], argv[1], argv[2], argv[3]);
+	if(cmd=="solve") {
+		sudoku_solve(solver_thread, argv[3]);
+	} else if(cmd == "generate") {
+		sudoku_generate(generate_thread, 10);
+	} else if(cmd == "count") {
+		sudoku_solve(count_thread, argv[3]);
+	}
 
 	return 0;
 }

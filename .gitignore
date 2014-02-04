@@ -172,3 +172,5 @@ $RECYCLE.BIN/
 /.settings/*
 /.cproject
 /.project
+/builds/linux/build
+/builds/linux/output

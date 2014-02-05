@@ -11,6 +11,8 @@
 #include <thread>
 #include <future>
 
+extern zks::simlog g_logger;
+
 
 namespace zks {
 namespace game {
@@ -27,12 +29,13 @@ namespace sudoku {
 		std::ifstream ifs(file);
 		if (!ifs.good()) {
 			ZKS_ERROR(g_logger, "controller", "can not open file: %s", file);
+			return -1;
 		}
 		std::string line;
 		int lno = 0;
 		for (; lno < MAX_THREADS_; ++lno) {
 			if (std::getline(ifs, line)) {
-				res_vec.push_back(std::async(launch::async, task, line, lno));
+				res_vec.push_back(std::async(std::launch::async, task, line, lno));
 			}
 		}
 		g_logger.flush();
@@ -48,7 +51,7 @@ namespace sudoku {
 					if (status == std::future_status::ready) {
 						t.get();
 						if (std::getline(ifs, line)) {
-							t = std::async(launch::async, task, line, lno++);
+							t = std::async(std::launch::async, task, line, lno++);
 						}
 					}
 				}
@@ -69,7 +72,7 @@ namespace sudoku {
 		std::vector<std::future<int>> res_vec;
 		int lno = 0;
 		for (; lno < MAX_THREADS_; ++lno) {
-			if (lno<num) res_vec.push_back(std::async(launch::async, task, lno));
+			if (lno<num) res_vec.push_back(std::async(std::launch::async, task, lno));
 			//std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
 		}
 		g_logger.flush();
@@ -84,7 +87,7 @@ namespace sudoku {
 					auto status = t.wait_for(std::chrono::milliseconds(500));
 					if (status == std::future_status::ready) {
 						t.get();
-						if (lno<num) t = std::async(launch::async, task, lno++);
+						if (lno<num) t = std::async(std::launch::async, task, lno++);
 						//std::this_thread::sleep_for(std::chrono::milliseconds(500)); 
 					}
 				}

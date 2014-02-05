@@ -1,7 +1,5 @@
 #include "worker.h"
 
-extern zks::simlog g_logger;
-
 namespace zks {
 namespace game {
 namespace sudoku{

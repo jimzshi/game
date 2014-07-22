@@ -32,30 +32,23 @@ namespace sudoku {
 	}
 
 	int BrutalSolver::find_oppor_impl(int from, int to) {
-		size_t mins{ 10 };
-		int mini{ -1 };
-		bool finish_all{ true };
 		for (int i = from; i < to; ++i) {
-			opportunities_[i].clear();
-			if (board_[i] == '0') {
-				opportunities_[i] = choices(i);
-				finish_all = false;
-			}
-			if (opportunities_[i].size() > 0) {
-				if (opportunities_[i].size() < mins) {
-					mins = opportunities_[i].size();
-					mini = i;
-				}
-			}
+            if (board_[i] != '0') {
+                continue;
+            }
+			opportunities_[i] = choices(i);
+            if (opportunities_[i].size() == 0) {
+                return -1;
+            }
+            return i;
 		}
-		return finish_all ? -2 : mini;
+		return -2;
 	}
 
 
 	int BrutalSolver::solve_impl(int start) {
-		++start;
 		LocalBackup<oppor_t> Here(opportunities_);
-		int next = find_opportunites(0, 81);
+		int next = find_opportunites(start, 81);
 		ZKS_DEBUG(g_logger, "solver", "\nBoard:%s", board_str().c_str());
 		ZKS_DEBUG(g_logger, "solver", "opportunites:%s", oppor_str().c_str());
 		ZKS_DEBUG(g_logger, "solver", "next=%d, next_x=%d, next_y=%d", next, i2x(next), i2y(next));
@@ -68,7 +61,7 @@ namespace sudoku {
 		for (auto t : opportunities_[next]) {
 			ZKS_DEBUG(g_logger, "solver", "choose %c for (%d, %d)", t, i2x(next), i2y(next));
 			board_[next] = t;
-			if (solve_impl(0) > 0) {
+			if (solve_impl(next+1) > 0) {
 				ZKS_DEBUG(g_logger, "solver", "%c solve it!", t);
 				return 1;
 			}

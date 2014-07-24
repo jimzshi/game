@@ -21,7 +21,7 @@ namespace zks {
 			protected:
 				static std::mt19937 rand_;
 				std::shared_ptr<ISolver> pSolver_;
-				Selection left_cells_;
+				//Selection left_cells_;
 
 			public:
 				static void seed_rand();

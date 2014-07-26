@@ -4,7 +4,7 @@
 #include "Solver.h"
 #include "Generator.h"
 
-#include "libzks.h"
+#include "libzks/libzks.h"
 
 #include <iostream>
 #include <fstream>

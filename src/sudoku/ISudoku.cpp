@@ -1,4 +1,4 @@
-#include "libzks.h"
+#include "libzks/libzks.h"
 #include "ISudoku.h"
 
 extern zks::simlog g_logger;

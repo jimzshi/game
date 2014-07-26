@@ -1,7 +1,7 @@
 #ifndef _ZKS_SUDOKU_DEF_H
 #define _ZKS_SUDOKU_DEF_H
 
-#include "u8string.h"
+#include "libzks/u8string.h"
 
 #include <array>
 #include <set>

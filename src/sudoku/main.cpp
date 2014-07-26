@@ -2,7 +2,7 @@
 #include "Generator.h"
 #include "worker.h"
 
-#include "libzks.h"
+#include "libzks/libzks.h"
 
 #include <iostream>
 #include <fstream>
@@ -179,9 +179,9 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size) 
     hsizer->Add(cvsizer, 0, wxALL, 10);
     hsizer->AddSpacer(5);
     txt_puzzle = new wxTextCtrl(panel, ID_BOOK_SOLVER_PUZZLE, wxEmptyString,
-        wxPoint(20, 20), wxSize(160, 240), wxTE_MULTILINE | wxTE_READONLY | wxTE_NO_VSCROLL);
+        wxPoint(20, 20), wxSize(240, 300), wxTE_MULTILINE | wxTE_READONLY | wxTE_NO_VSCROLL);
     txt_solution = new wxTextCtrl(panel, ID_BOOK_SOLVER_SOLUTION, wxEmptyString,
-        wxPoint(20, 20), wxSize(160, 240), wxTE_MULTILINE | wxTE_READONLY | wxTE_NO_VSCROLL);
+        wxPoint(20, 20), wxSize(240, 300), wxTE_MULTILINE | wxTE_READONLY | wxTE_NO_VSCROLL);
     wxFont board_font{ wxFontInfo(10).FaceName("Consolas") };
     txt_puzzle->SetFont(board_font);
     txt_solution->SetFont(board_font);

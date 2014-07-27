@@ -30,6 +30,12 @@
     <ClInclude Include="..\..\..\..\src\sudoku\worker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\src\sudoku\ISudokuFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\src\sudoku\SukokuFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\sudoku\main.cpp">
@@ -47,11 +53,13 @@
     <ClCompile Include="..\..\..\..\src\sudoku\worker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\src\sudoku\ISudokuFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\src\sudoku\simlog.ini">
-      <Filter>Source Files</Filter>
-    </None>
+    <None Include="..\..\..\..\src\sudoku\sudoku.ini" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\..\src\sudoku\game.txt">
@@ -66,5 +74,6 @@
     <Text Include="..\..\..\..\src\sudoku\hard.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="..\..\..\..\src\sudoku\CMakeLists.txt" />
   </ItemGroup>
 </Project>

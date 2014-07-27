@@ -43,9 +43,9 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 #else
-#include <wx\wxprec.h>
+#include "wx/wxprec.h"
 #ifndef WX_PRECOMP    
-#include <wx/wx.h>
+#include "wx/wx.h"
 #endif
 
 #if wxUSE_NOTEBOOK
@@ -140,12 +140,13 @@ wxIMPLEMENT_APP(MyApp);
 
 bool MyApp::OnInit()
 {
-    MyFrame *frame = new MyFrame("Hello World", wxPoint(200, 200), wxSize(650, 500));
+    MyFrame *frame = new MyFrame(wxT("Hello World"), wxPoint(200, 200), wxSize(650, 500));
     frame->Show(true);
     return true;
 }
 
-MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size) : wxFrame(NULL, wxID_ANY, title, pos, size)
+MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
+: wxFrame(NULL, wxID_ANY, title, pos, size, wxDEFAULT_FRAME_STYLE, title)
 {
     pSolver.reset(new zks::game::sudoku::BalanceSolver("200000060000075030048090100000300000300010009000008000001020570080730000090000004"));
 

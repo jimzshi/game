@@ -56,6 +56,15 @@ if(WIN32)
 	SET(wxWidgets_LIB_DIR C:/local/wxWidgets-3.0.1/lib/vc_x64_lib)
 	SET(wxWidgets_CONFIGURATION mswu)
 endif(WIN32)
-FIND_PACKAGE (wxWidgets REQUIRED net gl core base)
+
+FIND_PACKAGE (wxWidgets COMPONENTS core base)
+if(wxWidgets_FOUND)
+    INCLUDE(${wxWidgets_USE_FILE})
+    MESSAGE(STATUS "Found wxWidgets_DEFINITIONS : ${wxWidgets_DEFINITIONS}")
+    MESSAGE(STATUS "Found wxWidgets_CXX_FLAGS : ${wxWidgets_CXX_FLAGS}")
+    MESSAGE(STATUS "Found wxWidgets_LIBRARIES : ${wxWidgets_LIBRARIES}")
+    MESSAGE(STATUS "Found wxWidgets_FOUND : ${wxWidgets_FOUND}")
+endif(wxWidgets_FOUND)
+
 
 add_subdirectory (src)

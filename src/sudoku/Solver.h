@@ -44,9 +44,15 @@ namespace zks {
                 digit_t pop_top(digit_t* g, index_t x, index_t y);
 
                 int find_opportunites(int from, int to) {
+                    if (!validate()) {
+                        return -3;
+                    }
                     return find_oppor_impl(from, to);
                 }
                 int solve() {
+                    if (!validate()) {
+                        return -3;
+                    }
                     return solve_impl(0);
                 }
 
@@ -55,6 +61,7 @@ namespace zks {
                 using ISudoku::board_str;
                 using ISudoku::freq_str;
                 using ISudoku::puzzle_str;
+                using ISudoku::grid;
             };
 
             class BrutalSolver : public ISolver {

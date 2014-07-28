@@ -1,4 +1,4 @@
-#include "libzks/libzks.h"
+#include "libzks.h"
 
 #include "Solver.h"
 

@@ -1,4 +1,4 @@
-#include "libzks/libzks.h"
+#include "libzks.h"
 #include "ISudoku.h"
 
 extern zks::simlog g_logger;
@@ -12,6 +12,9 @@ namespace sudoku {
             *(&board_[0][0] + i) = 0;
         }
         int cnt = 0;
+        if (puzzle_.size() != 81) {
+            puzzle_.resize(81, '0');
+        }
         for (auto c : puzzle_) {
             if (c<'0' || c>'9') continue;
             *(&board_[0][0] + cnt) = c - '0';

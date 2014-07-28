@@ -50,6 +50,39 @@ namespace sudoku {
             }
             return freq_[x][y];
         }
+        bool validate() const {
+            digit_t checker[10];
+            for (index_t r = 0; r < 9; ++r) {
+                std::fill_n(checker, 10, 0);
+                for (index_t i = 0; i < 9; ++i) {
+                    if (board_[r][i]<0 || board_[r][i]>9 || (board_[r][i] && ++checker[board_[r][i]] > 1) ) {
+                        return false;
+                    }
+                }
+            }
+            for (index_t c = 0; c < 9; ++c) {
+                std::fill_n(checker, 10, 0);
+                for (index_t i = 0; i < 9; ++i) {
+                    if (board_[i][c]<0 || board_[i][c]>9 || (board_[i][c] && ++checker[board_[i][c]] > 1) ) {
+                        return false;
+                    }
+                }
+            }
+            digit_t d;
+            for (index_t b = 0; b < 9; ++b) {
+                std::fill_n(checker, 10, 0);
+                index_t x0(b / 3 * 3), y0((b % 3) * 3);
+                for (index_t i = 0; i < 3; ++i) {
+                    for (index_t j = 0; j < 3; ++j) {
+                        d = board_[x0 + i][y0 + j];
+                        if (d < 0 || d>9 || (d && ++checker[d] > 1)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
         int* get_freq(index_t x, index_t y) const {
             return freq_[x][y];
         }

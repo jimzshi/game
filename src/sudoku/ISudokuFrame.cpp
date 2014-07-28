@@ -38,11 +38,11 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	m_mgr.AddPane( m_splitter2, wxAuiPaneInfo() .Center() .MaximizeButton( true ).MinimizeButton( true ).PinButton( true ).Dock().Resizable().FloatingSize( wxDefaultSize ).DockFixed( false ).Floatable( false ) );
 	
-	m_workspace_panel = new wxPanel( m_splitter2, wxID_ANY, wxDefaultPosition, wxSize( -1,350 ), wxTAB_TRAVERSAL );
+	m_workspace_panel = new wxPanel( m_splitter2, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer5;
 	sbSizer5 = new wxStaticBoxSizer( new wxStaticBox( m_workspace_panel, wxID_ANY, wxT("Workspace") ), wxVERTICAL );
 	
-	m_book = new wxNotebook( m_workspace_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_book = new wxNotebook( m_workspace_panel, wxID_ANY, wxDefaultPosition, wxSize( 600,450 ), 0 );
 	m_panel16 = new wxPanel( m_book, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer( wxVERTICAL );
@@ -55,7 +55,7 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	sbSizer11->Add( m_btn_open, 0, wxALL, 5 );
 	
 	m_button5 = new wxButton( m_panel18, wxID_ANY, wxT("Sol&ve"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer11->Add( m_button5, 0, wxALL, 5 );
+	sbSizer11->Add( m_button5, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
 	m_button6 = new wxButton( m_panel18, wxID_ANY, wxT("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer11->Add( m_button6, 0, wxALL, 5 );
@@ -67,42 +67,124 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	bSizer4->Add( m_panel18, 1, wxEXPAND | wxALL, 5 );
 	
 	m_panel19 = new wxPanel( m_panel16, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* bSizer6;
-	bSizer6 = new wxBoxSizer( wxVERTICAL );
+	wxBoxSizer* bSizer3;
+	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_splitter4 = new wxSplitterWindow( m_panel19, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxSP_3D );
-	m_splitter4->Connect( wxEVT_IDLE, wxIdleEventHandler( ISudokuFrame::m_splitter4OnIdle ), NULL, this );
-	
-	m_panel21 = new wxPanel( m_splitter4, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panel21 = new wxPanel( m_panel19, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer9;
 	sbSizer9 = new wxStaticBoxSizer( new wxStaticBox( m_panel21, wxID_ANY, wxT("Puzzle") ), wxVERTICAL );
 	
-	m_puzzle_panel = new wxPanel( m_panel21, wxID_ANY, wxDefaultPosition, wxSize( 240,300 ), wxTAB_TRAVERSAL );
-	sbSizer9->Add( m_puzzle_panel, 1, wxEXPAND | wxALL, 5 );
+	m_puzzle_grid = new wxGrid( m_panel21, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	
+	// Grid
+	m_puzzle_grid->CreateGrid( 9, 9 );
+	m_puzzle_grid->EnableEditing( false );
+	m_puzzle_grid->EnableGridLines( true );
+	m_puzzle_grid->EnableDragGridSize( false );
+	m_puzzle_grid->SetMargins( 1, 1 );
+	
+	// Columns
+	m_puzzle_grid->SetColSize( 0, 26 );
+	m_puzzle_grid->SetColSize( 1, 26 );
+	m_puzzle_grid->SetColSize( 2, 26 );
+	m_puzzle_grid->SetColSize( 3, 26 );
+	m_puzzle_grid->SetColSize( 4, 26 );
+	m_puzzle_grid->SetColSize( 5, 26 );
+	m_puzzle_grid->SetColSize( 6, 26 );
+	m_puzzle_grid->SetColSize( 7, 26 );
+	m_puzzle_grid->SetColSize( 8, 26 );
+	m_puzzle_grid->EnableDragColMove( false );
+	m_puzzle_grid->EnableDragColSize( true );
+	m_puzzle_grid->SetColLabelSize( 26 );
+	m_puzzle_grid->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	
+	// Rows
+	m_puzzle_grid->SetRowSize( 0, 26 );
+	m_puzzle_grid->SetRowSize( 1, 26 );
+	m_puzzle_grid->SetRowSize( 2, 26 );
+	m_puzzle_grid->SetRowSize( 3, 26 );
+	m_puzzle_grid->SetRowSize( 4, 26 );
+	m_puzzle_grid->SetRowSize( 5, 26 );
+	m_puzzle_grid->SetRowSize( 6, 26 );
+	m_puzzle_grid->SetRowSize( 7, 26 );
+	m_puzzle_grid->SetRowSize( 8, 26 );
+	m_puzzle_grid->EnableDragRowSize( true );
+	m_puzzle_grid->SetRowLabelSize( 26 );
+	m_puzzle_grid->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	
+	// Label Appearance
+	
+	// Cell Defaults
+	m_puzzle_grid->SetDefaultCellFont( wxFont( 10, 70, 90, 90, false, wxEmptyString ) );
+	m_puzzle_grid->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	sbSizer9->Add( m_puzzle_grid, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	
 	m_panel21->SetSizer( sbSizer9 );
 	m_panel21->Layout();
 	sbSizer9->Fit( m_panel21 );
-	m_panel22 = new wxPanel( m_splitter4, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	bSizer3->Add( m_panel21, 1, wxEXPAND | wxALL, 5 );
+	
+	m_panel22 = new wxPanel( m_panel19, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer10;
 	sbSizer10 = new wxStaticBoxSizer( new wxStaticBox( m_panel22, wxID_ANY, wxT("Solution") ), wxVERTICAL );
 	
-	m_solution_panel = new wxPanel( m_panel22, wxID_ANY, wxDefaultPosition, wxSize( 240,300 ), wxTAB_TRAVERSAL );
-	sbSizer10->Add( m_solution_panel, 1, wxEXPAND | wxALL, 5 );
+	m_solution_grid = new wxGrid( m_panel22, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	
+	// Grid
+	m_solution_grid->CreateGrid( 9, 9 );
+	m_solution_grid->EnableEditing( false );
+	m_solution_grid->EnableGridLines( true );
+	m_solution_grid->EnableDragGridSize( false );
+	m_solution_grid->SetMargins( 1, 1 );
+	
+	// Columns
+	m_solution_grid->SetColSize( 0, 26 );
+	m_solution_grid->SetColSize( 1, 26 );
+	m_solution_grid->SetColSize( 2, 26 );
+	m_solution_grid->SetColSize( 3, 26 );
+	m_solution_grid->SetColSize( 4, 26 );
+	m_solution_grid->SetColSize( 5, 26 );
+	m_solution_grid->SetColSize( 6, 26 );
+	m_solution_grid->SetColSize( 7, 26 );
+	m_solution_grid->SetColSize( 8, 26 );
+	m_solution_grid->EnableDragColMove( false );
+	m_solution_grid->EnableDragColSize( true );
+	m_solution_grid->SetColLabelSize( 26 );
+	m_solution_grid->SetColLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	
+	// Rows
+	m_solution_grid->SetRowSize( 0, 26 );
+	m_solution_grid->SetRowSize( 1, 26 );
+	m_solution_grid->SetRowSize( 2, 26 );
+	m_solution_grid->SetRowSize( 3, 26 );
+	m_solution_grid->SetRowSize( 4, 26 );
+	m_solution_grid->SetRowSize( 5, 26 );
+	m_solution_grid->SetRowSize( 6, 26 );
+	m_solution_grid->SetRowSize( 7, 26 );
+	m_solution_grid->SetRowSize( 8, 26 );
+	m_solution_grid->EnableDragRowSize( true );
+	m_solution_grid->SetRowLabelSize( 26 );
+	m_solution_grid->SetRowLabelAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	
+	// Label Appearance
+	
+	// Cell Defaults
+	m_solution_grid->SetDefaultCellFont( wxFont( 10, 70, 90, 90, false, wxEmptyString ) );
+	m_solution_grid->SetDefaultCellAlignment( wxALIGN_CENTRE, wxALIGN_CENTRE );
+	sbSizer10->Add( m_solution_grid, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	
 	m_panel22->SetSizer( sbSizer10 );
 	m_panel22->Layout();
 	sbSizer10->Fit( m_panel22 );
-	m_splitter4->SplitVertically( m_panel21, m_panel22, 0 );
-	bSizer6->Add( m_splitter4, 1, wxALL|wxEXPAND, 5 );
+	bSizer3->Add( m_panel22, 1, wxEXPAND | wxALL, 5 );
 	
 	
-	m_panel19->SetSizer( bSizer6 );
+	m_panel19->SetSizer( bSizer3 );
 	m_panel19->Layout();
-	bSizer6->Fit( m_panel19 );
-	bSizer4->Add( m_panel19, 1, wxEXPAND | wxALL, 5 );
+	bSizer3->Fit( m_panel19 );
+	bSizer4->Add( m_panel19, 4, wxEXPAND | wxALL, 5 );
 	
 	
 	m_panel16->SetSizer( bSizer4 );
@@ -117,6 +199,7 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	m_workspace_panel->SetSizer( sbSizer5 );
 	m_workspace_panel->Layout();
+	sbSizer5->Fit( m_workspace_panel );
 	m_panel11 = new wxPanel( m_splitter2, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer6;
 	sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( m_panel11, wxID_ANY, wxT("Log Message") ), wxVERTICAL );
@@ -128,7 +211,7 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	m_panel11->SetSizer( sbSizer6 );
 	m_panel11->Layout();
 	sbSizer6->Fit( m_panel11 );
-	m_splitter2->SplitHorizontally( m_workspace_panel, m_panel11, 0 );
+	m_splitter2->SplitHorizontally( m_workspace_panel, m_panel11, 500 );
 	
 	m_mgr.Update();
 	this->Centre( wxBOTH );

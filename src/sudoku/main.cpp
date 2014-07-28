@@ -2,7 +2,7 @@
 #include "Generator.h"
 #include "worker.h"
 
-#include "libzks/libzks.h"
+#include "libzks.h"
 
 #include <iostream>
 #include <fstream>

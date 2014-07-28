@@ -11,6 +11,34 @@
 #endif
 
 class MyFrame : public ISudokuFrame {
+    void UpdateGrid(wxGrid* grid, const zks::game::sudoku::ISolver* s) {
+        int d;
+        for (int r = 0; r < 9; ++r) {
+            for (int c = 0; c < 9; ++c) {
+                d = s->grid(r, c);
+                if (d == 0) {
+                    grid->SetCellValue(r, c, wxString("."));
+                }
+                else {
+                    grid->SetCellValue(r, c, wxString::Format(wxT("%d"), s->grid(r, c)));
+                }
+            }
+        }
+    }
+    void UpdateGrid(wxGrid* grid, const std::string& s) {
+        char ch;
+        for (int r = 0; r < 9; ++r) {
+            for (int c = 0; c < 9; ++c) {
+                ch = s[r * 9 + c];
+                if (ch == '0') {
+                    grid->SetCellValue(r, c, wxString("."));
+                }
+                else {
+                    grid->SetCellValue(r, c, wxString::Format(wxT("%c"), ch));
+                }
+            }
+        }
+    }
 protected:
     virtual void OnSize(wxSizeEvent& event)
     {
@@ -32,15 +60,25 @@ protected:
             wxLogMessage(dialog.GetValue());
             pSolver->reset(dialog.GetValue().ToStdString());
         }
+        UpdateGrid(m_puzzle_grid, pSolver->puzzle_str());
     }
     virtual void OnSolve(wxCommandEvent& event) {
-        wxLogMessage("Solve it!");
         int ret = pSolver->solve();
+        if (ret == -3) {
+            wxLogMessage("Puzzle is not valid!!");
+            wxMessageBox("Puzzle is not valid!!");
+            return;
+        }
+        if (ret == -1) {
+            wxLogMessage("Puzzle has no solution!!");
+            wxMessageBox("Puzzle has no solution!!");
+            return;
+        }
+        wxLogMessage("Solve it!");
+        UpdateGrid(m_solution_grid, pSolver.get());
         wxLogMessage("solve() returns: %d", ret);
     }
     virtual void OnSaveSolution(wxCommandEvent& event) { event.Skip(); }
-    virtual void OnPaintPuzzle(wxPaintEvent& event) { event.Skip(); }
-    virtual void OnPaintSolution(wxPaintEvent& event) { event.Skip(); }
     void UpdateStatusBar(const wxPoint& pos, const wxSize& size, int statusNo)
     {
         if (m_frameStatusBar)
@@ -55,10 +93,11 @@ public:
     {
         m_log = wxLog::SetActiveTarget(new wxLogTextCtrl(m_log_text));
         pSolver.reset(new zks::game::sudoku::BalanceSolver("200000060000075030048090100000300000300010009000008000001020570080730000090000004"));
+        UpdateGrid(m_puzzle_grid, pSolver.get());
     }
 private:
     wxLog *m_log;
-    std::unique_ptr<zks::game::sudoku::BalanceSolver> pSolver;
+    std::unique_ptr<zks::game::sudoku::ISolver> pSolver;
 
 };
 

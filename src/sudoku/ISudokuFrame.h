@@ -24,9 +24,10 @@
 #include <wx/sizer.h>
 #include <wx/statbox.h>
 #include <wx/panel.h>
-#include <wx/splitter.h>
+#include <wx/grid.h>
 #include <wx/notebook.h>
 #include <wx/textctrl.h>
+#include <wx/splitter.h>
 #include <wx/frame.h>
 #include <wx/aui/aui.h>
 
@@ -53,11 +54,10 @@ class ISudokuFrame : public wxFrame
 		wxButton* m_button5;
 		wxButton* m_button6;
 		wxPanel* m_panel19;
-		wxSplitterWindow* m_splitter4;
 		wxPanel* m_panel21;
-		wxPanel* m_puzzle_panel;
+		wxGrid* m_puzzle_grid;
 		wxPanel* m_panel22;
-		wxPanel* m_solution_panel;
+		wxGrid* m_solution_grid;
 		wxPanel* m_panel17;
 		wxPanel* m_panel11;
 		wxTextCtrl* m_log_text;
@@ -71,21 +71,15 @@ class ISudokuFrame : public wxFrame
 	
 	public:
 		
-		ISudokuFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Sudoku"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 838,648 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		ISudokuFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Sudoku"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,800 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		wxAuiManager m_mgr;
 		
 		~ISudokuFrame();
 		
 		void m_splitter2OnIdle( wxIdleEvent& )
 		{
-			m_splitter2->SetSashPosition( 0 );
+			m_splitter2->SetSashPosition( 500 );
 			m_splitter2->Disconnect( wxEVT_IDLE, wxIdleEventHandler( ISudokuFrame::m_splitter2OnIdle ), NULL, this );
-		}
-		
-		void m_splitter4OnIdle( wxIdleEvent& )
-		{
-			m_splitter4->SetSashPosition( 0 );
-			m_splitter4->Disconnect( wxEVT_IDLE, wxIdleEventHandler( ISudokuFrame::m_splitter4OnIdle ), NULL, this );
 		}
 	
 };

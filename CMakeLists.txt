@@ -57,7 +57,7 @@ if(WIN32)
 	SET(wxWidgets_CONFIGURATION mswu)
 endif(WIN32)
 
-FIND_PACKAGE (wxWidgets COMPONENTS core base aui)
+FIND_PACKAGE (wxWidgets COMPONENTS core base aui adv propgrid richtext)
 if(wxWidgets_FOUND)
     INCLUDE(${wxWidgets_USE_FILE})
     MESSAGE(STATUS "Found wxWidgets_DEFINITIONS : ${wxWidgets_DEFINITIONS}")

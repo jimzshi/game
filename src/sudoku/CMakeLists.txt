@@ -2,7 +2,7 @@ file(GLOB SUDOKU_SRC "./*.cpp")
 file(GLOB SUDOKU_HEADER "./*.h")
 file(GLOB SUDOKU_GAME "./game*.txt")
 
-include_directories (${ZKS_INCLUDE_DIR} ${wxWidgets_INCLUDE_DIRS})
+include_directories (${ZKS_INCLUDE_DIR}/libzks ${wxWidgets_INCLUDE_DIRS})
 
 if(wxWidgets_FOUND)
     SET(_gui_flag USE_GUI )

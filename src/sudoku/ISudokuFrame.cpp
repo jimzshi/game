@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jun  5 2014)
+// C++ code generated with wxFormBuilder (version Jul 29 2014)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -52,13 +52,13 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	sbSizer11 = new wxStaticBoxSizer( new wxStaticBox( m_panel18, wxID_ANY, wxT("Actions") ), wxHORIZONTAL );
 	
 	m_btn_open = new wxButton( m_panel18, wxID_ANY, wxT("&Open"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer11->Add( m_btn_open, 0, wxALL, 5 );
+	sbSizer11->Add( m_btn_open, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	m_button5 = new wxButton( m_panel18, wxID_ANY, wxT("Sol&ve"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer11->Add( m_button5, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	sbSizer11->Add( m_button5, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	m_button6 = new wxButton( m_panel18, wxID_ANY, wxT("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer11->Add( m_button6, 0, wxALL, 5 );
+	sbSizer11->Add( m_button6, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	
 	m_panel18->SetSizer( sbSizer11 );

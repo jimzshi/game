@@ -36,6 +36,9 @@
     <ClInclude Include="..\..\..\..\src\sudoku\SukokuFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\src\sudoku\main.cpp">
@@ -75,5 +78,15 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="..\..\..\..\src\sudoku\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\src\sudoku\Icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

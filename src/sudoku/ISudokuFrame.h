@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jul 29 2014)
+// C++ code generated with wxFormBuilder (version Jun  5 2014)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -30,6 +30,8 @@
 #include <wx/splitter.h>
 #include <wx/frame.h>
 #include <wx/aui/aui.h>
+#include <wx/gauge.h>
+#include <wx/stattext.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -41,6 +43,11 @@ class ISudokuFrame : public wxFrame
 	private:
 	
 	protected:
+		enum
+		{
+			wxID_Exit = 1000
+		};
+		
 		wxMenuBar* m_menubar3;
 		wxMenu* m_menu5;
 		wxMenu* m_menu6;
@@ -53,6 +60,7 @@ class ISudokuFrame : public wxFrame
 		wxButton* m_btn_open;
 		wxButton* m_button5;
 		wxButton* m_button6;
+		wxButton* m_button4;
 		wxPanel* m_panel19;
 		wxPanel* m_panel21;
 		wxGrid* m_puzzle_grid;
@@ -64,9 +72,10 @@ class ISudokuFrame : public wxFrame
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnSize( wxSizeEvent& event ) { event.Skip(); }
-		virtual void OpenPuzzle( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnInputPuzzle( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSolve( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSaveSolution( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnBatchMode( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -81,6 +90,25 @@ class ISudokuFrame : public wxFrame
 			m_splitter2->SetSashPosition( 500 );
 			m_splitter2->Disconnect( wxEVT_IDLE, wxIdleEventHandler( ISudokuFrame::m_splitter2OnIdle ), NULL, this );
 		}
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class IBatchProgressFrame
+///////////////////////////////////////////////////////////////////////////////
+class IBatchProgressFrame : public wxFrame 
+{
+	private:
+	
+	protected:
+		wxGauge* m_gauge;
+		wxStaticText* m_progress_text;
+	
+	public:
+		
+		IBatchProgressFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Solving Puzzles  ..."), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		
+		~IBatchProgressFrame();
 	
 };
 

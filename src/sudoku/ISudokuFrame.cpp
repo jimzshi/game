@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Jul 29 2014)
+// C++ code generated with wxFormBuilder (version Jun  5 2014)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -18,17 +18,17 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	m_menubar3 = new wxMenuBar( 0 );
 	m_menu5 = new wxMenu();
 	wxMenuItem* m_menuItem5;
-	m_menuItem5 = new wxMenuItem( m_menu5, wxID_ANY, wxString( wxT("MyMenuItem") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem5 = new wxMenuItem( m_menu5, wxID_Exit, wxString( wxT("Exit") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu5->Append( m_menuItem5 );
 	
-	m_menubar3->Append( m_menu5, wxT("MyMenu") ); 
+	m_menubar3->Append( m_menu5, wxT("File") ); 
 	
 	m_menu6 = new wxMenu();
 	wxMenuItem* m_menuItem6;
-	m_menuItem6 = new wxMenuItem( m_menu6, wxID_ANY, wxString( wxT("MyMenuItem") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menuItem6 = new wxMenuItem( m_menu6, wxID_ABOUT, wxString( wxT("About") ) , wxEmptyString, wxITEM_NORMAL );
 	m_menu6->Append( m_menuItem6 );
 	
-	m_menubar3->Append( m_menu6, wxT("MyMenu") ); 
+	m_menubar3->Append( m_menu6, wxT("Help") ); 
 	
 	this->SetMenuBar( m_menubar3 );
 	
@@ -51,7 +51,7 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	wxStaticBoxSizer* sbSizer11;
 	sbSizer11 = new wxStaticBoxSizer( new wxStaticBox( m_panel18, wxID_ANY, wxT("Actions") ), wxHORIZONTAL );
 	
-	m_btn_open = new wxButton( m_panel18, wxID_ANY, wxT("&Open"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_btn_open = new wxButton( m_panel18, wxID_ANY, wxT("&Input Puzzle"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer11->Add( m_btn_open, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 	
 	m_button5 = new wxButton( m_panel18, wxID_ANY, wxT("Sol&ve"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -59,6 +59,9 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	m_button6 = new wxButton( m_panel18, wxID_ANY, wxT("&Save"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer11->Add( m_button6, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	
+	m_button4 = new wxButton( m_panel18, wxID_ANY, wxT("&Batch Mode"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer11->Add( m_button4, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	
 	m_panel18->SetSizer( sbSizer11 );
@@ -218,19 +221,48 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	
 	// Connect Events
 	this->Connect( wxEVT_SIZE, wxSizeEventHandler( ISudokuFrame::OnSize ) );
-	m_btn_open->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OpenPuzzle ), NULL, this );
+	m_btn_open->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnInputPuzzle ), NULL, this );
 	m_button5->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnSolve ), NULL, this );
 	m_button6->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnSaveSolution ), NULL, this );
+	m_button4->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnBatchMode ), NULL, this );
 }
 
 ISudokuFrame::~ISudokuFrame()
 {
 	// Disconnect Events
 	this->Disconnect( wxEVT_SIZE, wxSizeEventHandler( ISudokuFrame::OnSize ) );
-	m_btn_open->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OpenPuzzle ), NULL, this );
+	m_btn_open->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnInputPuzzle ), NULL, this );
 	m_button5->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnSolve ), NULL, this );
 	m_button6->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnSaveSolution ), NULL, this );
+	m_button4->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnBatchMode ), NULL, this );
 	
 	m_mgr.UnInit();
 	
+}
+
+IBatchProgressFrame::IBatchProgressFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer3;
+	bSizer3 = new wxBoxSizer( wxVERTICAL );
+	
+	m_gauge = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
+	m_gauge->SetValue( 0 ); 
+	bSizer3->Add( m_gauge, 0, wxALL, 5 );
+	
+	m_progress_text = new wxStaticText( this, wxID_ANY, wxT("Progress ..."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_progress_text->Wrap( -1 );
+	bSizer3->Add( m_progress_text, 0, wxALL, 5 );
+	
+	
+	this->SetSizer( bSizer3 );
+	this->Layout();
+	bSizer3->Fit( this );
+	
+	this->Centre( wxBOTH );
+}
+
+IBatchProgressFrame::~IBatchProgressFrame()
+{
 }

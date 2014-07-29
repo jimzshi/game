@@ -20,6 +20,7 @@ namespace zks {
                 friend class IGenerator;
 
             protected:
+                int complexity_{ 0 };
                 virtual int find_oppor_impl(index_t from, index_t to) = 0;
                 virtual int solve_impl(index_t start) = 0;
 
@@ -53,11 +54,16 @@ namespace zks {
                     if (!validate()) {
                         return -3;
                     }
+                    complexity_ = 0;
                     return solve_impl(0);
+                }
+                int complexity() const {
+                    return complexity_;
                 }
 
                 using ISudoku::reset;
 
+                using ISudoku::str;
                 using ISudoku::board_str;
                 using ISudoku::freq_str;
                 using ISudoku::puzzle_str;

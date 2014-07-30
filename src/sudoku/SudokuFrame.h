@@ -281,6 +281,21 @@ protected:
             SetStatusText(msg, statusNo);
         }
     }
+    virtual void OnChangeSolver(wxCommandEvent& event) {
+        std::string puzzle = pSolver->puzzle_str();
+        int sel = m_solver_radio->GetSelection();
+        if (sel == 0) {
+            pSolver.reset(new zks::game::sudoku::BalanceSolver);
+            wxLogMessage(wxT("change to balance solver"));
+        }
+        else if (sel == 1) {
+            pSolver.reset(new zks::game::sudoku::BrutalSolver);
+            wxLogMessage(wxT("change to brutal solver"));
+        }
+        pSolver->reset(puzzle);
+        m_solution_grid->ClearGrid();
+        event.Skip();
+    }
 public:
     MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size) : ISudokuFrame(NULL, wxID_ANY, title)
     {

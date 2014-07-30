@@ -21,6 +21,7 @@
 #include <wx/settings.h>
 #include <wx/statusbr.h>
 #include <wx/button.h>
+#include <wx/radiobox.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
 #include <wx/panel.h>
@@ -31,7 +32,6 @@
 #include <wx/frame.h>
 #include <wx/aui/aui.h>
 #include <wx/stattext.h>
-#include <wx/radiobox.h>
 #include <wx/gauge.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -62,6 +62,7 @@ class ISudokuFrame : public wxFrame
 		wxButton* m_button5;
 		wxButton* m_button6;
 		wxButton* m_button4;
+		wxRadioBox* m_solver_radio;
 		wxPanel* m_panel19;
 		wxPanel* m_panel21;
 		wxGrid* m_puzzle_grid;
@@ -77,6 +78,7 @@ class ISudokuFrame : public wxFrame
 		virtual void OnSolve( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSaveSolution( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnBatchMode( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnChangeSolver( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -88,7 +90,7 @@ class ISudokuFrame : public wxFrame
 		
 		void m_splitter2OnIdle( wxIdleEvent& )
 		{
-			m_splitter2->SetSashPosition( 500 );
+			m_splitter2->SetSashPosition( 550 );
 			m_splitter2->Disconnect( wxEVT_IDLE, wxIdleEventHandler( ISudokuFrame::m_splitter2OnIdle ), NULL, this );
 		}
 	

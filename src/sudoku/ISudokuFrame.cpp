@@ -63,6 +63,12 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	m_button4 = new wxButton( m_panel18, wxID_ANY, wxT("&Batch Mode"), wxDefaultPosition, wxDefaultSize, 0 );
 	sbSizer11->Add( m_button4, 0, wxALIGN_CENTER|wxALL, 5 );
 	
+	wxString m_solver_radioChoices[] = { wxT("Balance Solver"), wxT("Brutal Solver") };
+	int m_solver_radioNChoices = sizeof( m_solver_radioChoices ) / sizeof( wxString );
+	m_solver_radio = new wxRadioBox( m_panel18, wxID_ANY, wxT("Solver Type"), wxDefaultPosition, wxDefaultSize, m_solver_radioNChoices, m_solver_radioChoices, 2, wxRA_SPECIFY_COLS );
+	m_solver_radio->SetSelection( 0 );
+	sbSizer11->Add( m_solver_radio, 0, wxALIGN_CENTER|wxALL, 5 );
+	
 	
 	m_panel18->SetSizer( sbSizer11 );
 	m_panel18->Layout();
@@ -214,7 +220,7 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	m_panel11->SetSizer( sbSizer6 );
 	m_panel11->Layout();
 	sbSizer6->Fit( m_panel11 );
-	m_splitter2->SplitHorizontally( m_workspace_panel, m_panel11, 500 );
+	m_splitter2->SplitHorizontally( m_workspace_panel, m_panel11, 550 );
 	
 	m_mgr.Update();
 	this->Centre( wxBOTH );
@@ -225,6 +231,7 @@ ISudokuFrame::ISudokuFrame( wxWindow* parent, wxWindowID id, const wxString& tit
 	m_button5->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnSolve ), NULL, this );
 	m_button6->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnSaveSolution ), NULL, this );
 	m_button4->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnBatchMode ), NULL, this );
+	m_solver_radio->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ISudokuFrame::OnChangeSolver ), NULL, this );
 }
 
 ISudokuFrame::~ISudokuFrame()
@@ -235,6 +242,7 @@ ISudokuFrame::~ISudokuFrame()
 	m_button5->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnSolve ), NULL, this );
 	m_button6->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnSaveSolution ), NULL, this );
 	m_button4->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ISudokuFrame::OnBatchMode ), NULL, this );
+	m_solver_radio->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ISudokuFrame::OnChangeSolver ), NULL, this );
 	
 	m_mgr.UnInit();
 	

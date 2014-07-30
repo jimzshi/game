@@ -30,8 +30,9 @@
 #include <wx/splitter.h>
 #include <wx/frame.h>
 #include <wx/aui/aui.h>
-#include <wx/gauge.h>
 #include <wx/stattext.h>
+#include <wx/radiobox.h>
+#include <wx/gauge.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -101,8 +102,24 @@ class IBatchProgressFrame : public wxFrame
 	private:
 	
 	protected:
+		wxStaticText* m_staticText4;
+		wxTextCtrl* m_puzzle_file_textctrl;
+		wxButton* m_button5;
+		wxTextCtrl* m_solution_file_textctrl;
+		wxButton* m_button51;
+		wxRadioBox* m_solver_radio;
 		wxGauge* m_gauge;
+		wxButton* m_button10;
 		wxStaticText* m_progress_text;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnUpdatePuzzleFile( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChoosePuzzle( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnUpdateSolutionFile( wxCommandEvent& event ) { event.Skip(); }
+		virtual void ChooseSolution( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnUpdateSolver( wxCommandEvent& event ) { event.Skip(); }
+		virtual void BatchStart( wxCommandEvent& event ) { event.Skip(); }
+		
 	
 	public:
 		

@@ -10,8 +10,9 @@ endif(wxWidgets_FOUND)
 
 add_executable (sudoku ${SUDOKU_SRC} )
 SET_TARGET_PROPERTIES(sudoku PROPERTIES COMPILE_DEFINITIONS "${_gui_flag};${wxWidgets_DEFINITIONS};_WCHAR_H_CPLUSPLUS_98_CONFORMANCE_")
-target_link_libraries (sudoku ${ZKS_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${wxWidgets_LIBRARIES} $<$<CXX_COMPILER_ID:Clang>:c++>)
+target_link_libraries (sudoku ${ZKS_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${wxWidgets_LIBRARIES})
 
 install (TARGETS sudoku DESTINATION bin)
+install (FILES Sudoku.ico bin)
 install (FILES sudoku.ini DESTINATION etc)
 install (FILES ${SUDOKU_GAME} DESTINATION doc)

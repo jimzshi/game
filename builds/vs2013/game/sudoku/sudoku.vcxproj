@@ -129,7 +129,7 @@
     <ClInclude Include="..\..\..\..\src\sudoku\ISudoku.h" />
     <ClInclude Include="..\..\..\..\src\sudoku\ISudokuFrame.h" />
     <ClInclude Include="..\..\..\..\src\sudoku\Solver.h" />
-    <ClInclude Include="..\..\..\..\src\sudoku\SukokuFrame.h" />
+    <ClInclude Include="..\..\..\..\src\sudoku\SudokuFrame.h" />
     <ClInclude Include="..\..\..\..\src\sudoku\worker.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
@@ -171,7 +171,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\src\sudoku\Icon.ico" />
+    <Image Include="..\..\..\..\src\sudoku\Sudoku.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

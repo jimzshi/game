@@ -247,7 +247,7 @@ int main(int argc, char* argv[]) {
 //}
 
 
-#include "SukokuFrame.h"
+#include "SudokuFrame.h"
 
 #include "wx/wxprec.h"
 #ifndef WX_PRECOMP    

@@ -247,13 +247,62 @@ IBatchProgressFrame::IBatchProgressFrame( wxWindow* parent, wxWindowID id, const
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxVERTICAL );
 	
-	m_gauge = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL );
+	m_staticText4 = new wxStaticText( this, wxID_ANY, wxT("This is a batch mode."), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText4->Wrap( -1 );
+	bSizer3->Add( m_staticText4, 1, wxALL, 5 );
+	
+	wxStaticBoxSizer* sbSizer6;
+	sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Step 1: Choose Input puzzles") ), wxHORIZONTAL );
+	
+	m_puzzle_file_textctrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 260,-1 ), 0 );
+	sbSizer6->Add( m_puzzle_file_textctrl, 0, wxALL, 5 );
+	
+	m_button5 = new wxButton( this, wxID_ANY, wxT("Choose ..."), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer6->Add( m_button5, 0, wxALL, 5 );
+	
+	
+	bSizer3->Add( sbSizer6, 2, wxEXPAND, 5 );
+	
+	wxStaticBoxSizer* sbSizer61;
+	sbSizer61 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Step 2: Choose Output solution file") ), wxHORIZONTAL );
+	
+	m_solution_file_textctrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 260,-1 ), 0 );
+	sbSizer61->Add( m_solution_file_textctrl, 0, wxALL, 5 );
+	
+	m_button51 = new wxButton( this, wxID_ANY, wxT("Choose ..."), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer61->Add( m_button51, 0, wxALL, 5 );
+	
+	
+	bSizer3->Add( sbSizer61, 2, wxEXPAND, 5 );
+	
+	wxStaticBoxSizer* sbSizer11;
+	sbSizer11 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Step 3: Let's Start!") ), wxVERTICAL );
+	
+	wxString m_solver_radioChoices[] = { wxT("Balanced Solver"), wxT("BruteForce Solver") };
+	int m_solver_radioNChoices = sizeof( m_solver_radioChoices ) / sizeof( wxString );
+	m_solver_radio = new wxRadioBox( this, wxID_ANY, wxT("Solver Selection"), wxDefaultPosition, wxDefaultSize, m_solver_radioNChoices, m_solver_radioChoices, 2, wxRA_SPECIFY_COLS );
+	m_solver_radio->SetSelection( 0 );
+	sbSizer11->Add( m_solver_radio, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer5;
+	bSizer5 = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_gauge = new wxGauge( this, wxID_ANY, 100, wxDefaultPosition, wxSize( 260,-1 ), wxGA_HORIZONTAL|wxGA_SMOOTH );
 	m_gauge->SetValue( 0 ); 
-	bSizer3->Add( m_gauge, 0, wxALL, 5 );
+	bSizer5->Add( m_gauge, 0, wxALIGN_CENTER|wxALL, 5 );
+	
+	m_button10 = new wxButton( this, wxID_ANY, wxT("Start"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer5->Add( m_button10, 0, wxALL, 5 );
+	
+	
+	sbSizer11->Add( bSizer5, 1, wxEXPAND, 5 );
 	
 	m_progress_text = new wxStaticText( this, wxID_ANY, wxT("Progress ..."), wxDefaultPosition, wxDefaultSize, 0 );
 	m_progress_text->Wrap( -1 );
-	bSizer3->Add( m_progress_text, 0, wxALL, 5 );
+	sbSizer11->Add( m_progress_text, 0, wxALL, 5 );
+	
+	
+	bSizer3->Add( sbSizer11, 4, wxEXPAND, 5 );
 	
 	
 	this->SetSizer( bSizer3 );
@@ -261,8 +310,24 @@ IBatchProgressFrame::IBatchProgressFrame( wxWindow* parent, wxWindowID id, const
 	bSizer3->Fit( this );
 	
 	this->Centre( wxBOTH );
+	
+	// Connect Events
+	m_puzzle_file_textctrl->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( IBatchProgressFrame::OnUpdatePuzzleFile ), NULL, this );
+	m_button5->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IBatchProgressFrame::ChoosePuzzle ), NULL, this );
+	m_solution_file_textctrl->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( IBatchProgressFrame::OnUpdateSolutionFile ), NULL, this );
+	m_button51->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IBatchProgressFrame::ChooseSolution ), NULL, this );
+	m_solver_radio->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( IBatchProgressFrame::OnUpdateSolver ), NULL, this );
+	m_button10->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IBatchProgressFrame::BatchStart ), NULL, this );
 }
 
 IBatchProgressFrame::~IBatchProgressFrame()
 {
+	// Disconnect Events
+	m_puzzle_file_textctrl->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( IBatchProgressFrame::OnUpdatePuzzleFile ), NULL, this );
+	m_button5->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IBatchProgressFrame::ChoosePuzzle ), NULL, this );
+	m_solution_file_textctrl->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( IBatchProgressFrame::OnUpdateSolutionFile ), NULL, this );
+	m_button51->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IBatchProgressFrame::ChooseSolution ), NULL, this );
+	m_solver_radio->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( IBatchProgressFrame::OnUpdateSolver ), NULL, this );
+	m_button10->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IBatchProgressFrame::BatchStart ), NULL, this );
+	
 }

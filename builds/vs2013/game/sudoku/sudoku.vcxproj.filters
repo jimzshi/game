@@ -33,10 +33,10 @@
     <ClInclude Include="..\..\..\..\src\sudoku\ISudokuFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\src\sudoku\SukokuFrame.h">
+    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="..\..\..\..\src\sudoku\SudokuFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -85,7 +85,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\src\sudoku\Icon.ico">
+    <Image Include="..\..\..\..\src\sudoku\Sudoku.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

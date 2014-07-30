@@ -4,7 +4,7 @@ project(game)
 if(NOT CMAKE_BUILD_TYPE)
     set( CMAKE_BUILD_TYPE Release )
 endif(NOT CMAKE_BUILD_TYPE)
-string(TOLOWER CONFIG ${CMAKE_BUILD_TYPE})
+string(TOLOWER ${CMAKE_BUILD_TYPE} CONFIG)
 set( CMAKE_DEBUG_POSTFIX "_d" )
 
 
@@ -13,6 +13,9 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL Clang)
 endif(CMAKE_CXX_COMPILER_ID STREQUAL Clang)
 string(CONCAT CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG} " -DDEBUG -D_DEBUG")
 string(CONCAT CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE} " -D_NDEBUG")
+
+add_compile_options ($<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:-std=c++1y>)
+add_compile_options ($<$<CXX_COMPILER_ID:Clang>:-stdlib=libc++>)
 
 MESSAGE(STATUS "CONFIG : ${CONFIG}")
 MESSAGE(STATUS "CMAKE_BUILD_TYPE : ${CMAKE_BUILD_TYPE}")
@@ -42,7 +45,7 @@ FIND_PATH(ZKS_INCLUDE_DIR
   )
 
 if(CONFIG STREQUAL debug)
-    FIND_LIBRARY(ZKS_LIBRARY NAMES zks libzks PATHS 
+    FIND_LIBRARY(ZKS_LIBRARY NAMES zks_d libzks_d PATHS 
       /usr/local/lib 
       /usr/lib 
       "$ENV{HOME}/local/lib"
@@ -53,7 +56,7 @@ if(CONFIG STREQUAL debug)
       c:/msys/local/lib
       )
 else(CONFIG STREQUAL debug)
-    FIND_LIBRARY(ZKS_LIBRARY NAMES zks_d libzks_d PATHS 
+    FIND_LIBRARY(ZKS_LIBRARY NAMES zks libzks PATHS 
       /usr/local/lib 
       /usr/lib 
       "$ENV{HOME}/local/lib"

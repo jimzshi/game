@@ -258,6 +258,8 @@ class MyApp : public wxApp
 {
 public:
     virtual bool OnInit(){
+    	g_logger.config.stream_type = 3;
+    	g_logger.reset();
         MyFrame *frame = new MyFrame(wxT("ZKS Sudoku Beta"), wxDefaultPosition, wxDefaultSize);
         frame->Show(true);
         return true;

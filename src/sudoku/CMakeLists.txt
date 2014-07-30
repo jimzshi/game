@@ -13,6 +13,6 @@ SET_TARGET_PROPERTIES(sudoku PROPERTIES COMPILE_DEFINITIONS "${_gui_flag};${wxWi
 target_link_libraries (sudoku ${ZKS_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${wxWidgets_LIBRARIES})
 
 install (TARGETS sudoku DESTINATION bin)
-install (FILES Sudoku.ico bin)
+install (FILES Sudoku.ico DESTINATION bin)
 install (FILES sudoku.ini DESTINATION etc)
 install (FILES ${SUDOKU_GAME} DESTINATION doc)

@@ -10,6 +10,11 @@
 #include "wx/wx.h"
 #endif
 
+#include <vector>
+#include <memory>
+
+using namespace std;
+
 class GridBottomLineRenderer : public wxGridCellStringRenderer
 {
 public:
@@ -137,15 +142,17 @@ protected:
         size_t psize = puzzles.size();
         wxLogMessage("read in %lld puzzles.", psize);
 
+        m_gauge->SetRange(psize);
         int ret;
-        for (size_t i = 0; i < psize; ++i) {
+        for (int i = 0; i < psize; ++i) {
             pSolver->reset(puzzles[i]);
-            m_progress_text->SetLabel(wxString::Format("Solving puzzle %lld ...", i));
+            m_progress_text->SetLabel(wxString::Format("Solving puzzle %lld ...", i + 1));
             ofs << pSolver->puzzle_str() << "\n";
             ret = pSolver->solve();
             ofs << ret << "\t" << pSolver->str() << "\t" << pSolver->complexity() << "\n";
+            m_gauge->SetValue(i + 1);
 
-            m_gauge->SetValue((int)(double(i) * m_gauge->GetRange() / psize) + 1);
+            wxYield();
         }
         wxMessageBox(wxString::Format("%lld puzzles have been solved!", psize), "Finished!");
     }
@@ -282,7 +289,7 @@ public:
         UpdateGridRenderer(m_puzzle_grid);
         UpdateGridRenderer(m_solution_grid);
         UpdateGrid(m_puzzle_grid, pSolver.get());
-        wxIconLocation ico_loc("Icon.ico");
+        wxIconLocation ico_loc("Sudoku.ico");
         this->SetIcons(wxIcon(ico_loc));
     }
 private:

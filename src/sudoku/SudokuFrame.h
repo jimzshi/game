@@ -1,6 +1,8 @@
 #ifndef ZKS_SUDOKUFRAME_H_
 #define ZKS_SUDOKUFRAME_H_
 
+#include "stopwatch.h"
+
 #include "Solver.h"
 #include "Generator.h"
 #include "ISudokuFrame.h"
@@ -128,7 +130,7 @@ protected:
             wxMessageBox("can't open %s to read.", puzzle_file_);
             return;
         }
-        std::ofstream ofs(solution_file_);
+        std::ofstream ofs(solution_file_, std::ios_base::out | std::ios_base::trunc);
         if (!ofs.good()) {
             wxMessageBox("can't open %s to write.", solution_file_);
             return;
@@ -144,6 +146,8 @@ protected:
 
         m_gauge->SetRange(psize);
         int ret;
+        zks::StopWatch sw;
+        sw.start();
         for (int i = 0; i < psize; ++i) {
             pSolver->reset(puzzles[i]);
             m_progress_text->SetLabel(wxString::Format("Solving puzzle %lld ...", i + 1));
@@ -154,7 +158,9 @@ protected:
 
             wxYield();
         }
+        sw.tick();
         wxMessageBox(wxString::Format("%lld puzzles have been solved!", psize), "Finished!");
+        wxLogMessage("%lld puzzles solved in %lldms.", psize, sw.total().count());
     }
 public:
     BatchProgress(wxWindow* parent) : IBatchProgressFrame(parent) {
@@ -227,7 +233,10 @@ protected:
         UpdateGrid(m_puzzle_grid, pSolver->puzzle_str());
     }
     virtual void OnSolve(wxCommandEvent& event) {
+        zks::StopWatch sw;
+        sw.start();
         int ret = pSolver->solve();
+        sw.tick();
         if (ret == -3) {
             wxLogMessage("Puzzle is not valid!!");
             wxMessageBox("Puzzle is not valid!!");
@@ -238,9 +247,9 @@ protected:
             wxMessageBox("Puzzle has no solution!!");
             return;
         }
-        wxLogMessage("Solve it!");
         UpdateGrid(m_solution_grid, pSolver.get());
-        wxLogMessage("solve() returns: %d, complexity is: %d", ret, pSolver->complexity());
+        wxLogMessage("solve() returns: %d, in %lldms, complexity is: %d",
+                ret, sw.total().count(), pSolver->complexity());
     }
     virtual void OnSaveSolution(wxCommandEvent& event) {
         static wxString s_filename, s_ext, s_path, s_name;

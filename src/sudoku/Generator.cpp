@@ -44,9 +44,9 @@ namespace sudoku {
     == 1 only 1 solutions;
     < 1 no solution;
     */
-    int IGenerator::generate(int start) {
-        //ZKS_DEBUG(g_logger, "generator", "\nBoard:\n%s", pSolver_->board_str().c_str());
-        //ZKS_DEBUG(g_logger, "generator", "start=%d, start_x=%d, start_y=%d", start, i2x(start), i2y(start));
+    int IGenerator::generate(SudokuLevel lvl) {
+        ZKS_DEBUG(g_logger, "generator", "\nBoard:\n%s", pSolver_->board_str().c_str());
+        ZKS_DEBUG(g_logger, "generator", "start=%d", start);
         //auto choices = pSolver_->choices(start);
         //if (choices.size() == 0) {
         //    return 0;

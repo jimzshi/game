@@ -17,22 +17,27 @@ namespace zks {
 		namespace sudoku {
 
 
+            enum SudokuLevel {
+                EASY = 100,
+                MEDIUM = 200,
+                HARD = 400
+            };
+
 			class IGenerator {
 			protected:
-				static std::mt19937 rand_;
 				std::shared_ptr<ISolver> pSolver_;
-				//Selection left_cells_;
-
+            
 			public:
 				static void seed_rand();
 
 				IGenerator();
 				IGenerator(ISolver* p) : IGenerator() {
 					pSolver_.reset(p);
+                    pSolver_->clear_board();
 				}
 				virtual ~IGenerator() {}
 
-				int generate(int start);
+                int generate(SudokuLevel lvl);
 				int fill_random(int num);
 				std::string puzzle();
 

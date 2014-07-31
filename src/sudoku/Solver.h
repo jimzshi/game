@@ -16,7 +16,7 @@ namespace zks {
 
             class IGenerator;
 
-            class ISolver : protected ISudoku {
+            class ISolver : public ISudoku {
                 friend class IGenerator;
 
             protected:
@@ -60,14 +60,6 @@ namespace zks {
                 int complexity() const {
                     return complexity_;
                 }
-
-                using ISudoku::reset;
-
-                using ISudoku::str;
-                using ISudoku::board_str;
-                using ISudoku::freq_str;
-                using ISudoku::puzzle_str;
-                using ISudoku::grid;
             };
 
             class BrutalSolver : public ISolver {

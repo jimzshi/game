@@ -127,12 +127,12 @@ protected:
     virtual void BatchStart(wxCommandEvent& event) { 
         std::ifstream ifs(puzzle_file_);
         if (!ifs.good()) {
-            wxMessageBox("can't open %s to read.", puzzle_file_);
+            wxMessageBox(wxString::Format("can't open '%s' to read.", puzzle_file_.c_str()));
             return;
         }
         std::ofstream ofs(solution_file_, std::ios_base::out | std::ios_base::trunc);
         if (!ofs.good()) {
-            wxMessageBox("can't open %s to write.", solution_file_);
+            wxMessageBox(wxString::Format("can't open '%s' to write.", solution_file_.c_str()));
             return;
         }
 

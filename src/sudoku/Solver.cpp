@@ -4,6 +4,7 @@
 
 #include <iterator>
 #include <algorithm>
+#include <tuple>
 
 extern zks::simlog g_logger;
 
@@ -144,7 +145,7 @@ namespace sudoku {
         return 0;
     }
 
-    int CountSolver::solve_impl(int start) {
+    int BalanceCounter::solve_impl(int start) {
         int next = find_opportunites(0, 81);
         ZKS_DEBUG(g_logger, "solver", "\nBoard:%s", board_str().c_str());
         ZKS_DEBUG(g_logger, "solver", "freq:%s", freq_str().c_str());

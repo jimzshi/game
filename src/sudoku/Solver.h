@@ -90,16 +90,16 @@ namespace zks {
                 virtual int solve_impl(index_t start);
             };
 
-            class CountSolver : public BalanceSolver {
+            class BalanceCounter : public BalanceSolver {
             public:
-                CountSolver() : CountSolver("", -1) {}
-                CountSolver(std::string const& s, int gate = -1) : BalanceSolver(s), count_(0), gate_(gate) {}
-                virtual ~CountSolver() {}
+                BalanceCounter() : BalanceCounter("", -1) {}
+                BalanceCounter(std::string const& s, int gate = -1) : BalanceSolver(s), count_(0), gate_(gate) {}
+                virtual ~BalanceCounter() {}
                 virtual void reset() {
                     BalanceSolver::reset();
                     count_ = 0;
                 }
-                int count_solve() { solve_impl(0); return count_; }
+                int count_solve() { solve(); return count_; }
                 int count() const { return count_; }
                 int gate(int g) { int old = gate_; gate_ = g; return old; }
                 int gate() const { return gate_; }

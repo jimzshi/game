@@ -22,7 +22,7 @@ namespace sudoku {
     std::mt19937 IGenerator::rand_;
 
     IGenerator::IGenerator() {
-        pSolver_ = std::make_shared<CountSolver>("", 2);
+        pSolver_ = std::make_shared<BalanceCounter>("", 2);
         std::call_once(flag, IGenerator::seed_rand);
     }
 

@@ -21,7 +21,7 @@ namespace sudoku{
     }
 
     int count_thread(std::string line, int i) {
-        zks::game::sudoku::CountSolver s{ line };
+        zks::game::sudoku::BalanceCounter s{ line };
         ZKS_NOTICE(g_logger, "game", "(%d):%s", i, s.puzzle_str().c_str());
         zks::StopWatch sw;
         zks::u8string buff;

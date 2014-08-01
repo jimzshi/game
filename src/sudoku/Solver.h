@@ -91,8 +91,7 @@ namespace zks {
                     BalanceSolver::reset();
                     count_ = 0;
                 }
-                int count_solve() { solve(); return count_; }
-                int count() const { return count_; }
+                int count() { solve(); return count_; }
                 int gate(int g) { int old = gate_; gate_ = g; return old; }
                 int gate() const { return gate_; }
 

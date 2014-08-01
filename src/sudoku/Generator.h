@@ -25,20 +25,17 @@ namespace zks {
 
 			class IGenerator {
 			protected:
-				std::shared_ptr<ISolver> pSolver_;
+                std::unique_ptr<BalanceCounter> pSolver_;
             
 			public:
-				static void seed_rand();
-
-				IGenerator();
-				IGenerator(ISolver* p) : IGenerator() {
-					pSolver_.reset(p);
+                IGenerator() {
+					pSolver_.reset(new BalanceCounter);
+                    pSolver_->gate(2); //only return 0, 1, 2(multi solutions).
                     pSolver_->clear_board();
 				}
 				virtual ~IGenerator() {}
 
                 int generate(SudokuLevel lvl);
-				int fill_random(int num);
 				std::string puzzle();
 
 			};

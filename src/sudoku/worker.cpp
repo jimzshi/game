@@ -27,7 +27,7 @@ namespace sudoku{
         zks::u8string buff;
         buff.format(128, "game(%d) start", i);
         sw.start(buff);
-        int ret = s.count_solve();
+        int ret = s.count();
         buff.format(128, "game(%d) finished", i);
         sw.tick(buff);
         ZKS_NOTICE(g_logger, "count", "Solution number of game(%d): %d", i, ret);

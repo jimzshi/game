@@ -171,18 +171,7 @@ public:
 
 class MyFrame : public ISudokuFrame {
     void UpdateGrid(wxGrid* grid, const zks::game::sudoku::ISolver* s) {
-        int d;
-        for (int r = 0; r < 9; ++r) {
-            for (int c = 0; c < 9; ++c) {
-                d = s->grid(r, c);
-                if (d == 0) {
-                    grid->SetCellValue(r, c, wxString("."));
-                }
-                else {
-                    grid->SetCellValue(r, c, wxString::Format(wxT("%d"), s->grid(r, c)));
-                }
-            }
-        }
+        UpdateGrid(grid, s->str());
     }
     void UpdateGrid(wxGrid* grid, const std::string& s) {
         char ch;
@@ -190,7 +179,7 @@ class MyFrame : public ISudokuFrame {
             for (int c = 0; c < 9; ++c) {
                 ch = s[r * 9 + c];
                 if (ch == '0') {
-                    grid->SetCellValue(r, c, wxString("."));
+                    grid->SetCellValue(r, c, wxString(" "));
                 }
                 else {
                     grid->SetCellValue(r, c, wxString::Format(wxT("%c"), ch));

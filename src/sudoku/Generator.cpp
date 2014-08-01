@@ -13,31 +13,9 @@
 
 extern zks::simlog g_logger;
 
-std::once_flag flag;
-
 namespace zks {
 namespace game {
 namespace sudoku {
-
-    std::mt19937 IGenerator::rand_;
-
-    IGenerator::IGenerator() {
-        pSolver_ = std::make_shared<BalanceCounter>("", 2);
-        std::call_once(flag, IGenerator::seed_rand);
-    }
-
-
-    void IGenerator::seed_rand() {
-        std::srand((unsigned int) std::time(0));
-        std::array<int, std::mt19937::state_size> seed_data;
-        std::generate(seed_data.begin(), seed_data.end(), std::rand);
-        std::seed_seq seq(seed_data.begin(), seed_data.end());
-        rand_.seed(seq);
-    }
-
-    int IGenerator::fill_random(int num) {
-        return 0;
-    }
 
     /*
     >1 more than 1 solutions;

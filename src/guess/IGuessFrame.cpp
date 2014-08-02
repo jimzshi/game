@@ -34,14 +34,21 @@ IGuessFrame::IGuessFrame( wxWindow* parent, wxWindowID id, const wxString& title
 	wxBoxSizer* gn_btn_sizer;
 	gn_btn_sizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	m_button1 = new wxButton( m_gn_btn_panel, wxID_ANY, wxT("MyButton"), wxDefaultPosition, wxDefaultSize, 0 );
-	gn_btn_sizer->Add( m_button1, 0, wxALL, 5 );
+	m_gn_btn_head = new wxButton( m_gn_btn_panel, wxID_ANY, wxT("<<"), wxDefaultPosition, wxDefaultSize, 0 );
+	gn_btn_sizer->Add( m_gn_btn_head, 0, wxALL, 5 );
 	
-	m_button2 = new wxButton( m_gn_btn_panel, wxID_ANY, wxT("MyButton"), wxDefaultPosition, wxDefaultSize, 0 );
-	gn_btn_sizer->Add( m_button2, 0, wxALL, 5 );
+	m_gn_btn_prev = new wxButton( m_gn_btn_panel, wxID_ANY, wxT("<"), wxDefaultPosition, wxDefaultSize, 0 );
+	gn_btn_sizer->Add( m_gn_btn_prev, 0, wxALL, 5 );
 	
-	m_button3 = new wxButton( m_gn_btn_panel, wxID_ANY, wxT("MyButton"), wxDefaultPosition, wxDefaultSize, 0 );
-	gn_btn_sizer->Add( m_button3, 0, wxALL, 5 );
+	m_gn_btn_next = new wxButton( m_gn_btn_panel, wxID_ANY, wxT(">"), wxDefaultPosition, wxDefaultSize, 0 );
+	gn_btn_sizer->Add( m_gn_btn_next, 0, wxALL, 5 );
+	
+	m_gn_btn_tail = new wxButton( m_gn_btn_panel, wxID_ANY, wxT(">>"), wxDefaultPosition, wxDefaultSize, 0 );
+	gn_btn_sizer->Add( m_gn_btn_tail, 0, wxALL, 5 );
+	
+	m_gn_hint_checker = new wxCheckBox( m_gn_btn_panel, wxID_ANY, wxT("Hint"), wxDefaultPosition, wxSize( -1,-1 ), 0 );
+	m_gn_hint_checker->SetValue(true); 
+	gn_btn_sizer->Add( m_gn_hint_checker, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	
 	m_gn_btn_panel->SetSizer( gn_btn_sizer );
@@ -65,16 +72,31 @@ IGuessFrame::IGuessFrame( wxWindow* parent, wxWindowID id, const wxString& title
 	
 	m_gn_input_panel = new wxPanel( m_guss_name_page, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer3;
-	sbSizer3 = new wxStaticBoxSizer( new wxStaticBox( m_gn_input_panel, wxID_ANY, wxT("label") ), wxHORIZONTAL );
+	sbSizer3 = new wxStaticBoxSizer( new wxStaticBox( m_gn_input_panel, wxID_ANY, wxT("Your guess?") ), wxHORIZONTAL );
 	
-	m_gn_input_text = new wxTextCtrl( m_gn_input_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	sbSizer3->Add( m_gn_input_text, 0, wxALL, 5 );
+	m_gn_input_text = new wxTextCtrl( m_gn_input_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 260,-1 ), wxTE_PROCESS_ENTER );
+	sbSizer3->Add( m_gn_input_text, 0, wxALIGN_CENTER|wxALL, 5 );
+	
+	m_staticText3 = new wxStaticText( m_gn_input_panel, wxID_ANY, wxT("case in-sensitive"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText3->Wrap( -1 );
+	m_staticText3->SetFont( wxFont( 8, 70, 93, 90, false, wxEmptyString ) );
+	m_staticText3->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_GRAYTEXT ) );
+	
+	sbSizer3->Add( m_staticText3, 0, wxALIGN_CENTER|wxALL, 5 );
+	
+	m_gn_hint = new wxStaticText( m_gn_input_panel, wxID_ANY, wxT("hint: "), wxDefaultPosition, wxSize( 200,-1 ), 0 );
+	m_gn_hint->Wrap( -1 );
+	sbSizer3->Add( m_gn_hint, 0, wxALIGN_CENTER|wxALL, 5 );
+	
+	m_gn_progress = new wxGauge( m_gn_input_panel, wxID_ANY, 100, wxDefaultPosition, wxDefaultSize, wxGA_HORIZONTAL|wxGA_SMOOTH );
+	m_gn_progress->SetValue( 0 ); 
+	sbSizer3->Add( m_gn_progress, 0, wxALL, 5 );
 	
 	
 	m_gn_input_panel->SetSizer( sbSizer3 );
 	m_gn_input_panel->Layout();
 	sbSizer3->Fit( m_gn_input_panel );
-	guess_name_sizer->Add( m_gn_input_panel, 0, wxEXPAND | wxALL, 5 );
+	guess_name_sizer->Add( m_gn_input_panel, 0, wxALL|wxEXPAND, 5 );
 	
 	
 	m_guss_name_page->SetSizer( guess_name_sizer );
@@ -135,20 +157,56 @@ IGuessFrame::IGuessFrame( wxWindow* parent, wxWindowID id, const wxString& title
 	
 	this->SetSizer( bSizer4 );
 	this->Layout();
-	m_statusBar1 = this->CreateStatusBar( 1, wxST_SIZEGRIP, wxID_ANY );
+	m_status = this->CreateStatusBar( 2, wxST_SIZEGRIP, wxID_ANY );
 	m_menubar1 = new wxMenuBar( 0 );
-	m_menu1 = new wxMenu();
-	m_menubar1->Append( m_menu1, wxT("MyMenu") ); 
+	m_menu_file = new wxMenu();
+	wxMenuItem* m_menuItem_set_folder;
+	m_menuItem_set_folder = new wxMenuItem( m_menu_file, wxID_ANY, wxString( wxT("Open Pics Folder") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu_file->Append( m_menuItem_set_folder );
 	
-	m_menu2 = new wxMenu();
-	m_menubar1->Append( m_menu2, wxT("MyMenu") ); 
+	m_menu_file->AppendSeparator();
+	
+	wxMenuItem* m_menuItem_exit;
+	m_menuItem_exit = new wxMenuItem( m_menu_file, wxID_ANY, wxString( wxT("Exit") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu_file->Append( m_menuItem_exit );
+	
+	m_menubar1->Append( m_menu_file, wxT("File") ); 
+	
+	m_menu_help = new wxMenu();
+	wxMenuItem* m_menuItem_help_about;
+	m_menuItem_help_about = new wxMenuItem( m_menu_help, wxID_ANY, wxString( wxT("About") ) , wxEmptyString, wxITEM_NORMAL );
+	m_menu_help->Append( m_menuItem_help_about );
+	
+	m_menubar1->Append( m_menu_help, wxT("Help") ); 
 	
 	this->SetMenuBar( m_menubar1 );
 	
 	
 	this->Centre( wxBOTH );
+	
+	// Connect Events
+	m_gn_btn_head->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnHead ), NULL, this );
+	m_gn_btn_prev->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnPrev ), NULL, this );
+	m_gn_btn_next->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnNext ), NULL, this );
+	m_gn_btn_tail->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnTail ), NULL, this );
+	m_gn_hint_checker->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( IGuessFrame::OnHintChecker ), NULL, this );
+	m_gn_input_text->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( IGuessFrame::OnGuessInput ), NULL, this );
+	m_gn_input_text->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IGuessFrame::OnGuessEnter ), NULL, this );
+	this->Connect( m_menuItem_set_folder->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IGuessFrame::OnFileOpenFolder ) );
+	this->Connect( m_menuItem_exit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IGuessFrame::OnFileExit ) );
 }
 
 IGuessFrame::~IGuessFrame()
 {
+	// Disconnect Events
+	m_gn_btn_head->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnHead ), NULL, this );
+	m_gn_btn_prev->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnPrev ), NULL, this );
+	m_gn_btn_next->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnNext ), NULL, this );
+	m_gn_btn_tail->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnTail ), NULL, this );
+	m_gn_hint_checker->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( IGuessFrame::OnHintChecker ), NULL, this );
+	m_gn_input_text->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( IGuessFrame::OnGuessInput ), NULL, this );
+	m_gn_input_text->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IGuessFrame::OnGuessEnter ), NULL, this );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IGuessFrame::OnFileOpenFolder ) );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IGuessFrame::OnFileExit ) );
+	
 }

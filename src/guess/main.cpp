@@ -1,4 +1,4 @@
-#include "GuessFrame.h"
+#include "MyFrame.h"
 
 #include "wx/wxprec.h"
 #ifndef WX_PRECOMP    

@@ -16,6 +16,7 @@
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/checkbox.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
 #include <wx/bitmap.h>
@@ -24,6 +25,8 @@
 #include <wx/statbmp.h>
 #include <wx/scrolwin.h>
 #include <wx/textctrl.h>
+#include <wx/stattext.h>
+#include <wx/gauge.h>
 #include <wx/statbox.h>
 #include <wx/bmpbuttn.h>
 #include <wx/notebook.h>
@@ -53,13 +56,18 @@ namespace zks
 					wxNotebook* m_guess_book;
 					wxPanel* m_guss_name_page;
 					wxPanel* m_gn_btn_panel;
-					wxButton* m_button1;
-					wxButton* m_button2;
-					wxButton* m_button3;
+					wxButton* m_gn_btn_head;
+					wxButton* m_gn_btn_prev;
+					wxButton* m_gn_btn_next;
+					wxButton* m_gn_btn_tail;
+					wxCheckBox* m_gn_hint_checker;
 					wxScrolledWindow* m_gn_bmp_panel;
 					wxStaticBitmap* m_statbmp;
 					wxPanel* m_gn_input_panel;
 					wxTextCtrl* m_gn_input_text;
+					wxStaticText* m_staticText3;
+					wxStaticText* m_gn_hint;
+					wxGauge* m_gn_progress;
 					wxPanel* m_guess_pic_page;
 					wxTextCtrl* m_textCtrl3;
 					wxBitmapButton* m_bpButton1;
@@ -68,10 +76,22 @@ namespace zks
 					wxBitmapButton* m_bpButton4;
 					wxPanel* m_panel3;
 					wxTextCtrl* m_log_text;
-					wxStatusBar* m_statusBar1;
+					wxStatusBar* m_status;
 					wxMenuBar* m_menubar1;
-					wxMenu* m_menu1;
-					wxMenu* m_menu2;
+					wxMenu* m_menu_file;
+					wxMenu* m_menu_help;
+					
+					// Virtual event handlers, overide them in your derived class
+					virtual void OnHead( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnPrev( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnNext( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnTail( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnHintChecker( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnGuessInput( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnGuessEnter( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnFileOpenFolder( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnFileExit( wxCommandEvent& event ) { event.Skip(); }
+					
 				
 				public:
 					

@@ -2,6 +2,12 @@
 
 #include <wx/dir.h>
 
+#include "random.h"
+
+#include <functional>
+#include <cstdlib>
+#include <algorithm>
+
 namespace zks {
     namespace game {
         namespace guess {
@@ -21,14 +27,24 @@ namespace zks {
                 m_gn_btn_prev->Disable();
                 m_gn_btn_next->Disable();
                 m_gn_btn_tail->Disable();
+                m_gn_index = 0;
                 m_gn_hint->SetLabel("Choose Dir");
                 m_hint = m_gn_hint_checker->GetValue();
             }
-            void MyFrame::UpdateStatBMP() {
+            void MyFrame::UpdateStatBMP(wxSize new_size) {
+                int idx = index();
+                if (idx >= m_images.size()) {
+                    return;
+                }
                 wxDELETE(m_statbmp);
-                m_statbmp = new wxStaticBitmap(m_gn_bmp_panel, wxID_ANY, wxBitmap(m_images[m_gn_index]));
-                m_gn_bmp_panel->GetSizer()->Add(m_statbmp, wxSizerFlags().Expand().Proportion(1));
-                GetSizer()->Layout();
+                if (new_size == wxDefaultSize) {
+                    new_size = m_gn_bmp_panel->GetSize();
+                }
+                wxImage img = FitFrame(m_images[idx], new_size);
+                m_statbmp = new wxStaticBitmap(m_gn_bmp_panel, wxID_ANY, wxBitmap(img));
+                m_gn_bmp_panel->GetSizer()->Add(m_statbmp, 1, wxALIGN_CENTER | wxALL, 5);
+                m_gn_bmp_panel->GetSizer()->Layout();
+                //GetSizer()->Layout();
             }
             void MyFrame::StartGuessName() {
                 m_gn_btn_head->Enable();
@@ -36,23 +52,40 @@ namespace zks {
                 m_gn_btn_next->Enable();
                 m_gn_btn_tail->Enable();
                 m_gn_index = 0;
+                OnGNShuffle(wxCommandEvent());
                 ProvidePuzzle();
             }
             void MyFrame::ProvidePuzzle() {
-                UpdateStatBMP();
-                m_gn_progress->SetValue(m_gn_index + 1);
-                m_gn_input_text->Clear();
-                m_gn_input_text->SetFocus();
-                GNHint();
+                if (m_guess_book->GetSelection() == 0) {
+                    UpdateStatBMP();
+                    m_gn_progress->SetValue(m_gn_index + 1);
+                    m_gn_input_text->Clear();
+                    m_gn_input_text->SetFocus();
+                    GNHint();
+                }
             }
             void MyFrame::GNHint() {
                 if (m_hint) {
-                    int diff = m_gn_names[m_gn_index].length() - m_gn_input_text->GetValue().length();
-                    m_gn_hint->SetLabel(wxString::Format("%c, (%d)", char(m_gn_names[m_gn_index][0]), diff));
+                    int diff = m_gn_names[index()].length() - m_gn_input_text->GetValue().length();
+                    m_gn_hint->SetLabel(wxString::Format("%c, (%d)", char(m_gn_names[index()][0]), diff));
                 }
                 else {
                     m_gn_hint->SetLabel("Come On Honey!");
                 }
+            }
+            void MyFrame::OnGNBMPSize(wxSizeEvent& event) {
+                if (m_guess_book->GetSelection() == 0) {
+                    UpdateStatBMP(event.GetSize());
+                }
+                event.Skip();
+            }
+            void MyFrame::OnGNShuffle(wxCommandEvent& event) {
+                m_rands.resize(m_images.size());
+                for (size_t i = 0; i < m_rands.size(); ++i) {
+                    m_rands[i] = i;
+                }
+                std::shuffle(m_rands.begin(), m_rands.end(), global_rng());
+                ProvidePuzzle();
             }
             void MyFrame::OnHead(wxCommandEvent& event)
             {
@@ -87,10 +120,9 @@ namespace zks {
             void MyFrame::OnGuessEnter(wxCommandEvent& event)
             {
                 wxString answer = m_gn_input_text->GetValue();
-                if (answer.MakeLower() == m_gn_names[m_gn_index]) {
+                if (answer.MakeLower() == m_gn_names[index()]) {
                     wxLogMessage(wxT("Great, that's Correct!"));
-                    ++m_gn_index;
-                    ProvidePuzzle();
+                    OnNext(wxCommandEvent());
                 }
                 else {
                     wxLogMessage(wxT("ooh, try again."));
@@ -99,6 +131,26 @@ namespace zks {
                 event.Skip();
             }
 
+            wxSize MyFrame::FitFrame(const wxSize& image_size, const wxSize& frame_size) {
+                if (image_size.x == 0 || image_size.y == 0 || frame_size.x == 0 || frame_size.y == 0)
+                    return wxDefaultSize;
+                wxSize ret;
+                float ratio = float(image_size.x) / image_size.y;
+                ret.x = std::min(frame_size.x, int(frame_size.y * ratio));
+                ret.x = std::min(ret.x, image_size.x);
+                ret.y = ret.x / ratio;
+                return ret;
+            }
+            wxImage MyFrame::FitFrame(const wxImage& image, const wxSize& frame_size) {
+                wxSize image_size = image.GetSize();
+                wxSize new_size = FitFrame(image_size, frame_size);
+                if (new_size.x <= 0 || new_size.y <= 0) {
+                    new_size = wxSize(1, 1);
+                }
+                wxImage ret(image);
+                ret.Rescale(new_size.x, new_size.y);
+                return ret;
+            }
             void MyFrame::OnFileOpenFolder(wxCommandEvent& event)
             {
                 wxGetHomeDir(&m_pic_dir);
@@ -129,11 +181,13 @@ namespace zks {
                         wxLogMessage(wxString::Format("file: %s can't be parsed. ignore it...", files[i]));
                         continue;
                     }
+                    //auto new_size = FitFrame(m_images[i].GetSize(), wxSize(400, 300));
+                    //m_images[i].Rescale(new_size.x, new_size.y, wxIMAGE_QUALITY_HIGH);
                     m_gn_names[i] = GetNameFromFile(files[i]);
                     m_gn_progress->SetValue(i+1);
                     //wxLogMessage(wxString::Format("handling[%d/%lld]: name: %s", i + 1, files.GetCount(), m_gn_names[i]));
                 }
-                wxMessageBox(wxString::Format("Load in %lld images.", files.GetCount()), "Open Image Dir");
+                wxMessageBox(wxString::Format("Load in %d images.", (int)files.GetCount()), "Open Image Dir");
                 StartGuessName();
             }
             void MyFrame::OnHintChecker(wxCommandEvent& event) {

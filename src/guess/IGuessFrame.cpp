@@ -46,6 +46,9 @@ IGuessFrame::IGuessFrame( wxWindow* parent, wxWindowID id, const wxString& title
 	m_gn_btn_tail = new wxButton( m_gn_btn_panel, wxID_ANY, wxT(">>"), wxDefaultPosition, wxDefaultSize, 0 );
 	gn_btn_sizer->Add( m_gn_btn_tail, 0, wxALL, 5 );
 	
+	m_button5 = new wxButton( m_gn_btn_panel, wxID_ANY, wxT("Shuffle"), wxDefaultPosition, wxDefaultSize, 0 );
+	gn_btn_sizer->Add( m_button5, 0, wxALL, 5 );
+	
 	m_gn_hint_checker = new wxCheckBox( m_gn_btn_panel, wxID_ANY, wxT("Hint"), wxDefaultPosition, wxSize( -1,-1 ), 0 );
 	m_gn_hint_checker->SetValue(true); 
 	gn_btn_sizer->Add( m_gn_hint_checker, 0, wxALIGN_CENTER|wxALL, 5 );
@@ -62,13 +65,15 @@ IGuessFrame::IGuessFrame( wxWindow* parent, wxWindowID id, const wxString& title
 	gn_bmp_sizer = new wxBoxSizer( wxVERTICAL );
 	
 	m_statbmp = new wxStaticBitmap( m_gn_bmp_panel, wxID_ANY, wxNullBitmap, wxDefaultPosition, wxDefaultSize, 0 );
-	gn_bmp_sizer->Add( m_statbmp, 1, wxALL|wxEXPAND, 5 );
+	m_statbmp->SetToolTip( wxT("puzzle toolip :)") );
+	
+	gn_bmp_sizer->Add( m_statbmp, 1, wxALIGN_CENTER|wxALL, 5 );
 	
 	
 	m_gn_bmp_panel->SetSizer( gn_bmp_sizer );
 	m_gn_bmp_panel->Layout();
 	gn_bmp_sizer->Fit( m_gn_bmp_panel );
-	guess_name_sizer->Add( m_gn_bmp_panel, 1, wxEXPAND | wxALL, 5 );
+	guess_name_sizer->Add( m_gn_bmp_panel, 1, wxALIGN_CENTER|wxALL|wxEXPAND, 5 );
 	
 	m_gn_input_panel = new wxPanel( m_guss_name_page, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer3;
@@ -189,7 +194,9 @@ IGuessFrame::IGuessFrame( wxWindow* parent, wxWindowID id, const wxString& title
 	m_gn_btn_prev->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnPrev ), NULL, this );
 	m_gn_btn_next->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnNext ), NULL, this );
 	m_gn_btn_tail->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnTail ), NULL, this );
+	m_button5->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnGNShuffle ), NULL, this );
 	m_gn_hint_checker->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( IGuessFrame::OnHintChecker ), NULL, this );
+	m_gn_bmp_panel->Connect( wxEVT_SIZE, wxSizeEventHandler( IGuessFrame::OnGNBMPSize ), NULL, this );
 	m_gn_input_text->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( IGuessFrame::OnGuessInput ), NULL, this );
 	m_gn_input_text->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IGuessFrame::OnGuessEnter ), NULL, this );
 	this->Connect( m_menuItem_set_folder->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IGuessFrame::OnFileOpenFolder ) );
@@ -203,7 +210,9 @@ IGuessFrame::~IGuessFrame()
 	m_gn_btn_prev->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnPrev ), NULL, this );
 	m_gn_btn_next->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnNext ), NULL, this );
 	m_gn_btn_tail->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnTail ), NULL, this );
+	m_button5->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IGuessFrame::OnGNShuffle ), NULL, this );
 	m_gn_hint_checker->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( IGuessFrame::OnHintChecker ), NULL, this );
+	m_gn_bmp_panel->Disconnect( wxEVT_SIZE, wxSizeEventHandler( IGuessFrame::OnGNBMPSize ), NULL, this );
 	m_gn_input_text->Disconnect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( IGuessFrame::OnGuessInput ), NULL, this );
 	m_gn_input_text->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IGuessFrame::OnGuessEnter ), NULL, this );
 	this->Disconnect( wxID_ANY, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( IGuessFrame::OnFileOpenFolder ) );

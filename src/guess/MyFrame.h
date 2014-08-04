@@ -23,8 +23,11 @@ namespace zks {
             class MyFrame : public IGuessFrame
             {
             protected:
-                void UpdateStatBMP();
+                static wxSize FitFrame(const wxSize& image_size, const wxSize& frame_size);
+                static wxImage FitFrame(const wxImage& image, const wxSize& frame_size);
+                void UpdateStatBMP(wxSize new_size = wxDefaultSize);
                 // Handlers for IGuessFrame events.
+                void OnGNBMPSize(wxSizeEvent& event);
                 void OnHead(wxCommandEvent& event);
                 void OnPrev(wxCommandEvent& event);
                 void OnNext(wxCommandEvent& event);
@@ -38,6 +41,10 @@ namespace zks {
                 wxString GetNameFromFile(const wxString& fn);
                 void GNHint();
                 void OnHintChecker(wxCommandEvent& event);
+                void OnGNShuffle(wxCommandEvent& event);
+                int index() const {
+                    return m_gn_index < m_rands.size() ? m_rands[m_gn_index] : 0;
+                }
             public:
                 /** Constructor */
                 MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
@@ -46,6 +53,7 @@ namespace zks {
                 wxLog *m_log;
                 wxString m_pic_dir;
                 std::vector<wxImage> m_images;
+                std::vector<int> m_rands;
                 int m_gn_index;
                 wxArrayString m_gn_names;
                 bool m_hint;

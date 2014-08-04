@@ -60,6 +60,7 @@ namespace zks
 					wxButton* m_gn_btn_prev;
 					wxButton* m_gn_btn_next;
 					wxButton* m_gn_btn_tail;
+					wxButton* m_button5;
 					wxCheckBox* m_gn_hint_checker;
 					wxScrolledWindow* m_gn_bmp_panel;
 					wxStaticBitmap* m_statbmp;
@@ -86,7 +87,9 @@ namespace zks
 					virtual void OnPrev( wxCommandEvent& event ) { event.Skip(); }
 					virtual void OnNext( wxCommandEvent& event ) { event.Skip(); }
 					virtual void OnTail( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnGNShuffle( wxCommandEvent& event ) { event.Skip(); }
 					virtual void OnHintChecker( wxCommandEvent& event ) { event.Skip(); }
+					virtual void OnGNBMPSize( wxSizeEvent& event ) { event.Skip(); }
 					virtual void OnGuessInput( wxCommandEvent& event ) { event.Skip(); }
 					virtual void OnGuessEnter( wxCommandEvent& event ) { event.Skip(); }
 					virtual void OnFileOpenFolder( wxCommandEvent& event ) { event.Skip(); }

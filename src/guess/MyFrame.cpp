@@ -53,7 +53,8 @@ namespace zks {
                 m_gn_btn_next->Enable();
                 m_gn_btn_tail->Enable();
                 m_gn_index = 0;
-                OnGNShuffle(wxCommandEvent());
+                wxCommandEvent nullevt;
+                OnGNShuffle(nullevt);
                 ProvidePuzzle();
             }
             void MyFrame::ProvidePuzzle() {
@@ -129,7 +130,8 @@ namespace zks {
                     m_gn_tip->SetForegroundColour(*wxBLUE);
                     m_gn_tip->SetLabel("You're Great!");
                     wxLogMessage(wxT("Great, that's Correct!"));
-                    OnNext(wxCommandEvent());
+                    wxCommandEvent nullevt;
+                    OnNext(nullevt);
                 }
                 else {
                     m_gn_tip->SetForegroundColour(*wxRED);

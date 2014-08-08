@@ -14,10 +14,12 @@ public:
     virtual bool OnInit(){
         wxInitAllImageHandlers();
         zks::randomize();
-        MyFrame *frame = new MyFrame(wxT("ZKS Sudoku Beta"), wxDefaultPosition, wxDefaultSize);
+        MyFrame *frame = new MyFrame(wxT("ZKS Guess Beta"), wxDefaultPosition, wxDefaultSize);
         frame->Show(true);
         return true;
     }
 };
+
+wxDECLARE_APP(MyApp);
 
 wxIMPLEMENT_APP(MyApp);

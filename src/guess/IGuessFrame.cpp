@@ -82,12 +82,12 @@ IGuessFrame::IGuessFrame( wxWindow* parent, wxWindowID id, const wxString& title
 	m_gn_input_text = new wxTextCtrl( m_gn_input_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 260,-1 ), wxTE_PROCESS_ENTER );
 	sbSizer3->Add( m_gn_input_text, 0, wxALIGN_CENTER|wxALL, 5 );
 	
-	m_staticText3 = new wxStaticText( m_gn_input_panel, wxID_ANY, wxT("case in-sensitive"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText3->Wrap( -1 );
-	m_staticText3->SetFont( wxFont( 8, 70, 93, 90, false, wxEmptyString ) );
-	m_staticText3->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_GRAYTEXT ) );
+	m_gn_tip = new wxStaticText( m_gn_input_panel, wxID_ANY, wxT("case in-sensitive"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_gn_tip->Wrap( -1 );
+	m_gn_tip->SetFont( wxFont( 8, 70, 93, 90, false, wxEmptyString ) );
+	m_gn_tip->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_GRAYTEXT ) );
 	
-	sbSizer3->Add( m_staticText3, 0, wxALIGN_CENTER|wxALL, 5 );
+	sbSizer3->Add( m_gn_tip, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	m_gn_hint = new wxStaticText( m_gn_input_panel, wxID_ANY, wxT("hint: "), wxDefaultPosition, wxSize( 200,-1 ), 0 );
 	m_gn_hint->Wrap( -1 );

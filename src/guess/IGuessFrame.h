@@ -66,7 +66,7 @@ namespace zks
 					wxStaticBitmap* m_statbmp;
 					wxPanel* m_gn_input_panel;
 					wxTextCtrl* m_gn_input_text;
-					wxStaticText* m_staticText3;
+					wxStaticText* m_gn_tip;
 					wxStaticText* m_gn_hint;
 					wxGauge* m_gn_progress;
 					wxPanel* m_guess_pic_page;

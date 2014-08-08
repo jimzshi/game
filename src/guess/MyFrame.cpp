@@ -47,6 +47,7 @@ namespace zks {
                 //GetSizer()->Layout();
             }
             void MyFrame::StartGuessName() {
+                m_gn_progress->SetRange(m_images.size());
                 m_gn_btn_head->Enable();
                 m_gn_btn_prev->Enable();
                 m_gn_btn_next->Enable();
@@ -57,6 +58,10 @@ namespace zks {
             }
             void MyFrame::ProvidePuzzle() {
                 if (m_guess_book->GetSelection() == 0) {
+                    if (m_images.size() == 0) {
+                        wxMessageBox("Oops! You need open a pics folder first :)", "Oops!");
+                        return;
+                    }
                     UpdateStatBMP();
                     m_gn_progress->SetValue(m_gn_index + 1);
                     m_gn_input_text->Clear();
@@ -121,10 +126,14 @@ namespace zks {
             {
                 wxString answer = m_gn_input_text->GetValue();
                 if (answer.MakeLower() == m_gn_names[index()]) {
+                    m_gn_tip->SetForegroundColour(*wxBLUE);
+                    m_gn_tip->SetLabel("You're Great!");
                     wxLogMessage(wxT("Great, that's Correct!"));
                     OnNext(wxCommandEvent());
                 }
                 else {
+                    m_gn_tip->SetForegroundColour(*wxRED);
+                    m_gn_tip->SetLabel("ooh, you GUESS!");
                     wxLogMessage(wxT("ooh, try again."));
                     ProvidePuzzle();
                 }
@@ -174,18 +183,19 @@ namespace zks {
                     return;
                 }
                 m_gn_progress->SetRange(files.GetCount());
-                m_images.resize(files.GetCount());
-                m_gn_names.resize(files.GetCount());
+                m_images.clear();
+                m_gn_names.clear();
+                m_images.reserve(files.GetCount());
+                m_gn_names.reserve(files.GetCount());
                 for (int i = 0; i < files.GetCount(); ++i) {
-                    if (!m_images[i].LoadFile(files[i]))  {
+                    wxImage img;
+                    if (!img.LoadFile(files[i]) || !img.IsOk())  {
                         wxLogMessage(wxString::Format("file: %s can't be parsed. ignore it...", files[i]));
                         continue;
                     }
-                    //auto new_size = FitFrame(m_images[i].GetSize(), wxSize(400, 300));
-                    //m_images[i].Rescale(new_size.x, new_size.y, wxIMAGE_QUALITY_HIGH);
-                    m_gn_names[i] = GetNameFromFile(files[i]);
+                    m_images.push_back(img);
+                    m_gn_names.push_back(GetNameFromFile(files[i]));
                     m_gn_progress->SetValue(i+1);
-                    //wxLogMessage(wxString::Format("handling[%d/%lld]: name: %s", i + 1, files.GetCount(), m_gn_names[i]));
                 }
                 wxMessageBox(wxString::Format("Load in %d images.", (int)files.GetCount()), "Open Image Dir");
                 StartGuessName();

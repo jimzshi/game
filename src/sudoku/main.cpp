@@ -63,6 +63,10 @@ public:
     }
 };
 
-wxIMPLEMENT_APP(MyApp);
+wxDECLARE_APP(MyApp);
+
+wxIMPLEMENT_WXWIN_MAIN_CONSOLE
+
+wxIMPLEMENT_APP_NO_MAIN(MyApp);
 
 #endif //USE_GUI

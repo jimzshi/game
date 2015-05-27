@@ -11,6 +11,11 @@ set( CMAKE_DEBUG_POSTFIX "_d" )
 if(CMAKE_CXX_COMPILER_ID STREQUAL Clang)
     string(CONCAT CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} " -lc++")
 endif(CMAKE_CXX_COMPILER_ID STREQUAL Clang)
+
+if(MSVC)
+	string(CONCAT CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -D_SCL_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS")
+endif()
+
 string(CONCAT CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG} " -DDEBUG -D_DEBUG")
 string(CONCAT CMAKE_CXX_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE} " -D_NDEBUG -DZKS_DISABLE_TRIVIAL_LOG")
 
@@ -39,6 +44,7 @@ FIND_PATH(ZKS_INCLUDE_DIR
   /usr/local/include/
   #MSVC
   "$ENV{LIB_DIR}/include"
+  "$ENV{UserProfile}/local/include/"
   $ENV{ZKS_INCLUDE_PATH}
   #mingw
   c:/msys/local/include
@@ -50,6 +56,7 @@ if(CONFIG STREQUAL debug)
       /usr/lib 
       "$ENV{HOME}/local/lib"
       #MSVC
+	  "$ENV{UserProfile}/local/lib"
       "$ENV{LIB_DIR}/lib"
       $ENV{ZKS_LIB_PATH}
       #mingw
@@ -61,6 +68,7 @@ else(CONFIG STREQUAL debug)
       /usr/lib 
       "$ENV{HOME}/local/lib"
       #MSVC
+	  "$ENV{UserProfile}/local/lib"
       "$ENV{LIB_DIR}/lib"
       $ENV{ZKS_LIB_PATH}
       #mingw
@@ -86,11 +94,11 @@ ENDIF (ZKS_FOUND)
 FIND_PACKAGE ( Threads REQUIRED )
 
 ######################### thread ##################################
-if(WIN32)
-    SET(wxWidgets_ROOT_DIR C:/local/wxWidgets-3.0.1)
-    SET(wxWidgets_LIB_DIR C:/local/wxWidgets-3.0.1/lib/vc_x64_lib)
-    SET(wxWidgets_CONFIGURATION mswu)
-endif(WIN32)
+# if(WIN32)
+    # SET(wxWidgets_ROOT_DIR C:/local/wxWidgets-3.0.1)
+    # SET(wxWidgets_LIB_DIR C:/local/wxWidgets-3.0.1/lib/vc_x64_lib)
+    # SET(wxWidgets_CONFIGURATION mswu)
+# endif(WIN32)
 
 FIND_PACKAGE (wxWidgets COMPONENTS core base aui adv propgrid richtext)
 if(wxWidgets_FOUND)

@@ -73,7 +73,6 @@ class ITCFrame : public wxFrame
 		wxPanel* m_panel12;
 		wxButton* btn_run;
 		wxButton* btn_close;
-		wxButton* btn_reset;
 		wxButton* btn_clear;
 		wxTextCtrl* m_log_text;
 		wxPanel* batch_panel;
@@ -89,7 +88,6 @@ class ITCFrame : public wxFrame
 		virtual void OnColMoveDown( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnRun( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnClose( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnReset( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnClearLog( wxCommandEvent& event ) { event.Skip(); }
 		
 	

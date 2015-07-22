@@ -227,9 +227,6 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	btn_close = new wxButton( m_panel12, wxID_ANY, wxT("Close"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer3->Add( btn_close, 0, wxALL, 5 );
 	
-	btn_reset = new wxButton( m_panel12, wxID_ANY, wxT("Reset"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer3->Add( btn_reset, 0, wxALL, 5 );
-	
 	btn_clear = new wxButton( m_panel12, wxID_ANY, wxT("Clear Log"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer3->Add( btn_clear, 0, wxALL, 5 );
 	
@@ -281,7 +278,6 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	btn_mv_down->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnColMoveDown ), NULL, this );
 	btn_run->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnRun ), NULL, this );
 	btn_close->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnClose ), NULL, this );
-	btn_reset->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnReset ), NULL, this );
 	btn_clear->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnClearLog ), NULL, this );
 }
 
@@ -300,7 +296,6 @@ ITCFrame::~ITCFrame()
 	btn_mv_down->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnColMoveDown ), NULL, this );
 	btn_run->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnRun ), NULL, this );
 	btn_close->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnClose ), NULL, this );
-	btn_reset->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnReset ), NULL, this );
 	btn_clear->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnClearLog ), NULL, this );
 	
 }

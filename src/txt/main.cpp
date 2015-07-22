@@ -8,7 +8,7 @@
 
 using namespace std;
 
-zks::simlog g_logger;
+//zks::simlog g_logger;
 
 #ifndef USE_GUI
 int main(int argc, char* argv[]) {
@@ -51,8 +51,8 @@ class MyApp : public wxApp
 {
 public:
     virtual bool OnInit(){
-    	g_logger.config.stream_type = 3;
-    	g_logger.reset();
+    	//g_logger.config.stream_type = 3;
+    	//g_logger.reset();
         MyFrame *frame = new MyFrame(wxT("Txt Converter 0.1 Beta"), wxDefaultPosition, wxDefaultSize);
         frame->Show(true);
         return true;

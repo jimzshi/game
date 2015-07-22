@@ -35,11 +35,11 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	input_delimiter->SetSelection( 2 );
 	sbSizer4->Add( input_delimiter, 0, wxALL, 0 );
 	
-	wxString input_escapeChoices[] = { wxT("Single Quote (')"), wxT("Double Quote(\")"), wxT("None") };
-	int input_escapeNChoices = sizeof( input_escapeChoices ) / sizeof( wxString );
-	input_escape = new wxRadioBox( sbSizer4->GetStaticBox(), wxID_ANY, wxT("Input Field Escape"), wxDefaultPosition, wxDefaultSize, input_escapeNChoices, input_escapeChoices, 2, wxRA_SPECIFY_COLS );
-	input_escape->SetSelection( 2 );
-	sbSizer4->Add( input_escape, 0, wxALL, 0 );
+	wxString input_quoteChoices[] = { wxT("Single Quote (')"), wxT("Double Quote(\")"), wxT("None") };
+	int input_quoteNChoices = sizeof( input_quoteChoices ) / sizeof( wxString );
+	input_quote = new wxRadioBox( sbSizer4->GetStaticBox(), wxID_ANY, wxT("Input Field Quote"), wxDefaultPosition, wxDefaultSize, input_quoteNChoices, input_quoteChoices, 2, wxRA_SPECIFY_COLS );
+	input_quote->SetSelection( 2 );
+	sbSizer4->Add( input_quote, 0, wxALL, 0 );
 	
 	
 	m_panel9->SetSizer( sbSizer4 );
@@ -54,7 +54,7 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer8;
 	bSizer8 = new wxBoxSizer( wxHORIZONTAL );
 	
-	input_filepicker = new wxFilePickerCtrl( m_panel15, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE|wxFLP_FILE_MUST_EXIST );
+	input_filepicker = new wxFilePickerCtrl( m_panel15, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE );
 	bSizer8->Add( input_filepicker, 2, wxALIGN_CENTER|wxALL|wxEXPAND, 0 );
 	
 	input_has_header = new wxCheckBox( m_panel15, wxID_ANY, wxT("Include Header"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -125,11 +125,11 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	output_delimiter->SetSelection( 1 );
 	sbSizer41->Add( output_delimiter, 0, wxALL, 1 );
 	
-	wxString output_escapeChoices[] = { wxT("Single Quote (')"), wxT("Double Quote(\")"), wxT("None") };
-	int output_escapeNChoices = sizeof( output_escapeChoices ) / sizeof( wxString );
-	output_escape = new wxRadioBox( sbSizer41->GetStaticBox(), wxID_ANY, wxT("Output Field Escape"), wxDefaultPosition, wxDefaultSize, output_escapeNChoices, output_escapeChoices, 2, wxRA_SPECIFY_COLS );
-	output_escape->SetSelection( 2 );
-	sbSizer41->Add( output_escape, 0, wxALL, 1 );
+	wxString output_quoteChoices[] = { wxT("Single Quote (')"), wxT("Double Quote(\")"), wxT("None") };
+	int output_quoteNChoices = sizeof( output_quoteChoices ) / sizeof( wxString );
+	output_quote = new wxRadioBox( sbSizer41->GetStaticBox(), wxID_ANY, wxT("Output Field Quote"), wxDefaultPosition, wxDefaultSize, output_quoteNChoices, output_quoteChoices, 2, wxRA_SPECIFY_COLS );
+	output_quote->SetSelection( 2 );
+	sbSizer41->Add( output_quote, 0, wxALL, 1 );
 	
 	
 	m_panel91->SetSizer( sbSizer41 );
@@ -144,7 +144,7 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer10;
 	bSizer10 = new wxBoxSizer( wxHORIZONTAL );
 	
-	output_filepicker = new wxFilePickerCtrl( m_panel16, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxSize( -1,-1 ), wxFLP_DEFAULT_STYLE|wxFLP_OVERWRITE_PROMPT|wxFLP_SAVE );
+	output_filepicker = new wxFilePickerCtrl( m_panel16, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxSize( -1,-1 ), wxFLP_OVERWRITE_PROMPT|wxFLP_SAVE|wxFLP_USE_TEXTCTRL );
 	bSizer10->Add( output_filepicker, 2, wxALIGN_CENTER|wxALL|wxEXPAND, 1 );
 	
 	output_has_header = new wxCheckBox( m_panel16, wxID_ANY, wxT("Include Header"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -270,11 +270,11 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	// Connect Events
 	input_delimiter->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateInputPreview ), NULL, this );
-	input_escape->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateInputPreview ), NULL, this );
+	input_quote->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateInputPreview ), NULL, this );
 	input_filepicker->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( ITCFrame::UpdateInputPreview ), NULL, this );
 	input_has_header->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( ITCFrame::UpdateInputPreview ), NULL, this );
 	output_delimiter->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateOutputPreview ), NULL, this );
-	output_escape->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateOutputPreview ), NULL, this );
+	output_quote->Connect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateOutputPreview ), NULL, this );
 	output_filepicker->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( ITCFrame::UpdateOutputPreview ), NULL, this );
 	output_has_header->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( ITCFrame::UpdateOutputPreview ), NULL, this );
 	btn_mv_up->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnColMoveUp ), NULL, this );
@@ -289,11 +289,11 @@ ITCFrame::~ITCFrame()
 {
 	// Disconnect Events
 	input_delimiter->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateInputPreview ), NULL, this );
-	input_escape->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateInputPreview ), NULL, this );
+	input_quote->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateInputPreview ), NULL, this );
 	input_filepicker->Disconnect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( ITCFrame::UpdateInputPreview ), NULL, this );
 	input_has_header->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( ITCFrame::UpdateInputPreview ), NULL, this );
 	output_delimiter->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateOutputPreview ), NULL, this );
-	output_escape->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateOutputPreview ), NULL, this );
+	output_quote->Disconnect( wxEVT_COMMAND_RADIOBOX_SELECTED, wxCommandEventHandler( ITCFrame::UpdateOutputPreview ), NULL, this );
 	output_filepicker->Disconnect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( ITCFrame::UpdateOutputPreview ), NULL, this );
 	output_has_header->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( ITCFrame::UpdateOutputPreview ), NULL, this );
 	btn_mv_up->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( ITCFrame::OnColMoveUp ), NULL, this );

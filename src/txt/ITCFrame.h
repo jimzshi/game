@@ -49,7 +49,7 @@ class ITCFrame : public wxFrame
 		wxPanel* m_panel4;
 		wxPanel* m_panel9;
 		wxRadioBox* input_delimiter;
-		wxRadioBox* input_escape;
+		wxRadioBox* input_quote;
 		wxPanel* m_panel15;
 		wxFilePickerCtrl* input_filepicker;
 		wxCheckBox* input_has_header;
@@ -58,7 +58,7 @@ class ITCFrame : public wxFrame
 		wxPanel* m_panel5;
 		wxPanel* m_panel91;
 		wxRadioBox* output_delimiter;
-		wxRadioBox* output_escape;
+		wxRadioBox* output_quote;
 		wxPanel* m_panel16;
 		wxFilePickerCtrl* output_filepicker;
 		wxCheckBox* output_has_header;
@@ -95,7 +95,7 @@ class ITCFrame : public wxFrame
 	
 	public:
 		
-		ITCFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Txt Converter 0.1 Beta"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,780 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		ITCFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Txt Converter 0.1 Beta"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,900 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~ITCFrame();
 	

@@ -50,31 +50,29 @@ FIND_PATH(ZKS_INCLUDE_DIR
   c:/msys/local/include
   )
 
-if(CONFIG STREQUAL debug)
-    FIND_LIBRARY(ZKS_LIBRARY NAMES zks_d libzks_d PATHS 
-      /usr/local/lib 
-      /usr/lib 
-      "$ENV{HOME}/local/lib"
-      #MSVC
-	  "$ENV{UserProfile}/local/lib"
-      "$ENV{LIB_DIR}/lib"
-      $ENV{ZKS_LIB_PATH}
-      #mingw
-      c:/msys/local/lib
-      )
-else(CONFIG STREQUAL debug)
-    FIND_LIBRARY(ZKS_LIBRARY NAMES zks libzks PATHS 
-      /usr/local/lib 
-      /usr/lib 
-      "$ENV{HOME}/local/lib"
-      #MSVC
-	  "$ENV{UserProfile}/local/lib"
-      "$ENV{LIB_DIR}/lib"
-      $ENV{ZKS_LIB_PATH}
-      #mingw
-      c:/msys/local/lib
-      )
-endif(CONFIG STREQUAL debug)
+FIND_LIBRARY(ZKS_LIB_D NAMES zks_d libzks_d PATHS 
+    /usr/local/lib 
+    /usr/lib 
+    "$ENV{HOME}/local/lib"
+    #MSVC
+    "$ENV{UserProfile}/local/lib"
+    "$ENV{LIB_DIR}/lib"
+    $ENV{ZKS_LIB_PATH}
+    #mingw
+    c:/msys/local/lib
+    )
+FIND_LIBRARY(ZKS_LIB NAMES zks libzks PATHS 
+    /usr/local/lib 
+    /usr/lib 
+    "$ENV{HOME}/local/lib"
+    #MSVC
+    "$ENV{UserProfile}/local/lib"
+    "$ENV{LIB_DIR}/lib"
+    $ENV{ZKS_LIB_PATH}
+    #mingw
+    c:/msys/local/lib
+    )
+string(CONCAT ZKS_LIBRARY "debug;" ${ZKS_LIB_D} ";general;" ${ZKS_LIB} )
 
 IF (ZKS_INCLUDE_DIR AND ZKS_LIBRARY)
    SET(ZKS_FOUND TRUE)

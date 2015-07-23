@@ -23,21 +23,21 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	m_panel4 = new wxPanel( single_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer1;
-	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( m_panel4, wxID_ANY, wxT("Input") ), wxHORIZONTAL );
+	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( m_panel4, wxID_ANY, _("Input") ), wxHORIZONTAL );
 	
 	m_panel9 = new wxPanel( sbSizer1->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer4;
-	sbSizer4 = new wxStaticBoxSizer( new wxStaticBox( m_panel9, wxID_ANY, wxT("Format") ), wxVERTICAL );
+	sbSizer4 = new wxStaticBoxSizer( new wxStaticBox( m_panel9, wxID_ANY, _("Format") ), wxVERTICAL );
 	
-	wxString input_delimiterChoices[] = { wxT("comma (,)"), wxT("tab (\\t)"), wxT("semi-column (;)") };
+	wxString input_delimiterChoices[] = { _("comma (,)"), _("tab (\\t)"), _("semi-column (;)") };
 	int input_delimiterNChoices = sizeof( input_delimiterChoices ) / sizeof( wxString );
-	input_delimiter = new wxRadioBox( sbSizer4->GetStaticBox(), wxID_ANY, wxT("Input Delimiter"), wxDefaultPosition, wxDefaultSize, input_delimiterNChoices, input_delimiterChoices, 2, wxRA_SPECIFY_COLS );
+	input_delimiter = new wxRadioBox( sbSizer4->GetStaticBox(), wxID_ANY, _("Input Delimiter"), wxDefaultPosition, wxDefaultSize, input_delimiterNChoices, input_delimiterChoices, 2, wxRA_SPECIFY_COLS );
 	input_delimiter->SetSelection( 2 );
 	sbSizer4->Add( input_delimiter, 0, wxALL, 0 );
 	
-	wxString input_quoteChoices[] = { wxT("Single Quote (')"), wxT("Double Quote(\")"), wxT("None") };
+	wxString input_quoteChoices[] = { _("Single Quote (')"), _("Double Quote(\")"), _("None") };
 	int input_quoteNChoices = sizeof( input_quoteChoices ) / sizeof( wxString );
-	input_quote = new wxRadioBox( sbSizer4->GetStaticBox(), wxID_ANY, wxT("Input Field Quote"), wxDefaultPosition, wxDefaultSize, input_quoteNChoices, input_quoteChoices, 2, wxRA_SPECIFY_COLS );
+	input_quote = new wxRadioBox( sbSizer4->GetStaticBox(), wxID_ANY, _("Input Field Quote"), wxDefaultPosition, wxDefaultSize, input_quoteNChoices, input_quoteChoices, 2, wxRA_SPECIFY_COLS );
 	input_quote->SetSelection( 2 );
 	sbSizer4->Add( input_quote, 0, wxALL, 0 );
 	
@@ -54,10 +54,10 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer8;
 	bSizer8 = new wxBoxSizer( wxHORIZONTAL );
 	
-	input_filepicker = new wxFilePickerCtrl( m_panel15, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE );
+	input_filepicker = new wxFilePickerCtrl( m_panel15, wxID_ANY, wxEmptyString, _("Select a file"), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE );
 	bSizer8->Add( input_filepicker, 2, wxALIGN_CENTER|wxALL|wxEXPAND, 0 );
 	
-	input_has_header = new wxCheckBox( m_panel15, wxID_ANY, wxT("Include Header"), wxDefaultPosition, wxDefaultSize, 0 );
+	input_has_header = new wxCheckBox( m_panel15, wxID_ANY, _("Include Header"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer8->Add( input_has_header, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	
@@ -65,7 +65,7 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	m_panel11 = new wxPanel( m_panel15, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer6;
-	sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( m_panel11, wxID_ANY, wxT("Preview") ), wxVERTICAL );
+	sbSizer6 = new wxStaticBoxSizer( new wxStaticBox( m_panel11, wxID_ANY, _("Preview") ), wxVERTICAL );
 	
 	input_preview = new wxGrid( sbSizer6->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
 	
@@ -113,21 +113,21 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	m_panel5 = new wxPanel( single_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer2;
-	sbSizer2 = new wxStaticBoxSizer( new wxStaticBox( m_panel5, wxID_ANY, wxT("Output") ), wxHORIZONTAL );
+	sbSizer2 = new wxStaticBoxSizer( new wxStaticBox( m_panel5, wxID_ANY, _("Output") ), wxHORIZONTAL );
 	
 	m_panel91 = new wxPanel( sbSizer2->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer41;
-	sbSizer41 = new wxStaticBoxSizer( new wxStaticBox( m_panel91, wxID_ANY, wxT("Format") ), wxVERTICAL );
+	sbSizer41 = new wxStaticBoxSizer( new wxStaticBox( m_panel91, wxID_ANY, _("Format") ), wxVERTICAL );
 	
-	wxString output_delimiterChoices[] = { wxT("comma (,)"), wxT("tab (\\t)"), wxT("semi-column (;)") };
+	wxString output_delimiterChoices[] = { _("comma (,)"), _("tab (\\t)"), _("semi-column (;)") };
 	int output_delimiterNChoices = sizeof( output_delimiterChoices ) / sizeof( wxString );
-	output_delimiter = new wxRadioBox( sbSizer41->GetStaticBox(), wxID_ANY, wxT("Output Delimiter"), wxDefaultPosition, wxDefaultSize, output_delimiterNChoices, output_delimiterChoices, 2, wxRA_SPECIFY_COLS );
+	output_delimiter = new wxRadioBox( sbSizer41->GetStaticBox(), wxID_ANY, _("Output Delimiter"), wxDefaultPosition, wxDefaultSize, output_delimiterNChoices, output_delimiterChoices, 2, wxRA_SPECIFY_COLS );
 	output_delimiter->SetSelection( 1 );
 	sbSizer41->Add( output_delimiter, 0, wxALL, 1 );
 	
-	wxString output_quoteChoices[] = { wxT("Single Quote (')"), wxT("Double Quote(\")"), wxT("None") };
+	wxString output_quoteChoices[] = { _("Single Quote (')"), _("Double Quote(\")"), _("None") };
 	int output_quoteNChoices = sizeof( output_quoteChoices ) / sizeof( wxString );
-	output_quote = new wxRadioBox( sbSizer41->GetStaticBox(), wxID_ANY, wxT("Output Field Quote"), wxDefaultPosition, wxDefaultSize, output_quoteNChoices, output_quoteChoices, 2, wxRA_SPECIFY_COLS );
+	output_quote = new wxRadioBox( sbSizer41->GetStaticBox(), wxID_ANY, _("Output Field Quote"), wxDefaultPosition, wxDefaultSize, output_quoteNChoices, output_quoteChoices, 2, wxRA_SPECIFY_COLS );
 	output_quote->SetSelection( 2 );
 	sbSizer41->Add( output_quote, 0, wxALL, 1 );
 	
@@ -144,10 +144,10 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer10;
 	bSizer10 = new wxBoxSizer( wxHORIZONTAL );
 	
-	output_filepicker = new wxFilePickerCtrl( m_panel16, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxSize( -1,-1 ), wxFLP_OVERWRITE_PROMPT|wxFLP_SAVE|wxFLP_USE_TEXTCTRL );
+	output_filepicker = new wxFilePickerCtrl( m_panel16, wxID_ANY, wxEmptyString, _("Select a file"), wxT("*.*"), wxDefaultPosition, wxSize( -1,-1 ), wxFLP_OVERWRITE_PROMPT|wxFLP_SAVE|wxFLP_USE_TEXTCTRL );
 	bSizer10->Add( output_filepicker, 2, wxALIGN_CENTER|wxALL|wxEXPAND, 1 );
 	
-	output_has_header = new wxCheckBox( m_panel16, wxID_ANY, wxT("Include Header"), wxDefaultPosition, wxDefaultSize, 0 );
+	output_has_header = new wxCheckBox( m_panel16, wxID_ANY, _("Include Header"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer10->Add( output_has_header, 0, wxALL, 5 );
 	
 	
@@ -155,7 +155,7 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	m_panel111 = new wxPanel( m_panel16, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer61;
-	sbSizer61 = new wxStaticBoxSizer( new wxStaticBox( m_panel111, wxID_ANY, wxT("Change Column Order") ), wxVERTICAL );
+	sbSizer61 = new wxStaticBoxSizer( new wxStaticBox( m_panel111, wxID_ANY, _("Change Column Order") ), wxVERTICAL );
 	
 	m_panel13 = new wxPanel( sbSizer61->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer4;
@@ -167,10 +167,10 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer5;
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
 	
-	btn_mv_up = new wxButton( m_panel13, wxID_ANY, wxT("Move Up"), wxDefaultPosition, wxDefaultSize, 0 );
+	btn_mv_up = new wxButton( m_panel13, wxID_ANY, _("Move Up"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer5->Add( btn_mv_up, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 	
-	btn_mv_down = new wxButton( m_panel13, wxID_ANY, wxT("Move Down"), wxDefaultPosition, wxDefaultSize, 0 );
+	btn_mv_down = new wxButton( m_panel13, wxID_ANY, _("Move Down"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer5->Add( btn_mv_down, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5 );
 	
 	
@@ -202,7 +202,7 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	m_panel141 = new wxPanel( single_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer8;
-	sbSizer8 = new wxStaticBoxSizer( new wxStaticBox( m_panel141, wxID_ANY, wxT("Output Preview") ), wxVERTICAL );
+	sbSizer8 = new wxStaticBoxSizer( new wxStaticBox( m_panel141, wxID_ANY, _("Output Preview") ), wxVERTICAL );
 	
 	output_preview = new wxTextCtrl( sbSizer8->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxTE_MULTILINE|wxTE_READONLY );
 	sbSizer8->Add( output_preview, 1, wxALL|wxEXPAND, 5 );
@@ -215,19 +215,19 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	
 	m_panel6 = new wxPanel( single_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxStaticBoxSizer* sbSizer3;
-	sbSizer3 = new wxStaticBoxSizer( new wxStaticBox( m_panel6, wxID_ANY, wxT("Control Area") ), wxVERTICAL );
+	sbSizer3 = new wxStaticBoxSizer( new wxStaticBox( m_panel6, wxID_ANY, _("Control Area") ), wxVERTICAL );
 	
 	m_panel12 = new wxPanel( sbSizer3->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxHORIZONTAL );
 	
-	btn_run = new wxButton( m_panel12, wxID_ANY, wxT("Run"), wxDefaultPosition, wxDefaultSize, 0 );
+	btn_run = new wxButton( m_panel12, wxID_ANY, _("Run"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer3->Add( btn_run, 0, wxALL, 5 );
 	
-	btn_close = new wxButton( m_panel12, wxID_ANY, wxT("Close"), wxDefaultPosition, wxDefaultSize, 0 );
+	btn_close = new wxButton( m_panel12, wxID_ANY, _("Close"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer3->Add( btn_close, 0, wxALL, 5 );
 	
-	btn_clear = new wxButton( m_panel12, wxID_ANY, wxT("Clear Log"), wxDefaultPosition, wxDefaultSize, 0 );
+	btn_clear = new wxButton( m_panel12, wxID_ANY, _("Clear Log"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer3->Add( btn_clear, 0, wxALL, 5 );
 	
 	
@@ -249,9 +249,9 @@ ITCFrame::ITCFrame( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	single_panel->SetSizer( bSizer2 );
 	single_panel->Layout();
 	bSizer2->Fit( single_panel );
-	m_notebook->AddPage( single_panel, wxT("Single File"), false );
+	m_notebook->AddPage( single_panel, _("Single File"), false );
 	batch_panel = new wxPanel( m_notebook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	m_notebook->AddPage( batch_panel, wxT("Batch Mode (TBC)"), false );
+	m_notebook->AddPage( batch_panel, _("Batch Mode (TBC)"), false );
 	
 	bSizer1->Add( m_notebook, 1, wxEXPAND | wxALL, 5 );
 	

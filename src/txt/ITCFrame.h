@@ -10,6 +10,7 @@
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
+#include <wx/intl.h>
 #include <wx/string.h>
 #include <wx/radiobox.h>
 #include <wx/gdicmn.h>
@@ -93,7 +94,7 @@ class ITCFrame : public wxFrame
 	
 	public:
 		
-		ITCFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Txt Converter 0.1 Beta"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,900 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		ITCFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Txt Converter 0.1 Beta"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800,900 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~ITCFrame();
 	

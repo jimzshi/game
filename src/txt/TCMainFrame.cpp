@@ -111,6 +111,13 @@ void MyFrame::UpdateInputPreview(wxFileDirPickerEvent & event) {
 	if (!ifs) {
 		return;
 	}
+
+	auto txt_fmt = zks::unicode::txt_consume_header(ifs);
+	if (txt_fmt == zks::unicode::txt_format::error) {
+		wxMessageBox("[Error]: Input file has an invalid UTF8 header!", "Error");
+		return;
+	}
+
 	zks::u8string line;
 	preview_buf.clear();
 	for (int i = 1; i < 6 && zks::getline(ifs, line); ++i) {
@@ -139,22 +146,22 @@ void MyFrame::UpdateOutputPreview(wxCommandEvent & event) {
 
 void MyFrame::OnRun(wxCommandEvent & event) {
 	if (ofname.empty()) {
-		wxMessageBox("Output Filename is Empty!", "Error");
+		wxMessageBox("[Error]: Output Filename is Empty!", "Error");
 		return;
 	}
 	if (ifname.empty()) {
-		wxMessageBox("Input Filename is Empty!", "Error");
+		wxMessageBox("[Error]: Input Filename is Empty!", "Error");
 		return;
 	}
 	wxLogMessage("OnRun");
 	std::ofstream ofs(ofname.c_str(), std::ios_base::trunc);
 	if (!ofs) {
-		wxMessageBox("Can't access to output file!", "Error");
+		wxMessageBox("[Error]: Can't access to output file!", "Error");
 		return;
 	}
 	std::ifstream ifs(ifname.c_str());
 	if (!ifs) {
-		wxMessageBox("Can't access to input file!", "Error");
+		wxMessageBox("[Error]: Can't access to input file!", "Error");
 		return;
 	}
 

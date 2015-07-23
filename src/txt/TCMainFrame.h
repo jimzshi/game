@@ -40,6 +40,7 @@ public:
 		delimiters = ",\t;";
 		quotes = "'\"";
 		col_sel = -1;
+		this->SetIcon(wxIcon("TCIcon"));
 	}
 
 private:

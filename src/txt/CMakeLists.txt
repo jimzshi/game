@@ -13,6 +13,7 @@ SET_TARGET_PROPERTIES(TxtConverter PROPERTIES COMPILE_DEFINITIONS "${_gui_flag};
 target_link_libraries (TxtConverter ${ZKS_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${wxWidgets_LIBRARIES})
 
 install (TARGETS TxtConverter DESTINATION bin)
-install (FILES TxtConverter.ico DESTINATION bin)
-install (FILES ITxtConverter.fbp DESTINATION etc)
+install (FILES TxtConverter.ico DESTINATION share/icon)
+install (DIRECTORY en zh_CN DESTINATION share/locale)
+install (FILES TxtConverter.ini ITxtConverter.fbp DESTINATION etc)
 install (FILES ${TXT_GAME} DESTINATION doc)

@@ -5,8 +5,10 @@
 #include <thread>
 #include <future>
 #include <memory>
+#include <filesystem>
 
 using namespace std;
+namespace sys = std::tr2::sys;
 
 //zks::simlog g_logger;
 
@@ -47,16 +49,118 @@ int main(int argc, char* argv[]) {
 #include "wx/wx.h"
 #endif
 
+#include "wx/intl.h"
+
+
+static const wxLanguage langIds[] =
+{
+	wxLANGUAGE_DEFAULT,
+	wxLANGUAGE_ENGLISH,
+	//wxLANGUAGE_ENGLISH_US,
+	wxLANGUAGE_CHINESE_SIMPLIFIED,
+	//wxLANGUAGE_FRENCH,
+	//wxLANGUAGE_ITALIAN,
+	//wxLANGUAGE_GERMAN,
+	//wxLANGUAGE_RUSSIAN,
+	//wxLANGUAGE_BULGARIAN,
+	//wxLANGUAGE_CZECH,
+	//wxLANGUAGE_POLISH,
+	//wxLANGUAGE_SWEDISH,
+	//wxLANGUAGE_JAPANESE,
+	//wxLANGUAGE_GEORGIAN,
+	//wxLANGUAGE_ARABIC,
+	//wxLANGUAGE_ARABIC_EGYPT
+};
+
+
+const wxString langNames[] =
+{
+	"System default",
+	"English",
+	//"English (U.S.)",
+	"Chinese",
+	//"French",
+	//"Italian",
+	//"German",
+	//"Russian",
+	//"Bulgarian",
+	//"Czech",
+	//"Polish",
+	//"Swedish",
+	//"Japanese",
+	//"Georgian",
+	//"Arabic",
+	//"Arabic (Egypt)"
+};
+
+// the arrays must be in sync
+wxCOMPILE_TIME_ASSERT(WXSIZEOF(langNames) == WXSIZEOF(langIds),
+	LangArraysMismatch);
+
 class MyApp : public wxApp
 {
 public:
+
+	MyApp() { m_lang = wxLANGUAGE_UNKNOWN; }
+
     virtual bool OnInit(){
-    	//g_logger.config.stream_type = 3;
-    	//g_logger.reset();
-        MyFrame *frame = new MyFrame(wxT("Txt Converter 0.1 Beta"), wxDefaultPosition, wxDefaultSize);
+		if (!wxApp::OnInit())
+			return false;
+		 
+		auto wp = sys::current_path();
+		wp /= "../etc/TxtConverter.ini";
+		if (m_conf.parse(wp.generic_string()) < 0 || !m_conf.has_option("general", "lang")) {
+			wxLogWarning(wxString::Format(_("Can't read in setting file: '%s'"), wp.generic_string()));
+			m_lang = wxLANGUAGE_UNKNOWN;
+		}
+		else {
+			zks::u8string lang;
+			m_conf.option("General", "lang", &lang);
+			for (size_t i = 0; i < WXSIZEOF(langNames); ++i) {
+				if (langNames[i].ToStdString() == lang.str()) {
+					m_lang = langIds[i];
+				}
+			}
+		}
+		
+		if (m_lang == wxLANGUAGE_UNKNOWN)
+		{
+			int lng = wxGetSingleChoiceIndex
+				(
+					_("Please choose language:"),
+					_("Language"),
+					WXSIZEOF(langNames),
+					langNames
+					);
+			m_lang = lng == -1 ? wxLANGUAGE_DEFAULT : langIds[lng];
+		}
+
+		if (!m_locale.Init(m_lang, wxLOCALE_DONT_LOAD_DEFAULT))
+		{
+			wxLogWarning(_("This language is not supported by the system."));
+		}
+
+		wxLocale::AddCatalogLookupPathPrefix("../share/locale");
+
+		const wxLanguageInfo* pInfo = wxLocale::GetLanguageInfo(m_lang);
+		if (!m_locale.AddCatalog("TxtConverter"))
+		{
+			wxLogError(_("Couldn't find/load the 'TxtConverter' catalog for locale '%s'."),
+				pInfo ? pInfo->GetLocaleName() : _("unknown"));
+		}
+
+		// Now try to add wxstd.mo so that loading "NOTEXIST.ING" file will produce
+		// a localized error message:
+		m_locale.AddCatalog("wxstd");
+
+        MyFrame *frame = new MyFrame(_("Txt Converter 0.1 Beta"), wxDefaultPosition, wxDefaultSize);
         frame->Show(true);
         return true;
     }
+protected:
+	wxLanguage m_lang;  // language specified by user
+	wxLocale m_locale;  // locale we'll be using
+	zks::simconf m_conf;
 };
 
 wxDECLARE_APP(MyApp);

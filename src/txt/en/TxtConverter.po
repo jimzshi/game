@@ -1,0 +1,156 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TxtConverter\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-24 16:08+1000\n"
+"PO-Revision-Date: 2015-07-24 16:09+1000\n"
+"Last-Translator: zks <zikang.shi@gmail.com>\n"
+"Language-Team: zks <zikang.shi@gmail.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.3\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: ITCFrame.cpp:26
+msgid "Input"
+msgstr "Input"
+
+#: ITCFrame.cpp:30 ITCFrame.cpp:120
+msgid "Format"
+msgstr "Format"
+
+#: ITCFrame.cpp:32 ITCFrame.cpp:122
+msgid "comma (,)"
+msgstr "comma (,)"
+
+#: ITCFrame.cpp:32 ITCFrame.cpp:122
+msgid "tab (\\t)"
+msgstr "tab (\\t)"
+
+#: ITCFrame.cpp:32 ITCFrame.cpp:122
+msgid "semi-column (;)"
+msgstr "semi-column (;)"
+
+#: ITCFrame.cpp:34
+msgid "Input Delimiter"
+msgstr "Input Delimiter"
+
+#: ITCFrame.cpp:38 ITCFrame.cpp:128
+msgid "Single Quote (')"
+msgstr "Single Quote (')"
+
+#: ITCFrame.cpp:38 ITCFrame.cpp:128
+msgid "Double Quote(\")"
+msgstr "Double Quote(\")"
+
+#: ITCFrame.cpp:38 ITCFrame.cpp:128
+msgid "None"
+msgstr "None"
+
+#: ITCFrame.cpp:40
+msgid "Input Field Quote"
+msgstr "Input Field Quote"
+
+#: ITCFrame.cpp:57 ITCFrame.cpp:147
+msgid "Select a file"
+msgstr "Select a file"
+
+#: ITCFrame.cpp:60 ITCFrame.cpp:150
+msgid "Include Header"
+msgstr "Include Header"
+
+#: ITCFrame.cpp:68
+msgid "Preview"
+msgstr "Preview"
+
+#: ITCFrame.cpp:116
+msgid "Output"
+msgstr "Output"
+
+#: ITCFrame.cpp:124
+msgid "Output Delimiter"
+msgstr "Output Delimiter"
+
+#: ITCFrame.cpp:130
+msgid "Output Field Quote"
+msgstr "Output Field Quote"
+
+#: ITCFrame.cpp:158
+msgid "Change Column Order"
+msgstr "Change Column Order"
+
+#: ITCFrame.cpp:170
+msgid "Move Up"
+msgstr "Move Up"
+
+#: ITCFrame.cpp:173
+msgid "Move Down"
+msgstr "Move Down"
+
+#: ITCFrame.cpp:205
+msgid "Output Preview"
+msgstr "Output Preview"
+
+#: ITCFrame.cpp:218
+msgid "Control Area"
+msgstr "Control Area"
+
+#: ITCFrame.cpp:224
+msgid "Run"
+msgstr "Run"
+
+#: ITCFrame.cpp:227
+msgid "Close"
+msgstr "Close"
+
+#: ITCFrame.cpp:230
+msgid "Clear Log"
+msgstr "Clear Log"
+
+#: ITCFrame.cpp:252
+msgid "Single File"
+msgstr "Select a file"
+
+#: ITCFrame.cpp:254
+msgid "Batch Mode (TBC)"
+msgstr "Batch Mode (TBC)"
+
+#: main.cpp:113
+#, c-format
+msgid "Can't read in setting file: '%s'"
+msgstr "Can't read in setting file: '%s'"
+
+#: main.cpp:130
+msgid "Please choose language:"
+msgstr "Please choose language:"
+
+#: main.cpp:131
+msgid "Language"
+msgstr "Language"
+
+#: main.cpp:140
+msgid "This language is not supported by the system."
+msgstr "This language is not supported by the system."
+
+#: main.cpp:148
+#, c-format
+msgid "Couldn't find/load the 'TxtConverter' catalog for locale '%s'."
+msgstr "Couldn't find/load the 'TxtConverter' catalog for locale '%s'."
+
+#: main.cpp:149
+msgid "unknown"
+msgstr "unknown"
+
+#: ITCFrame.h:97
+msgid "Txt Converter 0.1 Beta"
+msgstr "Txt Converter 0.1 Beta"

@@ -13,6 +13,6 @@ SET_TARGET_PROPERTIES(guess PROPERTIES COMPILE_DEFINITIONS "${_gui_flag};${wxWid
 target_link_libraries (guess ${ZKS_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${wxWidgets_LIBRARIES})
 
 install (TARGETS guess DESTINATION bin)
-install (FILES guess.ico DESTINATION bin)
+install (FILES guess.ico DESTINATION share/icon)
 #install (FILES sudoku.ini IGuessFrame.fbp DESTINATION etc)
 #install (FILES ${guess_GAME} DESTINATION doc)

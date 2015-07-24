@@ -1,0 +1,143 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-24 15:30+1000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ITCFrame.cpp:254
+msgid "Batch Mode (TBC)"
+msgstr ""
+
+#: ITCFrame.cpp:158
+msgid "Change Column Order"
+msgstr ""
+
+#: ITCFrame.cpp:230
+msgid "Clear Log"
+msgstr ""
+
+#: ITCFrame.cpp:227
+msgid "Close"
+msgstr ""
+
+#: ITCFrame.cpp:218
+msgid "Control Area"
+msgstr ""
+
+#: main.cpp:148
+#, c-format
+msgid "Couldn't find/load the 'internat' catalog for locale '%s'."
+msgstr ""
+
+#: ITCFrame.cpp:38 ITCFrame.cpp:128
+msgid "Double Quote(\")"
+msgstr ""
+
+#: ITCFrame.cpp:30 ITCFrame.cpp:120
+msgid "Format"
+msgstr ""
+
+#: ITCFrame.cpp:60 ITCFrame.cpp:150
+msgid "Include Header"
+msgstr ""
+
+#: ITCFrame.cpp:26
+msgid "Input"
+msgstr ""
+
+#: ITCFrame.cpp:34
+msgid "Input Delimiter"
+msgstr ""
+
+#: ITCFrame.cpp:40
+msgid "Input Field Quote"
+msgstr ""
+
+#: main.cpp:131
+msgid "Language"
+msgstr ""
+
+#: ITCFrame.cpp:173
+msgid "Move Down"
+msgstr ""
+
+#: ITCFrame.cpp:170
+msgid "Move Up"
+msgstr ""
+
+#: ITCFrame.cpp:38 ITCFrame.cpp:128
+msgid "None"
+msgstr ""
+
+#: ITCFrame.cpp:116
+msgid "Output"
+msgstr ""
+
+#: ITCFrame.cpp:124
+msgid "Output Delimiter"
+msgstr ""
+
+#: ITCFrame.cpp:130
+msgid "Output Field Quote"
+msgstr ""
+
+#: ITCFrame.cpp:205
+msgid "Output Preview"
+msgstr ""
+
+#: main.cpp:130
+msgid "Please choose language:"
+msgstr ""
+
+#: ITCFrame.cpp:68
+msgid "Preview"
+msgstr ""
+
+#: ITCFrame.cpp:224
+msgid "Run"
+msgstr ""
+
+#: ITCFrame.cpp:57 ITCFrame.cpp:147
+msgid "Select a file"
+msgstr ""
+
+#: ITCFrame.cpp:252
+msgid "Single File"
+msgstr ""
+
+#: ITCFrame.cpp:38 ITCFrame.cpp:128
+msgid "Single Quote (')"
+msgstr ""
+
+#: main.cpp:140
+msgid "This language is not supported by the system."
+msgstr ""
+
+#: ITCFrame.cpp:32 ITCFrame.cpp:122
+msgid "comma (,)"
+msgstr ""
+
+#: ITCFrame.cpp:32 ITCFrame.cpp:122
+msgid "semi-column (;)"
+msgstr ""
+
+#: ITCFrame.cpp:32 ITCFrame.cpp:122
+msgid "tab (\\t)"
+msgstr ""
+
+#: main.cpp:149
+msgid "unknown"
+msgstr ""

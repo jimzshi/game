@@ -212,3 +212,12 @@ void MyFrame::OnColMoveUp(wxCommandEvent & event) {
 void MyFrame::OnColMoveDown(wxCommandEvent & event) {
 	UpdateColOrder(false);
 }
+
+MyFrame::MyFrame(const wxString & title, const wxPoint & pos, const wxSize & size) : ITCFrame(NULL, wxID_ANY, title)
+{
+	m_log = wxLog::SetActiveTarget(new wxLogTextCtrl(m_log_text));
+	delimiters = ",\t;";
+	quotes = "'\"";
+	col_sel = -1;
+	this->SetIcon(wxIcon("TCIcon"));
+}

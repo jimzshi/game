@@ -1,0 +1,156 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TxtConverter\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-24 16:10+1000\n"
+"PO-Revision-Date: 2015-07-24 16:13+1000\n"
+"Last-Translator: zks <zikang.shi@gmail.com>\n"
+"Language-Team: zks <zikang.shi@gmail.com>\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.3\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-KeywordsList: _\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: ITCFrame.cpp:26
+msgid "Input"
+msgstr "输入"
+
+#: ITCFrame.cpp:30 ITCFrame.cpp:120
+msgid "Format"
+msgstr "格式"
+
+#: ITCFrame.cpp:32 ITCFrame.cpp:122
+msgid "comma (,)"
+msgstr "逗号(,)"
+
+#: ITCFrame.cpp:32 ITCFrame.cpp:122
+msgid "tab (\\t)"
+msgstr "制表符(\\t)"
+
+#: ITCFrame.cpp:32 ITCFrame.cpp:122
+msgid "semi-column (;)"
+msgstr "分号(;)"
+
+#: ITCFrame.cpp:34
+msgid "Input Delimiter"
+msgstr "输入的分隔符"
+
+#: ITCFrame.cpp:38 ITCFrame.cpp:128
+msgid "Single Quote (')"
+msgstr "单引号(')"
+
+#: ITCFrame.cpp:38 ITCFrame.cpp:128
+msgid "Double Quote(\")"
+msgstr "双 Quote(\")"
+
+#: ITCFrame.cpp:38 ITCFrame.cpp:128
+msgid "None"
+msgstr "无"
+
+#: ITCFrame.cpp:40
+msgid "Input Field Quote"
+msgstr "输入的引号"
+
+#: ITCFrame.cpp:57 ITCFrame.cpp:147
+msgid "Select a file"
+msgstr "选择一个文件"
+
+#: ITCFrame.cpp:60 ITCFrame.cpp:150
+msgid "Include Header"
+msgstr "包含头文件"
+
+#: ITCFrame.cpp:68
+msgid "Preview"
+msgstr "预览"
+
+#: ITCFrame.cpp:116
+msgid "Output"
+msgstr "输出"
+
+#: ITCFrame.cpp:124
+msgid "Output Delimiter"
+msgstr "输出分隔符"
+
+#: ITCFrame.cpp:130
+msgid "Output Field Quote"
+msgstr "输出引号"
+
+#: ITCFrame.cpp:158
+msgid "Change Column Order"
+msgstr "更改列顺序"
+
+#: ITCFrame.cpp:170
+msgid "Move Up"
+msgstr "上移"
+
+#: ITCFrame.cpp:173
+msgid "Move Down"
+msgstr "下移"
+
+#: ITCFrame.cpp:205
+msgid "Output Preview"
+msgstr "输出预览"
+
+#: ITCFrame.cpp:218
+msgid "Control Area"
+msgstr "控制区"
+
+#: ITCFrame.cpp:224
+msgid "Run"
+msgstr "运行"
+
+#: ITCFrame.cpp:227
+msgid "Close"
+msgstr "关闭"
+
+#: ITCFrame.cpp:230
+msgid "Clear Log"
+msgstr "清除日志"
+
+#: ITCFrame.cpp:252
+msgid "Single File"
+msgstr "单文件"
+
+#: ITCFrame.cpp:254
+msgid "Batch Mode (TBC)"
+msgstr "批次"
+
+#: main.cpp:113
+#, c-format
+msgid "Can't read in setting file: '%s'"
+msgstr "无法读入配置文件：'%s'"
+
+#: main.cpp:130
+msgid "Please choose language:"
+msgstr "请选择语言："
+
+#: main.cpp:131
+msgid "Language"
+msgstr "语言"
+
+#: main.cpp:140
+msgid "This language is not supported by the system."
+msgstr "系统不支持该语言包"
+
+#: main.cpp:148
+#, c-format
+msgid "Couldn't find/load the 'TxtConverter' catalog for locale '%s'."
+msgstr "不能为‘TxtConverter’加载语言 '%s'"
+
+#: main.cpp:149
+msgid "unknown"
+msgstr "未知语言"
+
+#: ITCFrame.h:97
+msgid "Txt Converter 0.1 Beta"
+msgstr "Txt Converter 0.1 Beta"

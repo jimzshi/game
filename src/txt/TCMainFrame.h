@@ -34,14 +34,7 @@ protected:
 	virtual void OnColMoveUp(wxCommandEvent& event);
 	virtual void OnColMoveDown(wxCommandEvent& event);
 public:
-	MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size) : ITCFrame(NULL, wxID_ANY, title)
-	{
-		m_log = wxLog::SetActiveTarget(new wxLogTextCtrl(m_log_text));
-		delimiters = ",\t;";
-		quotes = "'\"";
-		col_sel = -1;
-		this->SetIcon(wxIcon("TCIcon"));
-	}
+	MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 
 private:
 	wxLog *m_log;

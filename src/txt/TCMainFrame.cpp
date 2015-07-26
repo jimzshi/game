@@ -38,11 +38,11 @@ void MyFrame::UpdateInputGrid() {
 			input_preview->SetColLabelValue(c, wxString::Format(wxT("Col%d"), c));
 		}
 	}
-	assert(preview_buf.size() == 5);
-	for (int r = 0 + input_has_header->IsChecked(); r < 5; ++r) {
+	assert(preview_buf.size() <= 5);
+	for (int r = 0 + input_has_header->IsChecked(); r < 5 && r < preview_buf.size(); ++r) {
 		auto fields = preview_buf[r].split(false, del, quote);
 		preview_grid.push_back(fields);
-		for (int c = 0; c < 5 && c<fields.size(); ++c) {
+		for (int c = 0; c < 5 && c < fields.size(); ++c) {
 			input_preview->SetCellValue(r - input_has_header->IsChecked(), c, wxString::Format(wxT("%s"), fields[c].str()));
 		}
 	}

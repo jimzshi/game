@@ -5,10 +5,14 @@
 #include <thread>
 #include <future>
 #include <memory>
+
+#ifdef ZKS_OS_WINDOWS_
 #include <filesystem>
+namespace sys = std::tr2::sys;
+#endif // ZKS_OS_WINDOWS_
 
 using namespace std;
-namespace sys = std::tr2::sys;
+
 
 //zks::simlog g_logger;
 
@@ -45,7 +49,7 @@ int main(int argc, char* argv[]) {
 #include "TCMainFrame.h"
 
 #include "wx/wxprec.h"
-#ifndef WX_PRECOMP    
+#ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
 
@@ -106,13 +110,19 @@ public:
     virtual bool OnInit(){
 		if (!wxApp::OnInit())
 			return false;
-		 
+#ifdef ZKS_OS_WINDOWS_
 		auto wp = sys::current_path();
 		wp /= "../etc/TxtConverter.ini";
 		if (m_conf.parse(wp.generic_string()) < 0 || !m_conf.has_option("general", "lang")) {
 			wxLogWarning(wxString::Format(_("Can't read in setting file: '%s'"), wp.generic_string()));
 			m_lang = wxLANGUAGE_UNKNOWN;
 		}
+#else // ZKS_OS_WINDOWS_
+		if (m_conf.parse("../etc/TxtConverter.ini") < 0 || !m_conf.has_option("general", "lang")) {
+			wxLogWarning(wxString::Format(_("Can't read in setting file: '%s'"), "../etc/TxtConverter.ini"));
+			m_lang = wxLANGUAGE_UNKNOWN;
+		}
+#endif // ZKS_OS_WINDOWS_
 		else {
 			zks::u8string lang;
 			m_conf.option("General", "lang", &lang);
@@ -122,7 +132,7 @@ public:
 				}
 			}
 		}
-		
+
 		if (m_lang == wxLANGUAGE_UNKNOWN)
 		{
 			int lng = wxGetSingleChoiceIndex

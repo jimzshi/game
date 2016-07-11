@@ -1,16 +1,55 @@
 #include "TCMainFrame.h"
 
+#include "mmap.h"
+
 #include <algorithm>
 #include <numeric>
 #include <memory>
 #include <fstream>
 #include <cassert>
+#include <unordered_map>
+
+struct LoopSplitOFStream {
+	zks::u8string key;
+	zks::u8string ofname;
+	int lno;
+	std::ofstream ofs;
+	LoopSplitOFStream(zks::u8string const& k, zks::u8string const& base, zks::u8string const& header, int line_number, char sep)
+		: key(k), lno(line_number) {
+		ofname.format(base.size() + k.size() + 16, "%s%c%s.%s", base.c_str(), sep, key.c_str(), "csv");
+
+		ofs.open(ofname.c_str(), std::ios_base::trunc);
+		if (!ofs) {
+			throw 23;
+		}
+
+		ofs << header;
+	}
+};
+
+using LoopSplitOFSMap = std::unordered_map<zks::u8string, LoopSplitOFStream>;
+
+#define input_has_header (m_notebook->GetSelection() ? input_has_header1 : input_has_header0)
+#define input_delimiter (m_notebook->GetSelection() ? input_delimiter1 : input_delimiter0)
+#define input_quote (m_notebook->GetSelection() ? input_quote1 : input_quote0)
+#define col_order_list (m_notebook->GetSelection() ? col_order_list1 : col_order_list0)
+#define output_has_header (m_notebook->GetSelection() ? output_has_header1 : output_has_header0)
+#define output_delimiter (m_notebook->GetSelection() ? output_delimiter1 : output_delimiter0)
+#define output_quote (m_notebook->GetSelection() ? output_quote1 : output_quote0)
+#define m_log_text (m_notebook->GetSelection() ? m_log_text1 : m_log_text0)
 
 void MyFrame::UpdateInputGrid() {
 	if (preview_buf.size() == 0) {
 		return;
 	}
 
+	wxGrid* input_preview = nullptr;
+	if (m_notebook->GetSelection() == 0) {
+		input_preview = input_preview0;
+	}
+	else {
+		input_preview = input_preview1;
+	}
 	input_preview->ClearGrid();
 	preview_grid.clear();
 	zks::u8string del{ 1, input_delimiter->GetSelection() >= delimiters.size() ? ',' : delimiters[input_delimiter->GetSelection()] };
@@ -71,6 +110,14 @@ void MyFrame::UpdateOutputTxtCtrl() {
 		quote.push_back(quotes[output_quote->GetSelection()]);
 	}
 	oquote = quote;
+
+	wxTextCtrl* output_preview = nullptr;
+	if (m_notebook->GetSelection() == 0) {
+		output_preview = output_preview0;
+	}
+	else {
+		output_preview = output_preview1;
+	}
 
 	output_preview->Clear();
 	for (size_t i = 1 - output_has_header->IsChecked(); i < preview_grid.size(); ++i) {
@@ -211,6 +258,84 @@ void MyFrame::OnColMoveUp(wxCommandEvent & event) {
 
 void MyFrame::OnColMoveDown(wxCommandEvent & event) {
 	UpdateColOrder(false);
+}
+
+
+void MyFrame::OnColMoveUp1(wxCommandEvent & event) {
+	//UpdateColOrder(true);
+}
+
+void MyFrame::OnColMoveDown1(wxCommandEvent & event) {
+	//UpdateColOrder(false);
+}
+
+void MyFrame::OnRun1(wxCommandEvent & event) {
+	if (ofname.empty()) {
+		wxMessageBox("[Error]: Output Filename is Empty!", "Error");
+		return;
+	}
+	if (ifname.empty()) {
+		wxMessageBox("[Error]: Input Filename is Empty!", "Error");
+		return;
+	}
+	wxLogMessage("OnRun1: %s", ifname.c_str());
+	std::ifstream ifs(ifname.c_str());
+	if (!ifs) {
+		wxMessageBox("[Error]: Can't access to input file!", "Error");
+		return;
+	}
+
+	zks::u8string base = ofname.split(true, ".")[0];
+
+	zks::u8string header;
+	if (output_has_header->IsChecked()) {
+		header = odeli.join(preview_grid[0], oquote, "\\", col_order.begin(), col_order.end()) + "\n";
+	}
+	wxArrayInt selections;
+	col_order_list->GetSelections(selections);
+	if (selections.size() == 0) {
+		wxLogMessage("select a column first.");
+		return;
+	}
+	assert(selections.size() == 1);
+	int sel = selections[0];
+	int sel_cnt = col_order_list->GetCount();
+	wxLogMessage("select %d of %d", sel, sel_cnt);
+
+	size_t ln = 0;
+	size_t err = 0;
+	size_t cnt = 0;
+	size_t emptyno = 0;
+	size_t skip = 0;
+	LoopSplitOFSMap lsmap;
+	
+	auto instr = zks::u8string( zks::mmap(ifs) );
+	auto inlines = instr.split(true, "\n");
+
+	for (zks::u8string line : inlines) {
+		++ln;
+		line = line.trim_spaces();
+		if (line.empty()) {
+			++emptyno;
+			continue;
+		}
+		++cnt;
+		if (ln == 1) {
+			++skip;
+			continue;
+		}
+		auto row = line.split(false, ideli, iquote);
+		if (row.size() != preview_grid[0].size()) {
+			wxLogMessage("[Error]:Line(%d)'s fields size(%d) doesn't match header's size(%d), ignore it.", ln, row.size(), preview_grid[0].size());
+			++err;
+			continue;
+		}
+
+		auto& ofs_entry = lsmap.try_emplace(row[sel], row[sel], base, header, ln, '_').first->second;
+
+		ofs_entry.ofs << odeli.join(row, oquote, "\\", col_order.begin(), col_order.end()).str() << "\n";
+	}
+	wxMessageBox(wxString::Format("Conversion is done. Stats:\n  lines: %d\n  data lines: %d\n  skip lines: %d\n  error lines: %d", ln, cnt, skip, err), "Error");
 }
 
 MyFrame::MyFrame(const wxString & title, const wxPoint & pos, const wxSize & size) : ITCFrame(NULL, wxID_ANY, title)

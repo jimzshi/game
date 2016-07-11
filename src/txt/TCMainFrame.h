@@ -33,6 +33,12 @@ protected:
 	virtual void OnClearLog(wxCommandEvent& event);
 	virtual void OnColMoveUp(wxCommandEvent& event);
 	virtual void OnColMoveDown(wxCommandEvent& event);
+
+	//special command for 'loop and split'
+	virtual void OnRun1(wxCommandEvent& event);
+	virtual void OnColMoveUp1(wxCommandEvent& event);
+	virtual void OnColMoveDown1(wxCommandEvent& event);
+
 public:
 	MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 

@@ -133,6 +133,14 @@ public:
 			}
 		}
 
+		int threads = 4;
+		if (m_conf.has_option("general", "thread_number")) {
+			int ret = m_conf.option_num("general", "thread_number", &threads);
+			if (ret < 0) {
+				threads = 4;
+			}
+		}
+
 		if (m_lang == wxLANGUAGE_UNKNOWN)
 		{
 			int lng = wxGetSingleChoiceIndex
@@ -163,7 +171,7 @@ public:
 		// a localized error message:
 		m_locale.AddCatalog("wxstd");
 
-        MyFrame *frame = new MyFrame(_("Txt Converter 0.1 Beta"), wxDefaultPosition, wxDefaultSize);
+        MyFrame *frame = new MyFrame(_("Txt Converter 0.1 Beta"), wxDefaultPosition, wxDefaultSize, threads);
         frame->Show(true);
         return true;
     }

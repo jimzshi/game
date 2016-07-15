@@ -1,6 +1,7 @@
 #include "TCMainFrame.h"
 
 #include "mmap.h"
+#include "distributor.h"
 
 #include <algorithm>
 #include <numeric>
@@ -8,6 +9,7 @@
 #include <fstream>
 #include <cassert>
 #include <unordered_map>
+
 
 struct LoopSplitOFStream {
 	zks::u8string key;
@@ -310,12 +312,28 @@ void MyFrame::OnRun1(wxCommandEvent & event) {
 	LoopSplitOFSMap lsmap;
 	
 	auto instr = zks::u8string( zks::mmap(ifs) );
+	wxLogMessage("splitting lines from (%ld)...", instr.size());
 	auto inlines = instr.split(true, "\n");
+	wxLogMessage("distribute tasks using %d threads.", thread_cnt);
+	std::vector<std::tuple<size_t, std::string, std::string>> res_vec = zks::for_each(inlines.begin(), inlines.end(), 
+		[&](zks::u8string& line) {
+			line = line.trim_spaces();
+			auto row = line.split(false, ideli, iquote);
+			if (row.size() > sel) {
+				return std::make_tuple(row.size(), row[sel].str(), odeli.join(row, oquote, "\\", col_order.begin(), col_order.end()).str());
+			}
+			else {
+				return std::make_tuple(row.size(), std::string(), line.str());
+			}
+		}
+	, thread_cnt, std::chrono::milliseconds(10));
 
-	for (zks::u8string line : inlines) {
+	size_t row_size;
+	std::string key, out_row;
+	for (auto& res : res_vec) {
 		++ln;
-		line = line.trim_spaces();
-		if (line.empty()) {
+		std::tie(row_size, key, out_row) = res;
+		if (row_size == 0) {
 			++emptyno;
 			continue;
 		}
@@ -324,25 +342,25 @@ void MyFrame::OnRun1(wxCommandEvent & event) {
 			++skip;
 			continue;
 		}
-		auto row = line.split(false, ideli, iquote);
-		if (row.size() != preview_grid[0].size()) {
-			wxLogMessage("[Error]:Line(%d)'s fields size(%d) doesn't match header's size(%d), ignore it.", ln, row.size(), preview_grid[0].size());
+		if (row_size != preview_grid[0].size()) {
+			wxLogMessage("[Error]:Line(%d)'s fields size(%d) doesn't match header's size(%d), ignore it.", ln, row_size, preview_grid[0].size());
 			++err;
 			continue;
 		}
 
-		auto& ofs_entry = lsmap.try_emplace(row[sel], row[sel], base, header, ln, '_').first->second;
+		auto& ofs_entry = lsmap.try_emplace(key, key, base, header, ln, '_').first->second;
 
-		ofs_entry.ofs << odeli.join(row, oquote, "\\", col_order.begin(), col_order.end()).str() << "\n";
+		ofs_entry.ofs << out_row << "\n";
 	}
 	wxMessageBox(wxString::Format("Conversion is done. Stats:\n  lines: %d\n  data lines: %d\n  skip lines: %d\n  error lines: %d", ln, cnt, skip, err), "Error");
 }
 
-MyFrame::MyFrame(const wxString & title, const wxPoint & pos, const wxSize & size) : ITCFrame(NULL, wxID_ANY, title)
+MyFrame::MyFrame(const wxString & title, const wxPoint & pos, const wxSize & size, int threads) : ITCFrame(NULL, wxID_ANY, title)
 {
 	m_log = wxLog::SetActiveTarget(new wxLogTextCtrl(m_log_text));
 	delimiters = ",\t;";
 	quotes = "'\"";
 	col_sel = -1;
+	thread_cnt = threads;
 	this->SetIcon(wxIcon("TCIcon"));
 }

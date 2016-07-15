@@ -40,7 +40,7 @@ protected:
 	virtual void OnColMoveDown1(wxCommandEvent& event);
 
 public:
-	MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+	MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size, int threads = 4);
 
 private:
 	wxLog *m_log;
@@ -52,6 +52,7 @@ private:
 	//std::vector<zks::u8string> col_names;  => preview_grid[0];
 	std::vector<int> col_order;
 	int col_sel;
+	int thread_cnt;
 };
 
 #endif //ZKS_SUDOKUFRAME_H_
